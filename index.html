@@ -118,6 +118,8 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
 .bio{column-count:2;column-gap:44px;text-align:justify;hyphens:auto;font-size:16.5px}
 .bio p+p{text-indent:1.5em}
 .bio em{font-style:italic}
+.bio.escribiendo p:last-child::after{content:"▍";color:var(--gold);animation:parpadeo .9s step-end infinite}
+@keyframes parpadeo{50%{opacity:0}}
 
 /* ── biblioteca destacada ── */
 .lib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:20px}
@@ -308,7 +310,7 @@ footer a:hover{text-decoration:underline}
   <div class="bio-panel g">
     <h2>Biografía</h2>
     <p class="sub">Medio siglo dedicado a la memoria documental de Colombia.</p>
-    <div class="bio">
+    <div class="bio" id="bioTexto">
 <p>Armando Martínez Garnica (Bucaramanga) es uno de los historiadores más influyentes de Colombia.
 Su camino intelectual comenzó lejos de los archivos: se graduó como experto electricista del Instituto
 Técnico Industrial Dámaso Zapata en 1966, y un año después como bachiller en Filosofía y Letras del
@@ -330,6 +332,68 @@ personal, ahora digitalizado.</p>
 </div>
   </div>
 </section>
+<script>
+(function(){
+  var el = document.getElementById('bioTexto');
+  if(!el) return;
+  var original = el.innerHTML;
+  var molde = document.createElement('div');
+  molde.innerHTML = original;
+  var total = molde.textContent.length;
+
+  function construir(restante){
+    function recorrer(nodo){
+      if(nodo.nodeType === 3){
+        var usar = Math.min(restante, nodo.textContent.length);
+        restante -= usar;
+        return document.createTextNode(nodo.textContent.slice(0, usar));
+      }
+      var clon = document.createElement(nodo.tagName);
+      for(var i=0;i<nodo.attributes.length;i++){
+        clon.setAttribute(nodo.attributes[i].name, nodo.attributes[i].value);
+      }
+      for(var j=0;j<nodo.childNodes.length;j++){
+        if(restante<=0) break;
+        clon.appendChild(recorrer(nodo.childNodes[j]));
+      }
+      return clon;
+    }
+    var frag = document.createDocumentFragment();
+    for(var k=0;k<molde.childNodes.length;k++){
+      if(restante<=0) break;
+      frag.appendChild(recorrer(molde.childNodes[k]));
+    }
+    return frag;
+  }
+
+  function escribir(){
+    el.classList.add('escribiendo');
+    el.innerHTML = '';
+    var mostrado = 0;
+    var paso = Math.max(3, Math.round(total/500));
+    var timer = setInterval(function(){
+      mostrado += paso;
+      if(mostrado >= total){
+        el.innerHTML = original;
+        el.classList.remove('escribiendo');
+        clearInterval(timer);
+        return;
+      }
+      el.innerHTML = '';
+      el.appendChild(construir(mostrado));
+    }, 13);
+  }
+
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ escribir(); obs.disconnect(); }
+      });
+    }, {threshold:0.3});
+    obs.observe(el);
+  } else { escribir(); }
+})();
+</script>
 
 <section id="biblioteca">
   <h2>La biblioteca</h2>
