@@ -17,6 +17,13 @@ img{max-width:100%;height:auto}
 body{
   font-family:var(--serif);color:var(--ink);line-height:1.68;
   background-color:var(--paper);
+  /* copia de la textura de .fondo: backdrop-filter no muestrea capas con
+     z-index negativo (Chromium), así que el nav difumina ESTE fondo */
+  background-image:
+    radial-gradient(48rem 34rem at 85% 6%,  rgba(122,90,44,.14), transparent 60%),
+    radial-gradient(44rem 32rem at 6% 38%,  rgba(90,69,48,.11), transparent 58%),
+    radial-gradient(50rem 36rem at 80% 92%, rgba(138,101,50,.11), transparent 62%),
+    linear-gradient(170deg,#F0E6CC 0%,#E5D7B4 55%,#EBDFC3 100%);
   min-height:100vh;
 }
 
