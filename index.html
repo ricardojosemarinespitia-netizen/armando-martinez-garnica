@@ -205,6 +205,11 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
   font-size:15px;font-weight:600;cursor:pointer;transition:background .25s}
 .form button[type=submit]:hover{background:var(--gold)}
 .msg{margin-top:15px;font-family:var(--sans);font-size:14px}
+.correo-directo{display:inline-flex;align-items:center;gap:9px;margin:22px 4px 0;
+  font-family:var(--sans);font-size:14.5px;color:var(--brown-soft);text-decoration:none;
+  transition:color .25s}
+.correo-directo svg{color:var(--gold);flex-shrink:0}
+.correo-directo:hover{color:var(--gold)}
 
 /* ── títulos ── */
 .panel{padding:38px 44px}
@@ -425,8 +430,7 @@ personal, ahora digitalizado.</p>
 <section id="contacto">
   <h2>Contacto</h2>
   <p class="sub">¿Quieres entrevistar a Armando, invitarlo a un evento o agendar una
-  conversación? Deja tus datos y él se pondrá en contacto contigo, o escríbele directamente a
-  <a href="mailto:dr.armandomartinezgarnica@gmail.com">dr.armandomartinezgarnica@gmail.com</a>.</p>
+  conversación? Deja tus datos y él se pondrá en contacto contigo.</p>
   <div class="form g">
     <form id="fContacto">
       <label for="fNombre">Nombre completo</label>
@@ -440,6 +444,13 @@ personal, ahora digitalizado.</p>
       <div class="msg" id="fMsg" aria-live="polite"></div>
     </form>
   </div>
+  <a class="correo-directo" href="mailto:dr.armandomartinezgarnica@gmail.com">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+      <rect x="2.5" y="5" width="19" height="14" rx="2"></rect>
+      <path d="M3 6.5l9 6.5 9-6.5"></path>
+    </svg>
+    dr.armandomartinezgarnica@gmail.com
+  </a>
   <script>
   document.getElementById('fContacto').addEventListener('submit',async e=>{
    e.preventDefault();const f=e.target,m=document.getElementById('fMsg');
