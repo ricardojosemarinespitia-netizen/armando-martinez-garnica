@@ -370,7 +370,7 @@ personal, ahora digitalizado.</p>
     el.classList.add('escribiendo');
     el.innerHTML = '';
     var mostrado = 0;
-    var paso = Math.max(3, Math.round(total/500));
+    var paso = Math.max(1, Math.round(total/1600));
     var timer = setInterval(function(){
       mostrado += paso;
       if(mostrado >= total){
@@ -381,7 +381,7 @@ personal, ahora digitalizado.</p>
       }
       el.innerHTML = '';
       el.appendChild(construir(mostrado));
-    }, 13);
+    }, 22);
   }
 
   if('IntersectionObserver' in window){
