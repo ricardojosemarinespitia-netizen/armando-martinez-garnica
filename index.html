@@ -168,6 +168,10 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
 .pr.feature .titular{font-size:clamp(23px,3.3vw,32px);font-weight:400;
                      max-width:820px;color:var(--gold);font-style:italic}
 .pr.feature .titular.q::before{content:"\201C"}.pr.feature .titular.q::after{content:"\201D"}
+a.pr{text-decoration:none;cursor:pointer}
+.pr .ver-nota{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-b);
+  margin-top:auto;opacity:0;transform:translateX(-4px);transition:opacity .25s,transform .25s}
+.pr.enlace:hover .ver-nota{opacity:1;transform:translateX(0)}
 
 /* ── podcast ── */
 .player{padding:32px 36px;max-width:640px}
@@ -367,21 +371,7 @@ personal, ahora digitalizado.</p>
   <h2>En la prensa</h2>
   <p class="sub">Titulares y entrevistas en medios colombianos — cada pieza corresponde a una
   publicación real.</p>
-  <div class="prensa-grid"><div class="pr g feature">
-<div class="medio">Anuario de Historia Regional y de las Fronteras</div>
-<div class="titular q">Ser historiador en Colombia es el más puro resultado de la casualidad</div><div class="nota">La entrevista más citada de su trayectoria</div></div><div class="pr g">
-<div class="medio">El Espectador</div>
-<div class="titular q">Armando Martínez es el nuevo presidente de la Academia Colombiana de Historia</div><div class="nota">Su elección al frente de la Academia, 2022</div></div><div class="pr g">
-<div class="medio">Vanguardia</div>
-<div class="titular q">Armando Martínez Garnica: un santandereano que hace historia</div><div class="nota">Perfil que lo destaca como el historiador más reconocido de Santander</div></div><div class="pr g">
-<div class="medio">El Espectador</div>
-<div class="titular q">Constituyente de Villa del Rosario y un debate a la historia colombiana</div><div class="nota">Debate historiográfico en la prensa nacional</div></div><div class="pr g">
-<div class="medio">El Nuevo Siglo</div>
-<div class="titular q">El Santander de Martínez Garnica</div><div class="nota">Columna de opinión</div></div><div class="pr g">
-<div class="medio">La Silla Vacía</div>
-<div class="titular">Entrevistado sobre la historia política de Colombia</div><div class="nota">Conversación en profundidad</div></div><div class="pr g">
-<div class="medio">La Opinión · Cúcuta</div>
-<div class="titular">Columnista y voz recurrente sobre la historia de los Santanderes</div><div class="nota">Colaboración de prensa regional</div></div></div>
+  <div class="prensa-grid"><a class="pr g feature enlace" href="https://revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" target="_blank" rel="noopener"><div class="medio">HiSTOReLo · Revista de Historia Regional y Local</div><div class="titular q">Ser historiador en Colombia es el más puro resultado de la casualidad</div><div class="nota">La entrevista más citada de su trayectoria</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.elespectador.com/colombia/mas-regiones/armando-martinez-es-el-nuevo-presidente-de-la-academia-colombiana-de-historia/" target="_blank" rel="noopener"><div class="medio">El Espectador</div><div class="titular q">Armando Martínez es el nuevo presidente de la Academia Colombiana de Historia</div><div class="nota">Su elección al frente de la Academia, 2022</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.vanguardia.com/entretenimiento/cultura/armando-martinez-garnica-un-santandereano-que-hace-historia-YG5495607" target="_blank" rel="noopener"><div class="medio">Vanguardia</div><div class="titular q">Armando Martínez Garnica: un santandereano que hace historia</div><div class="nota">Perfil que lo destaca como el historiador más reconocido de Santander</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.elespectador.com/politica/constituyente-de-villa-del-rosario-y-un-debate-a-la-historia-colombiana/" target="_blank" rel="noopener"><div class="medio">El Espectador</div><div class="titular q">Constituyente de Villa del Rosario y un debate a la historia colombiana</div><div class="nota">Debate historiográfico en la prensa nacional</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.elnuevosiglo.com.co/columnistas/el-santander-de-martinez-garnica" target="_blank" rel="noopener"><div class="medio">El Nuevo Siglo</div><div class="titular q">El Santander de Martínez Garnica</div><div class="nota">Columna de opinión</div><span class="ver-nota">Leer la nota →</span></a><div class="pr g"><div class="medio">La Silla Vacía</div><div class="titular">Entrevistado sobre la historia política de Colombia</div><div class="nota">Conversación en profundidad</div></div><a class="pr g enlace" href="https://www.laopinion.co/opinion/columnistas/armando-martinez-garnica" target="_blank" rel="noopener"><div class="medio">La Opinión · Cúcuta</div><div class="titular">Columnista y voz recurrente sobre la historia de los Santanderes</div><div class="nota">Colaboración de prensa regional</div><span class="ver-nota">Leer la nota →</span></a></div>
 </section>
 
 <section id="podcast">
