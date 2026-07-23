@@ -85,8 +85,6 @@ section{padding:84px 0;position:relative}
 @supports not (-webkit-text-stroke:1px black){.enc .folio{color:rgba(138,101,50,.10)}}
 .enc .rotulo{font-family:var(--sans);font-size:10.5px;letter-spacing:.34em;
   text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-.enc .rotulo::before{content:"";display:inline-block;width:34px;height:1px;
-  background:var(--gold-b);vertical-align:middle;margin-right:12px}
 h2{font-weight:400;font-size:clamp(30px,4.6vw,46px);color:var(--brown);
    margin-bottom:8px;overflow-wrap:break-word;line-height:1.08}
 h2::after{content:"";display:block;width:74px;height:2px;margin-top:14px;
@@ -239,9 +237,12 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   background:repeating-linear-gradient(180deg,var(--gold-b) 0 7px, rgba(169,129,62,.25) 7px 11px)}
 .tl-item:first-child .tl-eje::before{top:32px}
 .tl-item:last-child  .tl-eje::before{bottom:calc(100% - 40px)}
-.tl-punto{position:absolute;left:50%;top:32px;transform:translate(-50%,-50%) rotate(45deg);
-  width:11px;height:11px;background:var(--lacre);
-  box-shadow:0 0 0 4px rgba(122,46,29,.16)}
+.tl-punto{position:absolute;left:50%;top:32px;transform:translate(-50%,-50%);
+  width:26px;height:26px;color:var(--lacre);
+  filter:drop-shadow(0 2px 3px rgba(58,30,17,.35));
+  transition:transform .3s}
+.tl-item:hover .tl-punto{transform:translate(-50%,-50%) scale(1.25) rotate(-8deg)}
+.tl-punto svg{display:block;width:100%;height:100%}
 .tl-cargo{padding:18px 0 28px}
 .tl-cargo b{display:block;font-size:20px;font-weight:400;color:var(--brown)}
 .tl-cargo span{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft)}
@@ -374,6 +375,19 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
             font-size:12px;font-style:italic}
 .volver{display:inline-block;margin:28px 0 0;color:var(--gold);
         text-decoration:none;font-family:var(--sans);font-size:13.5px}
+
+/* ── publicaciones académicas ── */
+.pub-grupo{margin-bottom:34px}
+.pub-grupo:last-child{margin-bottom:0}
+.pub-grupo .decada{margin-top:0}
+.pub{display:block;text-decoration:none;padding:15px 2px;
+  border-bottom:1px solid rgba(138,101,50,.14);transition:background .2s}
+.pub:last-child{border-bottom:none}
+.pub:hover{background:rgba(169,129,62,.07)}
+.pub .pt{font-size:16px;color:var(--brown);line-height:1.4}
+.pub:hover .pt{color:var(--gold)}
+.pub .pm{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:3px}
+.pub .pm::after{content:" · leer →";color:var(--gold-b);font-weight:600}
 
 /* ── pie editorial ── */
 footer{margin-top:44px;border-top:1px solid var(--line);
