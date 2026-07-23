@@ -5,7 +5,7 @@
   --paper:#EBDFC3; --paper-deep:#E2D3AF;
   --panel:rgba(252,248,238,.90); --panel-solid:#FBF6EA;
   --ink:#3A2D1D; --brown:#5A4530; --brown-soft:#7A6248;
-  --gold:#8A6532; --gold-b:#A9813E;
+  --gold:#8A6532; --gold-b:#A9813E; --lacre:#7A2E1D;
   --line:#CDB98D; --line-soft:rgba(138,101,50,.28);
   --serif:Constantia,"Palatino Linotype",Georgia,"Times New Roman",serif;
   --sans:"Segoe UI",Inter,system-ui,Arial,sans-serif;
@@ -14,202 +14,330 @@
 html{scroll-behavior:smooth}
 html,body{max-width:100%;overflow-x:clip}
 img{max-width:100%;height:auto}
-body{
-  font-family:var(--serif);color:var(--ink);line-height:1.68;
-  background-color:var(--paper);
-  min-height:100vh;
-}
+body{font-family:var(--serif);color:var(--ink);line-height:1.68;
+  background-color:var(--paper);min-height:100vh}
 
-/* ── fondo fijo: pergamino de archivo (queda quieto; el contenido se desliza encima) ── */
-.fondo{
-  position:fixed;inset:0;z-index:-1;pointer-events:none;
+/* ── fondo fijo: pergamino de archivo ── */
+.fondo{position:fixed;inset:0;z-index:-1;pointer-events:none;
   background-color:#EADEC0;
   background-image:
-    url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.30%200%200%200%200%200.22%200%200%200%200%200.12%200%200%200%200.055%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22260%22%20height%3D%22260%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"),
-    repeating-linear-gradient(0deg, rgba(90,69,48,.030) 0 1px, transparent 1px 34px),
-    radial-gradient(48rem 34rem at 85% 6%,  rgba(122,90,44,.14), transparent 60%),
-    radial-gradient(44rem 32rem at 6% 38%,  rgba(90,69,48,.11), transparent 58%),
-    radial-gradient(50rem 36rem at 80% 92%, rgba(138,101,50,.11), transparent 62%),
-    radial-gradient(125% 92% at 50% 46%, transparent 52%, rgba(74,55,30,.14) 100%),
+    url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.30%200%200%200%200%200.22%200%200%200%200%200.12%200%200%200%200.085%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22260%22%20height%3D%22260%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"),
+    repeating-linear-gradient(0deg, rgba(90,69,48,.034) 0 1px, transparent 1px 34px),
+    radial-gradient(48rem 34rem at 85% 6%,  rgba(122,90,44,.16), transparent 60%),
+    radial-gradient(44rem 32rem at 6% 38%,  rgba(90,69,48,.13), transparent 58%),
+    radial-gradient(50rem 36rem at 80% 92%, rgba(138,101,50,.13), transparent 62%),
+    radial-gradient(125% 92% at 50% 46%, transparent 50%, rgba(74,55,30,.17) 100%),
     linear-gradient(170deg,#F0E6CC 0%,#E5D7B4 55%,#EBDFC3 100%);
 }
 
+/* ── barra de progreso de lectura ── */
+#progreso{position:fixed;top:0;left:0;height:3px;width:0;z-index:90;
+  background:linear-gradient(90deg,var(--gold),var(--gold-b));
+  box-shadow:0 0 8px rgba(169,129,62,.55)}
+
 /* ── panel pergamino ── */
-.g{
-  background:linear-gradient(180deg, rgba(255,253,247,.75), rgba(252,247,235,.55) 45%), var(--panel);
+.g{background:linear-gradient(180deg, rgba(255,253,247,.75), rgba(252,247,235,.55) 45%), var(--panel);
   -webkit-backdrop-filter:blur(10px) saturate(1.1);
   backdrop-filter:blur(10px) saturate(1.1);
-  border:1px solid var(--line);
-  border-top-color:rgba(255,255,255,.9);
+  border:1px solid var(--line);border-top-color:rgba(255,255,255,.9);
   border-radius:14px;
   box-shadow:0 10px 34px rgba(74,55,30,.16), 0 2px 8px rgba(74,55,30,.10),
-             inset 0 1px 0 rgba(255,255,255,.8);
-}
+             inset 0 1px 0 rgba(255,255,255,.8)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .g{background:var(--panel-solid)}
   header.nav{background:#F1E8D2}
 }
 
 /* ── navegación ── */
-header.nav{
-  position:sticky;top:0;z-index:50;
-  background:rgba(240,231,209,.85);
+header.nav{position:sticky;top:0;z-index:50;
+  background:rgba(240,231,209,.88);
   -webkit-backdrop-filter:blur(14px) saturate(1.15);
   backdrop-filter:blur(14px) saturate(1.15);
   border-bottom:1px solid var(--line);
-  box-shadow:0 3px 18px rgba(74,55,30,.12);
-}
-nav{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 26px;
-    justify-content:center;padding:15px 18px;font-family:var(--sans);font-size:12.5px}
-nav a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
-      text-transform:uppercase;transition:color .25s;white-space:nowrap}
-nav a:hover{color:var(--gold)}
+  box-shadow:0 3px 18px rgba(74,55,30,.12)}
+nav.principal{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 24px;
+  align-items:center;justify-content:center;padding:13px 18px;
+  font-family:var(--sans);font-size:12.5px}
+nav.principal .brand{font-family:var(--serif);font-size:17px;letter-spacing:.28em;
+  color:var(--brown);text-decoration:none;margin-right:auto;
+  border:1px solid var(--line-soft);border-radius:3px;padding:3px 10px 3px 12px}
+nav.principal .brand:hover{color:var(--gold)}
+nav.principal a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
+  text-transform:uppercase;transition:color .25s;white-space:nowrap;position:relative}
+nav.principal a:not(.brand)::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;
+  background:var(--gold-b);transition:width .3s}
+nav.principal a:not(.brand):hover::after{width:100%}
+nav.principal a:hover{color:var(--gold)}
 
 /* ── estructura ── */
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-section{padding:68px 0}
-h2{font-weight:400;font-size:clamp(26px,3.4vw,33px);color:var(--brown);
-   margin-bottom:8px;overflow-wrap:break-word}
-h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+section{padding:84px 0;position:relative}
+.banda-osc{background:linear-gradient(180deg, rgba(90,69,48,.075), rgba(90,69,48,.13));
+  border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.banda-clara{background:linear-gradient(180deg, rgba(255,252,242,.5), rgba(255,252,242,.28));
+  border-top:1px solid rgba(255,255,255,.5);border-bottom:1px solid var(--line-soft)}
+
+/* encabezado de sección con folio romano fantasma */
+.enc{position:relative;margin-bottom:10px}
+.enc .folio{position:absolute;right:-6px;top:-58px;font-family:var(--serif);
+  font-size:clamp(90px,13vw,150px);line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px rgba(138,101,50,.22);pointer-events:none;user-select:none}
+@supports not (-webkit-text-stroke:1px black){.enc .folio{color:rgba(138,101,50,.10)}}
+.enc .rotulo{font-family:var(--sans);font-size:10.5px;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.enc .rotulo::before{content:"";display:inline-block;width:34px;height:1px;
+  background:var(--gold-b);vertical-align:middle;margin-right:12px}
+h2{font-weight:400;font-size:clamp(30px,4.6vw,46px);color:var(--brown);
+   margin-bottom:8px;overflow-wrap:break-word;line-height:1.08}
+h2::after{content:"";display:block;width:74px;height:2px;margin-top:14px;
    background:linear-gradient(90deg,var(--gold-b),transparent)}
-.sub{font-family:var(--sans);font-size:14px;color:var(--brown-soft);margin:14px 0 32px;max-width:640px}
+.sub{font-family:var(--sans);font-size:14px;color:var(--brown-soft);margin:14px 0 36px;max-width:640px}
 .kicker{font-family:var(--sans);font-size:11.5px;letter-spacing:.22em;
         text-transform:uppercase;color:var(--gold);margin-bottom:14px}
 .page-hero{padding:54px 0 4px}
 .page-hero h1{font-weight:400;font-size:clamp(30px,4.4vw,42px);color:var(--brown);line-height:1.14}
 
-/* ── hero: retrato de archivo sobre el pergamino ── */
-.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;
-      position:relative;padding:60px 0 96px}
-.hero-int{display:grid;grid-template-columns:370px 1fr;gap:64px;align-items:center}
-.marco{background:#FFFDF6;padding:16px 16px 56px;border:1px solid var(--line);
-  box-shadow:0 26px 64px rgba(74,55,30,.30), 0 4px 14px rgba(74,55,30,.16);
-  transform:rotate(-1.4deg);transition:transform .45s;position:relative}
-.marco:hover{transform:rotate(0deg)}
-.marco img{display:block;width:100%;border:1px solid rgba(138,101,50,.35);filter:sepia(.08)}
-.marco::after{content:"Una vida dedicada a que Colombia no olvide su historia";position:absolute;left:22px;right:22px;bottom:16px;
-  text-align:center;font-family:Constantia,Georgia,serif;font-style:italic;font-size:13px;
-  line-height:1.4;letter-spacing:.01em;color:var(--brown-soft)}
-.hero h1{font-weight:400;font-size:clamp(34px,5.4vw,58px);line-height:1.06;
-         color:var(--brown);overflow-wrap:break-word}
-.ornamento{display:flex;align-items:center;gap:14px;margin:20px 0 18px;color:var(--gold-b)}
-.ornamento::before,.ornamento::after{content:"";height:1px;width:74px}
-.ornamento::before{background:linear-gradient(90deg,transparent,var(--gold-b))}
-.ornamento::after{background:linear-gradient(90deg,var(--gold-b),transparent)}
-.ornamento span{font-size:19px;line-height:1}
-.hero .lead{font-family:var(--sans);font-size:16.5px;color:var(--brown-soft);
-            max-width:560px;line-height:1.8}
-.hero .lead b{color:var(--gold);font-weight:600}
-.hero-cta{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap}
+/* aparición al hacer scroll */
+[data-rev]{opacity:0;transform:translateY(26px);
+  transition:opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1)}
+[data-rev].vis{opacity:1;transform:none}
+
+/* ═════════ HERO «frontispicio» ═════════ */
+.hero{min-height:96vh;display:flex;flex-direction:column;justify-content:center;
+      position:relative;padding:44px 0 0;overflow:visible}
+.rosa{position:absolute;right:-140px;top:44%;transform:translateY(-50%);
+  width:min(560px,58vw);color:var(--gold);opacity:.11;z-index:-1;
+  animation:girar 150s linear infinite}
+@keyframes girar{to{transform:translateY(-50%) rotate(360deg)}}
+.hero-top{text-align:center;position:relative}
+.hero-top .kicker{margin-bottom:20px}
+.hero-top .kicker::before,.hero-top .kicker::after{content:"❦";margin:0 14px;color:var(--gold-b);font-size:12px}
+h1.nombre-mayor{font-weight:400;line-height:.98;color:var(--brown)}
+h1.nombre-mayor .nombre{display:block;font-size:clamp(19px,2.6vw,27px);
+  letter-spacing:.55em;text-transform:uppercase;color:var(--brown-soft);
+  margin-bottom:12px;padding-left:.55em}
+h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
+  letter-spacing:.005em;
+  background:linear-gradient(105deg,var(--brown) 0 38%,var(--gold-b) 50%,var(--brown) 62% 100%);
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:var(--brown);
+  animation:destello 9s ease-in-out infinite}
+@keyframes destello{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+@supports not (-webkit-background-clip:text){h1.nombre-mayor .apellido{background:none;-webkit-text-fill-color:currentColor;color:var(--brown)}}
+.rubrica{display:block;width:min(520px,72vw);margin:10px auto 0;color:var(--gold-b)}
+.rubrica .trazo{stroke-dasharray:1200;stroke-dashoffset:1200;animation:firmar 2.6s .7s ease-out forwards}
+@keyframes firmar{to{stroke-dashoffset:0}}
+
+.hero-grid{display:grid;grid-template-columns:400px 1fr;gap:70px;align-items:center;
+  margin-top:54px}
+.marco-wrap{position:relative;justify-self:center}
+.marco{background:linear-gradient(160deg,#5A4530,#3E2E1C 70%);padding:13px;
+  box-shadow:0 30px 70px rgba(58,45,29,.44), 0 6px 18px rgba(58,45,29,.25);
+  transform:rotate(-1.6deg);transition:transform .5s;position:relative}
+.marco-wrap:hover .marco{transform:rotate(0deg)}
+.marco .filete{border:1px solid rgba(216,176,138,.75);padding:11px;background:#F6EFDD}
+.marco img{display:block;width:100%;border:1px solid rgba(138,101,50,.4);filter:sepia(.1)}
+.marco .placa-lat{margin-top:11px;text-align:center;
+  font-family:var(--serif);font-style:italic;font-size:12.8px;line-height:1.45;
+  color:#4A3826;
+  background:linear-gradient(180deg,#E9DCBB,#D9C48F);border:1px solid rgba(110,82,42,.5);
+  border-radius:2px;padding:7px 58px 7px 14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 1px 3px rgba(58,45,29,.3)}
+.sello{position:absolute;right:-34px;bottom:-30px;width:104px;
+  transform:rotate(9deg);filter:drop-shadow(0 8px 14px rgba(58,30,17,.4));
+  transition:transform .4s}
+.marco-wrap:hover .sello{transform:rotate(3deg) scale(1.04)}
+
+.hero-datos .lead{font-family:var(--sans);font-size:16.5px;color:var(--brown-soft);
+  max-width:560px;line-height:1.85}
+.hero-datos .lead b{color:var(--gold);font-weight:600}
+.cifras{display:flex;gap:44px;margin-top:34px;flex-wrap:wrap}
+.cifra .n{font-family:var(--serif);font-size:clamp(30px,3.6vw,42px);color:var(--gold);line-height:1}
+.cifra .n sup{font-size:.5em;color:var(--gold-b)}
+.cifra .l{font-family:var(--sans);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brown-soft);margin-top:6px}
+.hero-cta{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap}
+.cta{display:inline-block;background:var(--brown);color:#F7F1E3;
+     padding:13px 30px;border-radius:26px;text-decoration:none;
+     font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:background .25s,transform .25s}
+.cta:hover{background:var(--gold);transform:translateY(-2px)}
 .cta-ghost{display:inline-block;border:1px solid var(--gold-b);color:var(--gold);
   padding:12px 28px;border-radius:26px;text-decoration:none;
   font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:all .25s}
-.cta-ghost:hover{background:var(--gold-b);color:#FBF6EA}
-.hero .cta{margin-top:0}
-.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
-  font-family:var(--sans);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--brown-soft);text-decoration:none;display:flex;flex-direction:column;
-  align-items:center;gap:6px}
-.scroll-hint::after{content:"↓";font-size:18px;color:var(--gold);animation:bob 2.4s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.cta-ghost:hover{background:var(--gold-b);color:#FBF6EA;transform:translateY(-2px)}
 
-/* ── biografía ── */
-.bio-panel{padding:50px 54px}
-.bio{column-count:2;column-gap:44px;text-align:justify;hyphens:auto;font-size:16.5px}
+/* entrada escalonada */
+.hero [data-in]{opacity:0;animation:entra 1s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes entra{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.05s}.d2{animation-delay:.2s}.d3{animation-delay:.4s}
+.d4{animation-delay:.6s}.d5{animation-delay:.8s}.d6{animation-delay:1s}
+
+/* ═════════ biografía ═════════ */
+.bio-panel{padding:52px 56px;position:relative}
+.bio-panel::before{content:"§ I";position:absolute;top:22px;right:30px;
+  font-family:var(--serif);font-size:15px;color:var(--gold-b);opacity:.75}
+.bio{column-count:2;column-gap:46px;text-align:justify;hyphens:auto;font-size:16.5px}
 .bio p+p{text-indent:1.5em}
 .bio em{font-style:italic}
+.bio > p:first-child::first-letter{font-size:3.4em;float:left;line-height:.82;
+  padding:4px 10px 0 0;color:var(--lacre);font-family:var(--serif)}
 .bio.escribiendo p:last-child::after{content:"▍";color:var(--gold);animation:parpadeo .9s step-end infinite}
 @keyframes parpadeo{50%{opacity:0}}
 
-/* ── biblioteca destacada ── */
-.lib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:20px}
-.lib{padding:26px 28px 22px;display:flex;flex-direction:column;position:relative;
-     border-top:3px solid var(--gold-b);
-     transition:transform .3s, box-shadow .3s}
-.lib:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.lib h3{font-weight:400;font-size:17.5px;line-height:1.38;margin-bottom:8px;color:var(--brown)}
-.lib .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
-.lib a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
-.lib a:hover{text-decoration:underline}
-.cta{display:inline-block;margin-top:30px;background:var(--brown);color:#F7F1E3;
-     padding:13px 30px;border-radius:26px;text-decoration:none;
-     font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:background .25s}
-.cta:hover{background:var(--gold)}
+/* ═════════ biblioteca-museo ═════════ */
+.estante{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.tomo{position:relative;display:flex;flex-direction:column;text-decoration:none;
+  transition:transform .38s cubic-bezier(.2,.7,.3,1)}
+.tomo:hover{transform:translateY(-10px)}
+.tapa{position:relative;aspect-ratio:3/3.9;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(120% 90% at 50% 10%, rgba(122,90,44,.28), transparent 55%),
+    linear-gradient(165deg,#4A3826,#2E2214 70%);
+  border:1px solid rgba(138,101,50,.4);border-bottom:none;
+  padding:26px 30px;overflow:hidden}
+.tapa::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg, rgba(255,255,255,0) 42%, rgba(255,250,235,.14) 50%, rgba(255,255,255,0) 58%);
+  transform:translateX(-110%);transition:transform .8s ease}
+.tomo:hover .tapa::after{transform:translateX(110%)}
+.tapa img{max-height:100%;width:auto;max-width:100%;object-fit:contain;
+  box-shadow:0 14px 34px rgba(0,0,0,.5), 0 3px 8px rgba(0,0,0,.4);
+  border:1px solid rgba(216,176,138,.3);
+  transition:transform .38s cubic-bezier(.2,.7,.3,1)}
+.tomo:hover .tapa img{transform:scale(1.035) rotate(.4deg)}
+.cat{position:absolute;top:14px;left:14px;z-index:2;
+  font-family:var(--sans);font-size:9.5px;letter-spacing:.22em;color:#E8C9A6;
+  border:1px solid rgba(216,176,138,.55);border-radius:2px;padding:3px 8px;
+  background:rgba(46,34,20,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.placa{background:linear-gradient(180deg,#F6EFDD,#EDE2C4);
+  border:1px solid var(--line);border-top:2px solid var(--gold-b);
+  padding:18px 20px 16px;display:flex;flex-direction:column;flex:1;
+  box-shadow:0 12px 30px rgba(74,55,30,.2)}
+.placa h3{font-weight:400;font-size:16.5px;line-height:1.36;margin-bottom:6px;color:var(--brown)}
+.placa .autor{font-family:var(--sans);font-size:11.5px;color:var(--brown-soft);margin-bottom:12px}
+.placa .leer{margin-top:auto;color:var(--gold);font-family:var(--sans);font-size:13px}
+.tomo:hover .placa .leer{text-decoration:underline}
 
-/* ── trayectoria ── */
-.tl{padding:44px 52px}
-.tl-item{display:grid;grid-template-columns:110px 26px 1fr;gap:0 18px;align-items:start}
-.tl-año{font-family:var(--sans);font-size:12px;letter-spacing:.13em;
-        text-transform:uppercase;color:var(--gold);text-align:right;padding:26px 0}
-.tl-eje{position:relative;height:100%;min-height:82px}
-.tl-eje::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
-  background:linear-gradient(180deg,transparent,var(--line-soft) 12%,var(--line-soft) 88%,transparent)}
+/* obra insigne: primera ficha en formato panorámico */
+.tomo.insigne{grid-column:1/-1;flex-direction:row;align-items:stretch;gap:0}
+.tomo.insigne .tapa{aspect-ratio:auto;width:320px;flex:none;border-bottom:1px solid rgba(138,101,50,.4);
+  border-right:none;padding:34px}
+.tomo.insigne .placa{border-top:2px solid var(--gold-b);justify-content:center;padding:34px 44px}
+.tomo.insigne .placa h3{font-size:clamp(20px,2.6vw,27px)}
+.tomo.insigne .placa .autor{font-size:12.5px;margin-bottom:16px}
+.tomo.insigne .nota-insigne{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft);
+  line-height:1.75;margin-bottom:18px;max-width:520px}
+.insigne-rotulo{font-family:var(--sans);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--lacre);margin-bottom:12px}
+
+/* ═════════ trayectoria: legajo de tinta ═════════ */
+.tl{padding:50px 58px}
+.tl-item{display:grid;grid-template-columns:128px 30px 1fr;gap:0 22px;align-items:start}
+.tl-año{font-family:var(--serif);font-size:21px;color:var(--gold);text-align:right;
+  padding:22px 0;line-height:1.15}
+.tl-eje{position:relative;height:100%;min-height:88px}
+.tl-eje::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;
+  background:repeating-linear-gradient(180deg,var(--gold-b) 0 7px, rgba(169,129,62,.25) 7px 11px)}
 .tl-item:first-child .tl-eje::before{top:32px}
 .tl-item:last-child  .tl-eje::before{bottom:calc(100% - 40px)}
-.tl-punto{position:absolute;left:50%;top:32px;transform:translate(-50%,-50%);
-  width:11px;height:11px;border-radius:50%;background:var(--gold-b);
-  box-shadow:0 0 0 4px rgba(169,129,62,.18)}
-.tl-cargo{padding:20px 0 26px}
-.tl-cargo b{display:block;font-size:19px;font-weight:400;color:var(--brown)}
+.tl-punto{position:absolute;left:50%;top:32px;transform:translate(-50%,-50%) rotate(45deg);
+  width:11px;height:11px;background:var(--lacre);
+  box-shadow:0 0 0 4px rgba(122,46,29,.16)}
+.tl-cargo{padding:18px 0 28px}
+.tl-cargo b{display:block;font-size:20px;font-weight:400;color:var(--brown)}
 .tl-cargo span{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft)}
 .link-discreto{display:inline-block;margin-top:20px;font-family:var(--sans);font-size:13.5px;
   color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--line-soft)}
 .link-discreto:hover{color:var(--brown)}
 
-/* ── prensa ── */
-.prensa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px}
-.pr{padding:28px 30px;display:flex;flex-direction:column;gap:12px;
-    transition:transform .3s, box-shadow .3s}
-.pr:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.pr .medio{font-family:var(--sans);font-size:10.5px;letter-spacing:.24em;
-           text-transform:uppercase;color:var(--gold)}
-.pr .titular{font-size:18.5px;line-height:1.42;color:var(--brown);font-weight:400;overflow-wrap:break-word}
-.pr .titular.q::before{content:"« "}.pr .titular.q::after{content:" »"}
-.pr .nota{font-family:var(--sans);font-size:12.5px;color:var(--brown-soft);margin-top:auto}
-.pr.feature{grid-column:1/-1;padding:50px 56px;text-align:center;align-items:center}
-.pr.feature .titular{font-size:clamp(23px,3.3vw,32px);font-weight:400;
-                     max-width:820px;color:var(--gold);font-style:italic}
-.pr.feature .titular.q::before{content:"\201C"}.pr.feature .titular.q::after{content:"\201D"}
-a.pr{text-decoration:none;cursor:pointer}
-.pr .ver-nota{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-b);
-  margin-top:auto;opacity:0;transform:translateX(-4px);transition:opacity .25s,transform .25s}
-.pr.enlace:hover .ver-nota{opacity:1;transform:translateX(0)}
+/* ═════════ prensa: recortes de periódico ═════════ */
+.prensa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));
+  gap:30px 24px;align-items:stretch}
+.recorte{position:relative;display:flex;flex-direction:column;gap:11px;
+  padding:34px 28px 26px;text-decoration:none;
+  background:
+    repeating-linear-gradient(0deg, rgba(90,69,48,.045) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg,#F8F3E2,#F1E8CE);
+  border:1px solid rgba(138,101,50,.32);
+  clip-path:polygon(0 2%,3% 0,97% 1%,100% 3%,99.4% 96%,96% 100%,4% 99%,.5% 97%);
+  box-shadow:0 14px 34px rgba(74,55,30,.20);
+  transition:transform .35s, box-shadow .35s}
+.recorte.r1{transform:rotate(-1.1deg)}
+.recorte.r2{transform:rotate(.9deg)}
+.recorte.r3{transform:rotate(-.5deg)}
+.recorte:hover{transform:rotate(0deg) translateY(-6px);box-shadow:0 22px 50px rgba(74,55,30,.28);z-index:2}
+.recorte::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-2deg);
+  width:88px;height:24px;background:rgba(214,193,140,.55);
+  border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
+  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+.recorte .medio{font-family:var(--sans);font-size:10px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--lacre);
+  border-bottom:2px solid rgba(122,46,29,.55);padding-bottom:7px;font-weight:600}
+.recorte .titular{font-size:18.5px;line-height:1.4;color:var(--brown);font-weight:400;overflow-wrap:break-word}
+.recorte .titular.q::before{content:"« "}.recorte .titular.q::after{content:" »"}
+.recorte .nota{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:auto}
+.recorte .ver-nota{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-b);
+  opacity:0;transform:translateX(-4px);transition:opacity .25s,transform .25s}
+.recorte.enlace:hover .ver-nota{opacity:1;transform:none}
+.recorte-feature{grid-column:1/-1;text-align:center;align-items:center;
+  padding:64px 56px 44px;transform:none}
+.recorte-feature::before{left:12%;transform:rotate(-4deg)}
+.recorte-feature::after{content:"";position:absolute;top:-11px;right:12%;transform:rotate(3deg);
+  width:88px;height:24px;background:rgba(214,193,140,.55);
+  border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
+  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+.recorte-feature .comillon{position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  font-family:Georgia,serif;font-size:120px;line-height:1;color:rgba(169,129,62,.28);
+  pointer-events:none;user-select:none}
+.recorte-feature .titular{font-size:clamp(23px,3.3vw,33px);font-style:italic;
+  color:var(--gold);max-width:840px;margin-top:26px}
+.recorte-feature .titular.q::before{content:"\201C"}.recorte-feature .titular.q::after{content:"\201D"}
+.recorte-feature:hover{transform:translateY(-6px)}
 
-/* ── podcast ── */
-.player{padding:32px 36px;max-width:640px}
+/* ═════════ podcast ═════════ */
+.player{padding:34px 38px;max-width:660px;position:relative;overflow:hidden}
+.player::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(90deg, rgba(138,101,50,.05) 0 2px, transparent 2px 26px)}
 .player .titulo{font-family:var(--sans);font-size:13px;letter-spacing:.08em;
-                color:var(--gold);margin-bottom:18px}
-.ctl{display:flex;align-items:center;gap:16px}
-#btnPlay{width:48px;height:48px;flex:none;border-radius:50%;border:none;cursor:pointer;
+                color:var(--gold);margin-bottom:18px;position:relative}
+.ctl{display:flex;align-items:center;gap:16px;position:relative}
+#btnPlay{width:52px;height:52px;flex:none;border-radius:50%;border:2px solid var(--gold-b);cursor:pointer;
   background:var(--brown);color:#F7F1E3;font-size:16px;line-height:1;
-  display:flex;align-items:center;justify-content:center;transition:background .25s}
-#btnPlay:hover{background:var(--gold)}
-.barra{flex:1;height:4px;border-radius:2px;background:rgba(138,101,50,.20);
+  display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s}
+#btnPlay:hover{background:var(--gold);transform:scale(1.06)}
+.barra{flex:1;height:5px;border-radius:3px;background:rgba(138,101,50,.20);
        cursor:pointer;position:relative}
-.barra .fill{height:100%;width:0%;border-radius:2px;background:var(--gold-b)}
+.barra .fill{height:100%;width:0%;border-radius:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-b))}
 .tiempo{font-family:var(--sans);font-size:12px;color:var(--brown-soft);min-width:42px;text-align:right}
-.player .otro{margin-top:22px;background:transparent;
+.player .otro{margin-top:22px;background:transparent;position:relative;
   border:1px solid var(--gold-b);color:var(--gold);padding:10px 22px;
   border-radius:22px;cursor:pointer;font-family:var(--sans);font-size:13.5px;
   transition:background .25s,color .25s}
 .player .otro:hover{background:var(--gold-b);color:#FBF6EA}
+.bobina{position:absolute;right:26px;top:26px;width:44px;height:44px;color:var(--gold-b);
+  opacity:.55;transition:opacity .3s}
+.bobina.girando{animation:girar2 3.2s linear infinite;opacity:.9}
+@keyframes girar2{to{transform:rotate(360deg)}}
 .spotify{display:flex;align-items:center;gap:11px;margin-top:26px;font-family:var(--sans)}
 .spotify a{color:#1a9e4b;text-decoration:none;font-weight:600;font-size:14.5px}
 
-/* ── contacto ── */
-.form{padding:38px 42px;max-width:580px}
+/* ═════════ contacto: correspondencia ═════════ */
+.form{padding:44px 44px 38px;max-width:600px;position:relative;overflow:hidden}
+.form::before{content:"";position:absolute;top:0;left:0;right:0;height:7px;
+  background:repeating-linear-gradient(-45deg,
+    #B8452E 0 14px, #F3EBD3 14px 28px, #3E5C7A 28px 42px, #F3EBD3 42px 56px)}
+.form .kicker{margin-bottom:22px}
 .form label{display:block;font-family:var(--sans);font-size:12px;
   letter-spacing:.10em;text-transform:uppercase;color:var(--brown-soft);margin:20px 0 8px}
-.form label:first-of-type{margin-top:0}
 .form input,.form textarea{width:100%;padding:13px 15px;border-radius:8px;
   border:1px solid var(--line);background:rgba(255,253,247,.8);
   color:var(--ink);font-family:var(--sans);font-size:15px;transition:border-color .25s}
 .form input:focus,.form textarea:focus{outline:none;border-color:var(--gold)}
 .form ::placeholder{color:rgba(122,98,72,.5)}
-.form button[type=submit]{margin-top:26px;background:var(--brown);color:#F7F1E3;
-  border:none;padding:14px 34px;border-radius:26px;font-family:var(--sans);
-  font-size:15px;font-weight:600;cursor:pointer;transition:background .25s}
-.form button[type=submit]:hover{background:var(--gold)}
+.form button[type=submit]{margin-top:26px;background:var(--lacre);color:#F3E3CE;
+  border:none;padding:14px 36px;border-radius:26px;font-family:var(--sans);
+  font-size:15px;font-weight:600;cursor:pointer;transition:background .25s,transform .25s}
+.form button[type=submit]:hover{background:var(--gold);transform:translateY(-2px)}
 .msg{margin-top:15px;font-family:var(--sans);font-size:14px}
 .correo-directo{display:inline-flex;align-items:center;gap:9px;margin:22px 4px 0;
   font-family:var(--sans);font-size:14.5px;color:var(--brown-soft);text-decoration:none;
@@ -232,11 +360,12 @@ a.pr{text-decoration:none;cursor:pointer}
 .rec .que{font-family:var(--sans);font-size:14px;color:var(--ink);line-height:1.6}
 
 /* ── libros (página completa) ── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(285px,100%),1fr));gap:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:26px}
+.grid .tomo .tapa{padding:20px 24px}
 .card{padding:26px 28px;display:flex;flex-direction:column;border-top:3px solid var(--gold-b);
       transition:transform .3s, box-shadow .3s}
 .card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.card h3{font-weight:400;font-size:17px;line-height:1.38;margin-bottom:9px;
+.card h3{font-weight:400;font-size:16.5px;line-height:1.38;margin-bottom:9px;
          color:var(--brown);overflow-wrap:break-word}
 .card .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
 .card a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
@@ -249,68 +378,148 @@ a.pr{text-decoration:none;cursor:pointer}
 /* ── pie editorial ── */
 footer{margin-top:44px;border-top:1px solid var(--line);
   background:rgba(233,222,196,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-  padding:44px 24px 38px;text-align:center;font-family:var(--sans);color:var(--brown-soft)}
-footer .sello{font-family:var(--serif);font-size:15px;color:var(--brown);
+  padding:48px 24px 40px;text-align:center;font-family:var(--sans);color:var(--brown-soft)}
+footer .orn{color:var(--gold-b);font-size:16px;letter-spacing:1.4em;padding-left:1.4em;margin-bottom:16px}
+footer .sello-pie{font-family:var(--serif);font-size:15px;color:var(--brown);
   letter-spacing:.04em;margin-bottom:10px}
-footer .derechos{font-size:12.5px;line-height:1.8;max-width:640px;margin:0 auto 14px}
+footer .derechos{font-size:12.5px;line-height:1.8;max-width:640px;margin:0 auto 8px}
+footer .colofon{font-family:var(--serif);font-style:italic;font-size:12.5px;
+  color:var(--brown-soft);opacity:.85;margin-bottom:16px}
 footer nav.pie{display:flex;gap:22px;justify-content:center;padding:0;font-size:12px}
 footer a{color:var(--gold);text-decoration:none}
 footer a:hover{text-decoration:underline}
 
 /* ── responsive ── */
+@media(max-width:980px){
+  .estante{grid-template-columns:repeat(2,1fr)}
+  .tomo.insigne{flex-direction:column}
+  .tomo.insigne .tapa{width:100%;aspect-ratio:3/2.4;border-right:none}
+  .rosa{right:-200px;opacity:.08}
+}
 @media(max-width:880px){
-  .hero{min-height:auto;padding:44px 0 88px}
-  .hero-int{grid-template-columns:1fr;gap:38px}
-  .marco{max-width:320px;margin:0 auto}
+  nav.principal{justify-content:center}
+  nav.principal .brand{margin-right:0;width:100%;text-align:center;border:none;padding:0 0 4px}
+  .hero{min-height:auto;padding:38px 0 0}
+  .hero-grid{grid-template-columns:1fr;gap:44px;margin-top:40px}
+  .marco-wrap{max-width:330px;margin:0 auto}
+  .sello{right:-18px;bottom:-24px;width:88px}
+  .cifras{gap:30px}
   .bio{column-count:1}
   .bio-panel{padding:34px 26px}
   .tl{padding:30px 20px}
-  .tl-item{grid-template-columns:72px 22px 1fr;gap:0 12px}
-  .tl-año{font-size:10.5px;letter-spacing:.08em}
-  .pr.feature{padding:36px 24px}
+  .tl-item{grid-template-columns:84px 24px 1fr;gap:0 12px}
+  .tl-año{font-size:15px}
+  .recorte-feature{padding:54px 24px 36px}
   .panel{padding:26px 20px}
+  .enc .folio{top:-40px;font-size:clamp(70px,17vw,110px)}
 }
-@media(max-width:520px){
-  section{padding:50px 0}
+@media(max-width:560px){
+  section{padding:56px 0}
   .wrap{padding:0 16px}
+  .estante{grid-template-columns:1fr}
+  .tomo.insigne .tapa{aspect-ratio:3/2.8}
   .bio{font-size:15.5px;text-align:left}
-  .tl-item{grid-template-columns:58px 18px 1fr;gap:0 10px}
-  .tl-año{font-size:9.5px}
+  .tl-item{grid-template-columns:64px 18px 1fr;gap:0 10px}
+  .tl-año{font-size:13px}
   .tl-cargo b{font-size:17px}
-  .pr{padding:24px 20px}
-  .player{padding:24px 20px}
-  .form{padding:26px 18px}
+  .recorte{padding:30px 20px 22px}
+  .player{padding:26px 20px}
+  .bobina{right:16px;top:16px;width:34px;height:34px}
+  .form{padding:34px 18px 28px}
   .rec{grid-template-columns:52px 1fr;gap:10px}
+  h1.nombre-mayor .nombre{letter-spacing:.34em;padding-left:.34em}
 }
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto}
+  [data-rev],.hero [data-in]{opacity:1!important;transform:none!important}
+  .rubrica .trazo{stroke-dashoffset:0}
+}
 </style></head><body>
 <div class="fondo" aria-hidden="true"></div>
-<header class="nav"><nav><a href="index.html">Inicio</a><a href="index.html#biografia">Biografía</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
-<div class="wrap">
+<div id="progreso" aria-hidden="true"></div>
+<header class="nav"><nav class="principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
 <div class="hero">
-  <div class="hero-int">
-    <div class="marco"><img src="img/retrato.jpg" alt="Retrato de Armando Martínez Garnica"></div>
-    <div>
-      <div class="kicker">Historiador · Presidente de la Academia Colombiana de Historia</div>
-      <h1>Armando Martínez Garnica</h1>
-      <div class="ornamento"><span>❦</span></div>
-      <p class="lead">Doctor en Historia por <b>El Colegio de México</b> · Profesor emérito de la
-      <b>UIS</b> · Director del <b>Archivo General de la Nación</b> (2016–2019) ·
-      Autor de más de treinta libros sobre la independencia y la nación colombiana.</p>
-      <div class="hero-cta">
-        <a class="cta" href="#biblioteca">Explorar la biblioteca →</a>
-        <a class="cta-ghost" href="#podcast">Escuchar el podcast</a>
+  <div class="wrap">
+    <svg class="rosa" viewBox="0 0 400 400" aria-hidden="true">
+<g fill="none" stroke="currentColor">
+<circle cx="200" cy="200" r="196" stroke-width="1.5"/>
+<circle cx="200" cy="200" r="168" stroke-width=".8" stroke-dasharray="3 7"/>
+<circle cx="200" cy="200" r="120" stroke-width=".8"/>
+<circle cx="200" cy="200" r="58"  stroke-width=".8" stroke-dasharray="2 5"/>
+<path d="M200 12v376M12 200h376M67 67l266 266M333 67L67 333" stroke-width=".6"/>
+</g>
+<g fill="currentColor">
+<path d="M200 30 214 186 200 200 186 186Z" opacity=".85"/>
+<path d="M200 370 186 214 200 200 214 214Z" opacity=".55"/>
+<path d="M30 200 186 186 200 200 186 214Z" opacity=".55"/>
+<path d="M370 200 214 214 200 200 214 186Z" opacity=".55"/>
+<path d="M320 80 214 176 200 200 224 186Z" opacity=".3"/>
+<path d="M80 320 186 224 200 200 176 214Z" opacity=".3"/>
+<path d="M80 80 176 186 200 200 186 176Z" opacity=".3"/>
+<path d="M320 320 224 214 200 200 214 224Z" opacity=".3"/>
+<circle cx="200" cy="200" r="7"/>
+</g></svg>
+    <div class="hero-top">
+      <div class="kicker" data-in style="animation-delay:.05s">Historiador · Bucaramanga, Colombia</div>
+      <h1 class="nombre-mayor" data-in style="animation-delay:.2s">
+        <span class="nombre">Armando</span>
+        <span class="apellido">Martínez Garnica</span>
+      </h1>
+      <svg class="rubrica" viewBox="0 0 520 44" aria-hidden="true" fill="none">
+<path class="trazo" d="M8 26 C90 12 180 34 260 24 C330 15 370 30 420 22 C458 16 486 22 512 18
+M170 33 C230 40 300 36 352 31" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M497 14 c8 3 11 8 9 13 -3 6 -12 5 -13 -1 -1 -5 6 -9 15 -8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+</svg>
+    </div>
+    <div class="hero-grid">
+      <div class="marco-wrap" data-in style="animation-delay:.45s">
+        <div class="marco">
+          <div class="filete">
+            <img src="img/retrato.jpg" alt="Retrato de Armando Martínez Garnica">
+            <div class="placa-lat">Una vida dedicada a que Colombia no olvide su historia</div>
+          </div>
+        </div>
+        <svg class="sello" viewBox="0 0 120 120" aria-hidden="true">
+<defs><radialGradient id="lacre" cx="42%" cy="36%" r="72%">
+<stop offset="0%" stop-color="#9C4A33"/><stop offset="55%" stop-color="#7A2E1D"/>
+<stop offset="100%" stop-color="#571E11"/></radialGradient></defs>
+<path d="M60 6c9 0 13 5 21 5s12-4 19 2 4 12 9 19 9 8 9 17-6 12-6 20 5 13 1 20-11 6-17 12-5 13-13 16-13-3-21-3-14 6-21 3-8-10-14-16-14-5-17-12 2-13 1-20-7-11-6-20 5-10 9-17 2-13 9-19 12-2 19-2 12-5 18-5Z" fill="url(#lacre)"/>
+<circle cx="60" cy="60" r="38" fill="none" stroke="#D8B08A" stroke-width="1" opacity=".55"/>
+<circle cx="60" cy="60" r="33" fill="none" stroke="#D8B08A" stroke-width=".6" opacity=".4"/>
+<text x="60" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="26"
+ fill="#E8C9A6" letter-spacing="1">AMG</text>
+<text x="60" y="43" text-anchor="middle" font-family="Georgia,serif" font-size="7.2"
+ fill="#D8B08A" letter-spacing="2.6" opacity=".85">ARCHIVO</text>
+<text x="60" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="7.2"
+ fill="#D8B08A" letter-spacing="2.2" opacity=".85">BUCARAMANGA</text>
+</svg>
+      </div>
+      <div class="hero-datos">
+        <p class="lead" data-in style="animation-delay:.65s">Doctor en Historia por <b>El Colegio de México</b> ·
+        Profesor emérito de la <b>UIS</b> · Director del <b>Archivo General de la Nación</b> (2016–2019) ·
+        Presidente de la <b>Academia Colombiana de Historia</b>.</p>
+        <div class="cifras" data-in style="animation-delay:.8s">
+          <div class="cifra"><div class="n">30<sup>+</sup></div><div class="l">Libros publicados</div></div>
+          <div class="cifra"><div class="n">200<sup>+</sup></div><div class="l">Artículos académicos</div></div>
+          <div class="cifra"><div class="n">51</div><div class="l">Obras digitalizadas</div></div>
+        </div>
+        <div class="hero-cta" data-in style="animation-delay:.95s">
+          <a class="cta" href="#biblioteca">Explorar la biblioteca →</a>
+          <a class="cta-ghost" href="#podcast">Escuchar el podcast</a>
+        </div>
       </div>
     </div>
   </div>
-  <a class="scroll-hint" href="#biografia">Descubrir</a>
 </div>
 
 <section id="biografia">
-  <div class="bio-panel g">
-    <h2>Biografía</h2>
-    <p class="sub">Medio siglo dedicado a la memoria documental de Colombia.</p>
-    <div class="bio" id="bioTexto">
+  <div class="wrap">
+    <div class="bio-panel g" data-rev>
+      <div class="enc"><span class="folio" aria-hidden="true">I</span>
+        <div class="rotulo">Folio I</div>
+        <h2>Biografía</h2></div>
+      <p class="sub">Medio siglo dedicado a la memoria documental de Colombia.</p>
+      <div class="bio" id="bioTexto">
 <p>Armando Martínez Garnica (Bucaramanga) es uno de los historiadores más influyentes de Colombia.
 Su camino intelectual comenzó lejos de los archivos: se graduó como experto electricista del Instituto
 Técnico Industrial Dámaso Zapata en 1966, y un año después como bachiller en Filosofía y Letras del
@@ -330,12 +539,14 @@ provincias de Santander y la biografía de la nación colombiana.</p>
 programa a programa, las vidas que construyeron el país. Esta página reúne su obra, su voz y su archivo
 personal, ahora digitalizado.</p>
 </div>
+    </div>
   </div>
 </section>
 <script>
 (function(){
   var el = document.getElementById('bioTexto');
   if(!el) return;
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var original = el.innerHTML;
   var molde = document.createElement('div');
   molde.innerHTML = original;
@@ -367,21 +578,23 @@ personal, ahora digitalizado.</p>
   }
 
   function escribir(){
+    el.style.minHeight = el.getBoundingClientRect().height + 'px';
     el.classList.add('escribiendo');
     el.innerHTML = '';
     var mostrado = 0;
-    var paso = Math.max(1, Math.round(total/1600));
+    var paso = Math.max(1, Math.round(total/700));
     var timer = setInterval(function(){
       mostrado += paso;
       if(mostrado >= total){
         el.innerHTML = original;
         el.classList.remove('escribiendo');
+        el.style.minHeight = '';
         clearInterval(timer);
         return;
       }
       el.innerHTML = '';
       el.appendChild(construir(mostrado));
-    }, 22);
+    }, 20);
   }
 
   if('IntersectionObserver' in window){
@@ -395,18 +608,25 @@ personal, ahora digitalizado.</p>
 })();
 </script>
 
-<section id="biblioteca">
-  <h2>La biblioteca</h2>
-  <p class="sub">Cincuenta y un libros de su colección personal fueron digitalizados página a
-  página y transcritos contra el ejemplar impreso. Una selección de su obra:</p>
-  <div class="lib-grid"><div class="lib g"><h3>Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;</h3><div class="autor">Armando Martínez Garnica</div><a href="libros/Libro 8.html">Leer edición digital →</a></div><div class="lib g"><h3>La época de Francisco de Paula Santander</h3><div class="autor">Armando Martínez Garnica</div><a href="libros/Libro 41.html">Leer edición digital →</a></div><div class="lib g"><h3>El legado de la «Patria Boba»</h3><div class="autor">Armando Martínez Garnica</div><a href="libros/Libro 2.html">Leer edición digital →</a></div><div class="lib g"><h3>Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe</h3><div class="autor">Armando Martínez Garnica; Daniel Gutiérrez Ardila (editores académicos)</div><a href="libros/Libro 3.html">Leer edición digital →</a></div><div class="lib g"><h3>Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820</h3><div class="autor">Armando Martínez Garnica</div><a href="libros/Libro 12.html">Leer edición digital →</a></div><div class="lib g"><h3>Revolución, independencias y guerras civiles</h3><div class="autor">Armando Martínez Garnica</div><a href="libros/Libro 36.html">Leer edición digital →</a></div></div>
-  <a class="cta" href="libros.html">Explorar la biblioteca completa →</a>
+<section id="biblioteca" class="banda-osc">
+  <div class="wrap">
+    <div class="enc"><span class="folio" aria-hidden="true">II</span>
+      <div class="rotulo">Folio II</div>
+      <h2>La biblioteca</h2></div>
+    <p class="sub">Cincuenta y un libros de su colección personal fueron digitalizados página a
+    página y transcritos contra el ejemplar impreso. Una selección de su obra:</p>
+    <div class="estante"><a class="tomo insigne" href="libros/Libro%208.html" data-rev><div class="tapa"><span class="cat">CAT. 08</span><img src="img/portadas/Libro%208.jpg" alt="Portada de Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;" loading="lazy"></div><div class="placa"><div class="insigne-rotulo">Obra insigne de la colección</div><h3>Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;</h3><div class="autor">Armando Martínez Garnica</div><div class="nota-insigne">Edición digital íntegra, digitalizada página a página del ejemplar de su colección personal.</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2041.html" data-rev><div class="tapa"><span class="cat">CAT. 41</span><img src="img/portadas/Libro%2041.jpg" alt="Portada de La época de Francisco de Paula Santander" loading="lazy"></div><div class="placa"><h3>La época de Francisco de Paula Santander</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%202.html" data-rev><div class="tapa"><span class="cat">CAT. 02</span><img src="img/portadas/Libro%202.jpg" alt="Portada de El legado de la «Patria Boba»" loading="lazy"></div><div class="placa"><h3>El legado de la «Patria Boba»</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%203.html" data-rev><div class="tapa"><span class="cat">CAT. 03</span><img src="img/portadas/Libro%203.jpg" alt="Portada de Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe" loading="lazy"></div><div class="placa"><h3>Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe</h3><div class="autor">Armando Martínez Garnica; Daniel Gutiérrez Ardila (editores académicos)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2012.html" data-rev><div class="tapa"><span class="cat">CAT. 12</span><img src="img/portadas/Libro%2012.jpg" alt="Portada de Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820" loading="lazy"></div><div class="placa"><h3>Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2036.html" data-rev><div class="tapa"><span class="cat">CAT. 36</span><img src="img/portadas/Libro%2036.jpg" alt="Portada de Revolución, independencias y guerras civiles" loading="lazy"></div><div class="placa"><h3>Revolución, independencias y guerras civiles</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a></div>
+    <a class="cta" href="libros.html" style="margin-top:36px">Explorar la biblioteca completa →</a>
+  </div>
 </section>
 
 <section id="trayectoria">
-  <h2>Trayectoria</h2>
-  <p class="sub">Los cargos que definieron una vida al servicio de la historia.</p>
-  <div class="tl g"><div class="tl-item">
+  <div class="wrap">
+    <div class="enc"><span class="folio" aria-hidden="true">III</span>
+      <div class="rotulo">Folio III</div>
+      <h2>Trayectoria</h2></div>
+    <p class="sub">Los cargos que definieron una vida al servicio de la historia.</p>
+    <div class="tl g" data-rev><div class="tl-item">
 <div class="tl-año">1987–2013</div>
 <div class="tl-eje"><span class="tl-punto"></span></div>
 <div class="tl-cargo"><b>Profesor titular, Escuela de Historia</b><span>Universidad Industrial de Santander — distinguido profesor emérito</span></div>
@@ -427,32 +647,47 @@ personal, ahora digitalizado.</p>
 <div class="tl-eje"><span class="tl-punto"></span></div>
 <div class="tl-cargo"><b>Presidente</b><span>Academia Colombiana de Historia</span></div>
 </div></div>
-  <a class="link-discreto" href="titulos.html">Ver todos los títulos, reconocimientos y
-  condecoraciones del historiador →</a>
+    <a class="link-discreto" href="titulos.html">Ver todos los títulos, reconocimientos y
+    condecoraciones del historiador →</a>
+  </div>
 </section>
 
-<section id="prensa">
-  <h2>En la prensa</h2>
-  <p class="sub">Titulares y entrevistas en medios colombianos — cada pieza corresponde a una
-  publicación real.</p>
-  <div class="prensa-grid"><a class="pr g feature enlace" href="https://revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" target="_blank" rel="noopener"><div class="medio">HiSTOReLo · Revista de Historia Regional y Local</div><div class="titular q">Ser historiador en Colombia es el más puro resultado de la casualidad</div><div class="nota">La entrevista más citada de su trayectoria</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.elespectador.com/colombia/mas-regiones/armando-martinez-es-el-nuevo-presidente-de-la-academia-colombiana-de-historia/" target="_blank" rel="noopener"><div class="medio">El Espectador</div><div class="titular q">Armando Martínez es el nuevo presidente de la Academia Colombiana de Historia</div><div class="nota">Su elección al frente de la Academia, 2022</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.vanguardia.com/entretenimiento/cultura/armando-martinez-garnica-un-santandereano-que-hace-historia-YG5495607" target="_blank" rel="noopener"><div class="medio">Vanguardia</div><div class="titular q">Armando Martínez Garnica: un santandereano que hace historia</div><div class="nota">Perfil que lo destaca como el historiador más reconocido de Santander</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.elespectador.com/politica/constituyente-de-villa-del-rosario-y-un-debate-a-la-historia-colombiana/" target="_blank" rel="noopener"><div class="medio">El Espectador</div><div class="titular q">Constituyente de Villa del Rosario y un debate a la historia colombiana</div><div class="nota">Debate historiográfico en la prensa nacional</div><span class="ver-nota">Leer la nota →</span></a><a class="pr g enlace" href="https://www.elnuevosiglo.com.co/columnistas/el-santander-de-martinez-garnica" target="_blank" rel="noopener"><div class="medio">El Nuevo Siglo</div><div class="titular q">El Santander de Martínez Garnica</div><div class="nota">Columna de opinión</div><span class="ver-nota">Leer la nota →</span></a><div class="pr g"><div class="medio">La Silla Vacía</div><div class="titular">Entrevistado sobre la historia política de Colombia</div><div class="nota">Conversación en profundidad</div></div><a class="pr g enlace" href="https://www.laopinion.co/opinion/columnistas/armando-martinez-garnica" target="_blank" rel="noopener"><div class="medio">La Opinión · Cúcuta</div><div class="titular">Columnista y voz recurrente sobre la historia de los Santanderes</div><div class="nota">Colaboración de prensa regional</div><span class="ver-nota">Leer la nota →</span></a></div>
+<section id="prensa" class="banda-clara">
+  <div class="wrap">
+    <div class="enc"><span class="folio" aria-hidden="true">IV</span>
+      <div class="rotulo">Folio IV</div>
+      <h2>En la prensa</h2></div>
+    <p class="sub">Titulares y entrevistas en medios colombianos — cada pieza corresponde a una
+    publicación real.</p>
+    <div class="prensa-grid" data-rev><a class="recorte recorte-feature enlace" href="https://revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" target="_blank" rel="noopener"><span class="comillon" aria-hidden="true">“</span><div class="medio">HiSTOReLo · Revista de Historia Regional y Local</div><div class="titular q">Ser historiador en Colombia es el más puro resultado de la casualidad</div><div class="nota">La entrevista más citada de su trayectoria</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r2 enlace" href="https://www.elespectador.com/colombia/mas-regiones/armando-martinez-es-el-nuevo-presidente-de-la-academia-colombiana-de-historia/" target="_blank" rel="noopener"><div class="medio">El Espectador</div><div class="titular q">Armando Martínez es el nuevo presidente de la Academia Colombiana de Historia</div><div class="nota">Su elección al frente de la Academia, 2022</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r3 enlace" href="https://www.vanguardia.com/entretenimiento/cultura/armando-martinez-garnica-un-santandereano-que-hace-historia-YG5495607" target="_blank" rel="noopener"><div class="medio">Vanguardia</div><div class="titular q">Armando Martínez Garnica: un santandereano que hace historia</div><div class="nota">Perfil que lo destaca como el historiador más reconocido de Santander</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r1 enlace" href="https://www.elespectador.com/politica/constituyente-de-villa-del-rosario-y-un-debate-a-la-historia-colombiana/" target="_blank" rel="noopener"><div class="medio">El Espectador</div><div class="titular q">Constituyente de Villa del Rosario y un debate a la historia colombiana</div><div class="nota">Debate historiográfico en la prensa nacional</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r2 enlace" href="https://www.elnuevosiglo.com.co/columnistas/el-santander-de-martinez-garnica" target="_blank" rel="noopener"><div class="medio">El Nuevo Siglo</div><div class="titular q">El Santander de Martínez Garnica</div><div class="nota">Columna de opinión</div><span class="ver-nota">Leer la nota →</span></a><div class="recorte r3"><div class="medio">La Silla Vacía</div><div class="titular">Entrevistado sobre la historia política de Colombia</div><div class="nota">Conversación en profundidad</div></div><a class="recorte r1 enlace" href="https://www.laopinion.co/opinion/columnistas/armando-martinez-garnica" target="_blank" rel="noopener"><div class="medio">La Opinión · Cúcuta</div><div class="titular">Columnista y voz recurrente sobre la historia de los Santanderes</div><div class="nota">Colaboración de prensa regional</div><span class="ver-nota">Leer la nota →</span></a></div>
+  </div>
 </section>
 
 <section id="podcast">
-  <h2>Colombia en biografía · Podcast</h2>
-  <p class="sub">Fragmentos del programa radial en el que Armando Martínez Garnica narra la
-  historia de Colombia a través de sus protagonistas.</p>
-  <div class="player g">
-    <div class="titulo" id="clipTitulo">—</div>
-    <audio id="clipAudio" preload="metadata"></audio>
-    <div class="ctl">
-      <button id="btnPlay" aria-label="Reproducir o pausar">▶</button>
-      <div class="barra" id="barra" role="slider" aria-label="Progreso"><div class="fill" id="fill"></div></div>
-      <span class="tiempo" id="tiempo">0:00</span>
+  <div class="wrap">
+    <div class="enc"><span class="folio" aria-hidden="true">V</span>
+      <div class="rotulo">Folio V</div>
+      <h2>Colombia en biografía · Podcast</h2></div>
+    <p class="sub">Fragmentos del programa radial en el que Armando Martínez Garnica narra la
+    historia de Colombia a través de sus protagonistas.</p>
+    <div class="player g" data-rev>
+      <svg class="bobina" id="bobina" viewBox="0 0 44 44" fill="none" stroke="currentColor" aria-hidden="true">
+        <circle cx="22" cy="22" r="20" stroke-width="2"/>
+        <circle cx="22" cy="22" r="7" stroke-width="1.6"/>
+        <circle cx="22" cy="22" r="1.8" fill="currentColor"/>
+        <path d="M22 4v11M22 29v11M4 22h11M29 22h11" stroke-width="1.4"/>
+      </svg>
+      <div class="titulo" id="clipTitulo">—</div>
+      <audio id="clipAudio" preload="metadata"></audio>
+      <div class="ctl">
+        <button id="btnPlay" aria-label="Reproducir o pausar">▶</button>
+        <div class="barra" id="barra" aria-hidden="true"><div class="fill" id="fill"></div></div>
+        <span class="tiempo" id="tiempo">0:00</span>
+      </div>
+      <button class="otro" onclick="otroClip()">⟳ Escuchar otro fragmento</button>
     </div>
-    <button class="otro" onclick="otroClip()">⟳ Escuchar otro fragmento</button>
+    <div class="spotify"><svg viewBox="0 0 24 24" width="24" height="24" fill="#1DB954" aria-hidden="true"><path d="M12 1.5A10.5 10.5 0 1 0 22.5 12 10.5 10.5 0 0 0 12 1.5Zm4.8 15.2a.65.65 0 0 1-.9.2 12.6 12.6 0 0 0-7.6-1.6 12 12 0 0 0-2 .4.66.66 0 0 1-.3-1.3 14.3 14.3 0 0 1 2.2-.4 13.9 13.9 0 0 1 8.4 1.8.65.65 0 0 1 .2.9Zm1.3-2.9a.82.82 0 0 1-1.1.3 15.7 15.7 0 0 0-9.4-1.9 14.4 14.4 0 0 0-2.4.5.82.82 0 0 1-.5-1.6 17.4 17.4 0 0 1 2.7-.6 17.3 17.3 0 0 1 10.4 2.2.82.82 0 0 1 .3 1.1Zm.1-3a19.4 19.4 0 0 0-11.4-2.2 18 18 0 0 0-2.7.5 1 1 0 0 1-.6-1.9 20.5 20.5 0 0 1 3.1-.6 21.4 21.4 0 0 1 12.6 2.4 1 1 0 0 1-1 1.8Z"/></svg><a href="https://open.spotify.com/" target="_blank" rel="noopener">Muy pronto: el canal oficial en Spotify</a></div>
   </div>
-  <div class="spotify"><svg viewBox="0 0 24 24" width="24" height="24" fill="#1DB954" aria-hidden="true"><path d="M12 1.5A10.5 10.5 0 1 0 22.5 12 10.5 10.5 0 0 0 12 1.5Zm4.8 15.2a.65.65 0 0 1-.9.2 12.6 12.6 0 0 0-7.6-1.6 12 12 0 0 0-2 .4.66.66 0 0 1-.3-1.3 14.3 14.3 0 0 1 2.2-.4 13.9 13.9 0 0 1 8.4 1.8.65.65 0 0 1 .2.9Zm1.3-2.9a.82.82 0 0 1-1.1.3 15.7 15.7 0 0 0-9.4-1.9 14.4 14.4 0 0 0-2.4.5.82.82 0 0 1-.5-1.6 17.4 17.4 0 0 1 2.7-.6 17.3 17.3 0 0 1 10.4 2.2.82.82 0 0 1 .3 1.1Zm.1-3a19.4 19.4 0 0 0-11.4-2.2 18 18 0 0 0-2.7.5 1 1 0 0 1-.6-1.9 20.5 20.5 0 0 1 3.1-.6 21.4 21.4 0 0 1 12.6 2.4 1 1 0 0 1-1 1.8Z"/></svg><a href="https://open.spotify.com/" target="_blank" rel="noopener">Muy pronto: el canal oficial en Spotify</a></div>
   <script>
   const clips=[
    {src:"audio/clip1.mp3",t:"Colombia en biografía · Programa 2"},
@@ -461,7 +696,8 @@ personal, ahora digitalizado.</p>
   let actual=-1;
   const A=document.getElementById('clipAudio'),BT=document.getElementById('btnPlay'),
         FI=document.getElementById('fill'),TI=document.getElementById('tiempo'),
-        BA=document.getElementById('barra'),TT=document.getElementById('clipTitulo');
+        BA=document.getElementById('barra'),TT=document.getElementById('clipTitulo'),
+        BO=document.getElementById('bobina');
   function fmtT(s){if(!isFinite(s))return'0:00';const m=Math.floor(s/60),x=Math.floor(s%60);
     return m+':'+String(x).padStart(2,'0');}
   function setClip(i,autoplay){actual=i;A.src=clips[i].src;TT.textContent=clips[i].t;
@@ -470,9 +706,9 @@ personal, ahora digitalizado.</p>
   function otroClip(){let i;do{i=Math.floor(Math.random()*clips.length)}
     while(i===actual&&clips.length>1);setClip(i,true);}
   BT.addEventListener('click',()=>{A.paused?A.play().catch(()=>{}):A.pause();});
-  A.addEventListener('play', ()=>BT.textContent='❚❚');
-  A.addEventListener('pause',()=>BT.textContent='▶');
-  A.addEventListener('ended',()=>{BT.textContent='▶';FI.style.width='0%';});
+  A.addEventListener('play', ()=>{BT.textContent='❚❚';BO.classList.add('girando');});
+  A.addEventListener('pause',()=>{BT.textContent='▶';BO.classList.remove('girando');});
+  A.addEventListener('ended',()=>{BT.textContent='▶';FI.style.width='0%';BO.classList.remove('girando');});
   A.addEventListener('timeupdate',()=>{if(A.duration){
     FI.style.width=(100*A.currentTime/A.duration)+'%';TI.textContent=fmtT(A.currentTime);}});
   BA.addEventListener('click',e=>{if(!A.duration)return;
@@ -482,29 +718,34 @@ personal, ahora digitalizado.</p>
 </section>
 
 <section id="contacto">
-  <h2>Contacto</h2>
-  <p class="sub">¿Quieres entrevistar a Armando, invitarlo a un evento o agendar una
-  conversación? Deja tus datos y él se pondrá en contacto contigo.</p>
-  <div class="form g">
-    <form id="fContacto">
-      <label for="fNombre">Nombre completo</label>
-      <input id="fNombre" name="nombre" required maxlength="120" autocomplete="name">
-      <label for="fNumero">Teléfono o correo electrónico</label>
-      <input id="fNumero" name="numero" required maxlength="80" autocomplete="tel">
-      <label for="fMotivo">Motivo del contacto</label>
-      <textarea id="fMotivo" name="motivo" rows="4" required maxlength="600"
-      placeholder="Entrevista, invitación, consulta histórica…"></textarea>
-      <button type="submit">Enviar solicitud</button>
-      <div class="msg" id="fMsg" aria-live="polite"></div>
-    </form>
+  <div class="wrap">
+    <div class="enc"><span class="folio" aria-hidden="true">VI</span>
+      <div class="rotulo">Folio VI</div>
+      <h2>Contacto</h2></div>
+    <p class="sub">¿Quieres entrevistar a Armando, invitarlo a un evento o agendar una
+    conversación? Deja tus datos y él se pondrá en contacto contigo.</p>
+    <div class="form g" data-rev>
+      <div class="kicker">Correspondencia</div>
+      <form id="fContacto">
+        <label for="fNombre">Nombre completo</label>
+        <input id="fNombre" name="nombre" required maxlength="120" autocomplete="name">
+        <label for="fNumero">Teléfono o correo electrónico</label>
+        <input id="fNumero" name="numero" required maxlength="80" autocomplete="tel">
+        <label for="fMotivo">Motivo del contacto</label>
+        <textarea id="fMotivo" name="motivo" rows="4" required maxlength="600"
+        placeholder="Entrevista, invitación, consulta histórica…"></textarea>
+        <button type="submit">Enviar solicitud</button>
+        <div class="msg" id="fMsg" aria-live="polite"></div>
+      </form>
+    </div>
+    <a class="correo-directo" href="mailto:dr.armandomartinezgarnica@gmail.com">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="2.5" y="5" width="19" height="14" rx="2"></rect>
+        <path d="M3 6.5l9 6.5 9-6.5"></path>
+      </svg>
+      dr.armandomartinezgarnica@gmail.com
+    </a>
   </div>
-  <a class="correo-directo" href="mailto:dr.armandomartinezgarnica@gmail.com">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
-      <rect x="2.5" y="5" width="19" height="14" rx="2"></rect>
-      <path d="M3 6.5l9 6.5 9-6.5"></path>
-    </svg>
-    dr.armandomartinezgarnica@gmail.com
-  </a>
   <script>
   document.getElementById('fContacto').addEventListener('submit',async e=>{
    e.preventDefault();const f=e.target,m=document.getElementById('fMsg');
@@ -522,14 +763,34 @@ personal, ahora digitalizado.</p>
   });
   </script>
 </section>
-</div>
 
 <footer>
-<div class="sello">Armando Martínez Garnica · Historiador</div>
+<div class="orn">❦ ❦ ❦</div>
+<div class="sello-pie">Armando Martínez Garnica · Historiador</div>
 <div class="derechos">© MMXXVI Armando Martínez Garnica. Todos los derechos reservados.<br>
 La reproducción total o parcial de los contenidos de este archivo digital requiere
 autorización expresa del autor. Colección personal digitalizada · Bucaramanga, Colombia.</div>
+<div class="colofon">Compuesto digitalmente al modo de los impresos antiguos.</div>
 <nav class="pie"><a href="libros.html">Biblioteca</a>
 <a href="titulos.html">Títulos y reconocimientos</a>
 <a href="index.html#contacto">Contacto</a></nav>
-</footer></body></html>
+</footer>
+<noscript><style>[data-rev]{opacity:1!important;transform:none!important}</style></noscript>
+<script>
+(function(){
+  var p=document.getElementById('progreso');
+  function medir(){var h=document.documentElement;
+    var s=h.scrollTop||document.body.scrollTop, m=h.scrollHeight-h.clientHeight;
+    p.style.width=(m>0?100*s/m:0)+'%';}
+  addEventListener('scroll',medir,{passive:true});medir();
+  if('IntersectionObserver' in window){
+    var o=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('vis');o.unobserve(e.target);}});},
+      {threshold:.12});
+    document.querySelectorAll('[data-rev]').forEach(function(el){o.observe(el);});
+  } else {
+    document.querySelectorAll('[data-rev]').forEach(function(el){el.classList.add('vis');});
+  }
+})();
+</script>
+</body></html>

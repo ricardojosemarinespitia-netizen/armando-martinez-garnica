@@ -5,7 +5,7 @@
   --paper:#EBDFC3; --paper-deep:#E2D3AF;
   --panel:rgba(252,248,238,.90); --panel-solid:#FBF6EA;
   --ink:#3A2D1D; --brown:#5A4530; --brown-soft:#7A6248;
-  --gold:#8A6532; --gold-b:#A9813E;
+  --gold:#8A6532; --gold-b:#A9813E; --lacre:#7A2E1D;
   --line:#CDB98D; --line-soft:rgba(138,101,50,.28);
   --serif:Constantia,"Palatino Linotype",Georgia,"Times New Roman",serif;
   --sans:"Segoe UI",Inter,system-ui,Arial,sans-serif;
@@ -14,197 +14,336 @@
 html{scroll-behavior:smooth}
 html,body{max-width:100%;overflow-x:clip}
 img{max-width:100%;height:auto}
-body{
-  font-family:var(--serif);color:var(--ink);line-height:1.68;
-  background-color:var(--paper);
-  min-height:100vh;
-}
+body{font-family:var(--serif);color:var(--ink);line-height:1.68;
+  background-color:var(--paper);min-height:100vh}
 
-/* ── fondo fijo: pergamino de archivo (queda quieto; el contenido se desliza encima) ── */
-.fondo{
-  position:fixed;inset:0;z-index:-1;pointer-events:none;
+/* ── fondo fijo: pergamino de archivo ── */
+.fondo{position:fixed;inset:0;z-index:-1;pointer-events:none;
   background-color:#EADEC0;
   background-image:
-    url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.30%200%200%200%200%200.22%200%200%200%200%200.12%200%200%200%200.055%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22260%22%20height%3D%22260%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"),
-    repeating-linear-gradient(0deg, rgba(90,69,48,.030) 0 1px, transparent 1px 34px),
-    radial-gradient(48rem 34rem at 85% 6%,  rgba(122,90,44,.14), transparent 60%),
-    radial-gradient(44rem 32rem at 6% 38%,  rgba(90,69,48,.11), transparent 58%),
-    radial-gradient(50rem 36rem at 80% 92%, rgba(138,101,50,.11), transparent 62%),
-    radial-gradient(125% 92% at 50% 46%, transparent 52%, rgba(74,55,30,.14) 100%),
+    url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.30%200%200%200%200%200.22%200%200%200%200%200.12%200%200%200%200.085%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22260%22%20height%3D%22260%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"),
+    repeating-linear-gradient(0deg, rgba(90,69,48,.034) 0 1px, transparent 1px 34px),
+    radial-gradient(48rem 34rem at 85% 6%,  rgba(122,90,44,.16), transparent 60%),
+    radial-gradient(44rem 32rem at 6% 38%,  rgba(90,69,48,.13), transparent 58%),
+    radial-gradient(50rem 36rem at 80% 92%, rgba(138,101,50,.13), transparent 62%),
+    radial-gradient(125% 92% at 50% 46%, transparent 50%, rgba(74,55,30,.17) 100%),
     linear-gradient(170deg,#F0E6CC 0%,#E5D7B4 55%,#EBDFC3 100%);
 }
 
+/* ── barra de progreso de lectura ── */
+#progreso{position:fixed;top:0;left:0;height:3px;width:0;z-index:90;
+  background:linear-gradient(90deg,var(--gold),var(--gold-b));
+  box-shadow:0 0 8px rgba(169,129,62,.55)}
+
 /* ── panel pergamino ── */
-.g{
-  background:linear-gradient(180deg, rgba(255,253,247,.75), rgba(252,247,235,.55) 45%), var(--panel);
+.g{background:linear-gradient(180deg, rgba(255,253,247,.75), rgba(252,247,235,.55) 45%), var(--panel);
   -webkit-backdrop-filter:blur(10px) saturate(1.1);
   backdrop-filter:blur(10px) saturate(1.1);
-  border:1px solid var(--line);
-  border-top-color:rgba(255,255,255,.9);
+  border:1px solid var(--line);border-top-color:rgba(255,255,255,.9);
   border-radius:14px;
   box-shadow:0 10px 34px rgba(74,55,30,.16), 0 2px 8px rgba(74,55,30,.10),
-             inset 0 1px 0 rgba(255,255,255,.8);
-}
+             inset 0 1px 0 rgba(255,255,255,.8)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .g{background:var(--panel-solid)}
   header.nav{background:#F1E8D2}
 }
 
 /* ── navegación ── */
-header.nav{
-  position:sticky;top:0;z-index:50;
-  background:rgba(240,231,209,.85);
+header.nav{position:sticky;top:0;z-index:50;
+  background:rgba(240,231,209,.88);
   -webkit-backdrop-filter:blur(14px) saturate(1.15);
   backdrop-filter:blur(14px) saturate(1.15);
   border-bottom:1px solid var(--line);
-  box-shadow:0 3px 18px rgba(74,55,30,.12);
-}
-nav{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 26px;
-    justify-content:center;padding:15px 18px;font-family:var(--sans);font-size:12.5px}
-nav a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
-      text-transform:uppercase;transition:color .25s;white-space:nowrap}
-nav a:hover{color:var(--gold)}
+  box-shadow:0 3px 18px rgba(74,55,30,.12)}
+nav.principal{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 24px;
+  align-items:center;justify-content:center;padding:13px 18px;
+  font-family:var(--sans);font-size:12.5px}
+nav.principal .brand{font-family:var(--serif);font-size:17px;letter-spacing:.28em;
+  color:var(--brown);text-decoration:none;margin-right:auto;
+  border:1px solid var(--line-soft);border-radius:3px;padding:3px 10px 3px 12px}
+nav.principal .brand:hover{color:var(--gold)}
+nav.principal a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
+  text-transform:uppercase;transition:color .25s;white-space:nowrap;position:relative}
+nav.principal a:not(.brand)::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;
+  background:var(--gold-b);transition:width .3s}
+nav.principal a:not(.brand):hover::after{width:100%}
+nav.principal a:hover{color:var(--gold)}
 
 /* ── estructura ── */
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-section{padding:68px 0}
-h2{font-weight:400;font-size:clamp(26px,3.4vw,33px);color:var(--brown);
-   margin-bottom:8px;overflow-wrap:break-word}
-h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+section{padding:84px 0;position:relative}
+.banda-osc{background:linear-gradient(180deg, rgba(90,69,48,.075), rgba(90,69,48,.13));
+  border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.banda-clara{background:linear-gradient(180deg, rgba(255,252,242,.5), rgba(255,252,242,.28));
+  border-top:1px solid rgba(255,255,255,.5);border-bottom:1px solid var(--line-soft)}
+
+/* encabezado de sección con folio romano fantasma */
+.enc{position:relative;margin-bottom:10px}
+.enc .folio{position:absolute;right:-6px;top:-58px;font-family:var(--serif);
+  font-size:clamp(90px,13vw,150px);line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px rgba(138,101,50,.22);pointer-events:none;user-select:none}
+@supports not (-webkit-text-stroke:1px black){.enc .folio{color:rgba(138,101,50,.10)}}
+.enc .rotulo{font-family:var(--sans);font-size:10.5px;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.enc .rotulo::before{content:"";display:inline-block;width:34px;height:1px;
+  background:var(--gold-b);vertical-align:middle;margin-right:12px}
+h2{font-weight:400;font-size:clamp(30px,4.6vw,46px);color:var(--brown);
+   margin-bottom:8px;overflow-wrap:break-word;line-height:1.08}
+h2::after{content:"";display:block;width:74px;height:2px;margin-top:14px;
    background:linear-gradient(90deg,var(--gold-b),transparent)}
-.sub{font-family:var(--sans);font-size:14px;color:var(--brown-soft);margin:14px 0 32px;max-width:640px}
+.sub{font-family:var(--sans);font-size:14px;color:var(--brown-soft);margin:14px 0 36px;max-width:640px}
 .kicker{font-family:var(--sans);font-size:11.5px;letter-spacing:.22em;
         text-transform:uppercase;color:var(--gold);margin-bottom:14px}
 .page-hero{padding:54px 0 4px}
 .page-hero h1{font-weight:400;font-size:clamp(30px,4.4vw,42px);color:var(--brown);line-height:1.14}
 
-/* ── hero: retrato de archivo sobre el pergamino ── */
-.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;
-      position:relative;padding:60px 0 96px}
-.hero-int{display:grid;grid-template-columns:370px 1fr;gap:64px;align-items:center}
-.marco{background:#FFFDF6;padding:16px 16px 48px;border:1px solid var(--line);
-  box-shadow:0 26px 64px rgba(74,55,30,.30), 0 4px 14px rgba(74,55,30,.16);
-  transform:rotate(-1.4deg);transition:transform .45s;position:relative}
-.marco:hover{transform:rotate(0deg)}
-.marco img{display:block;width:100%;border:1px solid rgba(138,101,50,.35);filter:sepia(.08)}
-.marco::after{content:"Bucaramanga · Archivo personal";position:absolute;left:0;right:0;bottom:15px;
-  text-align:center;font-family:var(--sans);font-size:10.5px;letter-spacing:.20em;
-  text-transform:uppercase;color:var(--brown-soft)}
-.hero h1{font-weight:400;font-size:clamp(34px,5.4vw,58px);line-height:1.06;
-         color:var(--brown);overflow-wrap:break-word}
-.ornamento{display:flex;align-items:center;gap:14px;margin:20px 0 18px;color:var(--gold-b)}
-.ornamento::before,.ornamento::after{content:"";height:1px;width:74px}
-.ornamento::before{background:linear-gradient(90deg,transparent,var(--gold-b))}
-.ornamento::after{background:linear-gradient(90deg,var(--gold-b),transparent)}
-.ornamento span{font-size:19px;line-height:1}
-.hero .lead{font-family:var(--sans);font-size:16.5px;color:var(--brown-soft);
-            max-width:560px;line-height:1.8}
-.hero .lead b{color:var(--gold);font-weight:600}
-.hero-cta{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap}
+/* aparición al hacer scroll */
+[data-rev]{opacity:0;transform:translateY(26px);
+  transition:opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1)}
+[data-rev].vis{opacity:1;transform:none}
+
+/* ═════════ HERO «frontispicio» ═════════ */
+.hero{min-height:96vh;display:flex;flex-direction:column;justify-content:center;
+      position:relative;padding:44px 0 0;overflow:visible}
+.rosa{position:absolute;right:-140px;top:44%;transform:translateY(-50%);
+  width:min(560px,58vw);color:var(--gold);opacity:.11;z-index:-1;
+  animation:girar 150s linear infinite}
+@keyframes girar{to{transform:translateY(-50%) rotate(360deg)}}
+.hero-top{text-align:center;position:relative}
+.hero-top .kicker{margin-bottom:20px}
+.hero-top .kicker::before,.hero-top .kicker::after{content:"❦";margin:0 14px;color:var(--gold-b);font-size:12px}
+h1.nombre-mayor{font-weight:400;line-height:.98;color:var(--brown)}
+h1.nombre-mayor .nombre{display:block;font-size:clamp(19px,2.6vw,27px);
+  letter-spacing:.55em;text-transform:uppercase;color:var(--brown-soft);
+  margin-bottom:12px;padding-left:.55em}
+h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
+  letter-spacing:.005em;
+  background:linear-gradient(105deg,var(--brown) 0 38%,var(--gold-b) 50%,var(--brown) 62% 100%);
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:var(--brown);
+  animation:destello 9s ease-in-out infinite}
+@keyframes destello{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+@supports not (-webkit-background-clip:text){h1.nombre-mayor .apellido{background:none;-webkit-text-fill-color:currentColor;color:var(--brown)}}
+.rubrica{display:block;width:min(520px,72vw);margin:10px auto 0;color:var(--gold-b)}
+.rubrica .trazo{stroke-dasharray:1200;stroke-dashoffset:1200;animation:firmar 2.6s .7s ease-out forwards}
+@keyframes firmar{to{stroke-dashoffset:0}}
+
+.hero-grid{display:grid;grid-template-columns:400px 1fr;gap:70px;align-items:center;
+  margin-top:54px}
+.marco-wrap{position:relative;justify-self:center}
+.marco{background:linear-gradient(160deg,#5A4530,#3E2E1C 70%);padding:13px;
+  box-shadow:0 30px 70px rgba(58,45,29,.44), 0 6px 18px rgba(58,45,29,.25);
+  transform:rotate(-1.6deg);transition:transform .5s;position:relative}
+.marco-wrap:hover .marco{transform:rotate(0deg)}
+.marco .filete{border:1px solid rgba(216,176,138,.75);padding:11px;background:#F6EFDD}
+.marco img{display:block;width:100%;border:1px solid rgba(138,101,50,.4);filter:sepia(.1)}
+.marco .placa-lat{margin-top:11px;text-align:center;
+  font-family:var(--serif);font-style:italic;font-size:12.8px;line-height:1.45;
+  color:#4A3826;
+  background:linear-gradient(180deg,#E9DCBB,#D9C48F);border:1px solid rgba(110,82,42,.5);
+  border-radius:2px;padding:7px 58px 7px 14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 1px 3px rgba(58,45,29,.3)}
+.sello{position:absolute;right:-34px;bottom:-30px;width:104px;
+  transform:rotate(9deg);filter:drop-shadow(0 8px 14px rgba(58,30,17,.4));
+  transition:transform .4s}
+.marco-wrap:hover .sello{transform:rotate(3deg) scale(1.04)}
+
+.hero-datos .lead{font-family:var(--sans);font-size:16.5px;color:var(--brown-soft);
+  max-width:560px;line-height:1.85}
+.hero-datos .lead b{color:var(--gold);font-weight:600}
+.cifras{display:flex;gap:44px;margin-top:34px;flex-wrap:wrap}
+.cifra .n{font-family:var(--serif);font-size:clamp(30px,3.6vw,42px);color:var(--gold);line-height:1}
+.cifra .n sup{font-size:.5em;color:var(--gold-b)}
+.cifra .l{font-family:var(--sans);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--brown-soft);margin-top:6px}
+.hero-cta{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap}
+.cta{display:inline-block;background:var(--brown);color:#F7F1E3;
+     padding:13px 30px;border-radius:26px;text-decoration:none;
+     font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:background .25s,transform .25s}
+.cta:hover{background:var(--gold);transform:translateY(-2px)}
 .cta-ghost{display:inline-block;border:1px solid var(--gold-b);color:var(--gold);
   padding:12px 28px;border-radius:26px;text-decoration:none;
   font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:all .25s}
-.cta-ghost:hover{background:var(--gold-b);color:#FBF6EA}
-.hero .cta{margin-top:0}
-.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
-  font-family:var(--sans);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--brown-soft);text-decoration:none;display:flex;flex-direction:column;
-  align-items:center;gap:6px}
-.scroll-hint::after{content:"↓";font-size:18px;color:var(--gold);animation:bob 2.4s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.cta-ghost:hover{background:var(--gold-b);color:#FBF6EA;transform:translateY(-2px)}
 
-/* ── biografía ── */
-.bio-panel{padding:50px 54px}
-.bio{column-count:2;column-gap:44px;text-align:justify;hyphens:auto;font-size:16.5px}
+/* entrada escalonada */
+.hero [data-in]{opacity:0;animation:entra 1s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes entra{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.05s}.d2{animation-delay:.2s}.d3{animation-delay:.4s}
+.d4{animation-delay:.6s}.d5{animation-delay:.8s}.d6{animation-delay:1s}
+
+/* ═════════ biografía ═════════ */
+.bio-panel{padding:52px 56px;position:relative}
+.bio-panel::before{content:"§ I";position:absolute;top:22px;right:30px;
+  font-family:var(--serif);font-size:15px;color:var(--gold-b);opacity:.75}
+.bio{column-count:2;column-gap:46px;text-align:justify;hyphens:auto;font-size:16.5px}
 .bio p+p{text-indent:1.5em}
 .bio em{font-style:italic}
+.bio > p:first-child::first-letter{font-size:3.4em;float:left;line-height:.82;
+  padding:4px 10px 0 0;color:var(--lacre);font-family:var(--serif)}
+.bio.escribiendo p:last-child::after{content:"▍";color:var(--gold);animation:parpadeo .9s step-end infinite}
+@keyframes parpadeo{50%{opacity:0}}
 
-/* ── biblioteca destacada ── */
-.lib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:20px}
-.lib{padding:26px 28px 22px;display:flex;flex-direction:column;position:relative;
-     border-top:3px solid var(--gold-b);
-     transition:transform .3s, box-shadow .3s}
-.lib:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.lib h3{font-weight:400;font-size:17.5px;line-height:1.38;margin-bottom:8px;color:var(--brown)}
-.lib .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
-.lib a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
-.lib a:hover{text-decoration:underline}
-.cta{display:inline-block;margin-top:30px;background:var(--brown);color:#F7F1E3;
-     padding:13px 30px;border-radius:26px;text-decoration:none;
-     font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:background .25s}
-.cta:hover{background:var(--gold)}
+/* ═════════ biblioteca-museo ═════════ */
+.estante{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.tomo{position:relative;display:flex;flex-direction:column;text-decoration:none;
+  transition:transform .38s cubic-bezier(.2,.7,.3,1)}
+.tomo:hover{transform:translateY(-10px)}
+.tapa{position:relative;aspect-ratio:3/3.9;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(120% 90% at 50% 10%, rgba(122,90,44,.28), transparent 55%),
+    linear-gradient(165deg,#4A3826,#2E2214 70%);
+  border:1px solid rgba(138,101,50,.4);border-bottom:none;
+  padding:26px 30px;overflow:hidden}
+.tapa::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg, rgba(255,255,255,0) 42%, rgba(255,250,235,.14) 50%, rgba(255,255,255,0) 58%);
+  transform:translateX(-110%);transition:transform .8s ease}
+.tomo:hover .tapa::after{transform:translateX(110%)}
+.tapa img{max-height:100%;width:auto;max-width:100%;object-fit:contain;
+  box-shadow:0 14px 34px rgba(0,0,0,.5), 0 3px 8px rgba(0,0,0,.4);
+  border:1px solid rgba(216,176,138,.3);
+  transition:transform .38s cubic-bezier(.2,.7,.3,1)}
+.tomo:hover .tapa img{transform:scale(1.035) rotate(.4deg)}
+.cat{position:absolute;top:14px;left:14px;z-index:2;
+  font-family:var(--sans);font-size:9.5px;letter-spacing:.22em;color:#E8C9A6;
+  border:1px solid rgba(216,176,138,.55);border-radius:2px;padding:3px 8px;
+  background:rgba(46,34,20,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.placa{background:linear-gradient(180deg,#F6EFDD,#EDE2C4);
+  border:1px solid var(--line);border-top:2px solid var(--gold-b);
+  padding:18px 20px 16px;display:flex;flex-direction:column;flex:1;
+  box-shadow:0 12px 30px rgba(74,55,30,.2)}
+.placa h3{font-weight:400;font-size:16.5px;line-height:1.36;margin-bottom:6px;color:var(--brown)}
+.placa .autor{font-family:var(--sans);font-size:11.5px;color:var(--brown-soft);margin-bottom:12px}
+.placa .leer{margin-top:auto;color:var(--gold);font-family:var(--sans);font-size:13px}
+.tomo:hover .placa .leer{text-decoration:underline}
 
-/* ── trayectoria ── */
-.tl{padding:44px 52px}
-.tl-item{display:grid;grid-template-columns:110px 26px 1fr;gap:0 18px;align-items:start}
-.tl-año{font-family:var(--sans);font-size:12px;letter-spacing:.13em;
-        text-transform:uppercase;color:var(--gold);text-align:right;padding:26px 0}
-.tl-eje{position:relative;height:100%;min-height:82px}
-.tl-eje::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
-  background:linear-gradient(180deg,transparent,var(--line-soft) 12%,var(--line-soft) 88%,transparent)}
+/* obra insigne: primera ficha en formato panorámico */
+.tomo.insigne{grid-column:1/-1;flex-direction:row;align-items:stretch;gap:0}
+.tomo.insigne .tapa{aspect-ratio:auto;width:320px;flex:none;border-bottom:1px solid rgba(138,101,50,.4);
+  border-right:none;padding:34px}
+.tomo.insigne .placa{border-top:2px solid var(--gold-b);justify-content:center;padding:34px 44px}
+.tomo.insigne .placa h3{font-size:clamp(20px,2.6vw,27px)}
+.tomo.insigne .placa .autor{font-size:12.5px;margin-bottom:16px}
+.tomo.insigne .nota-insigne{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft);
+  line-height:1.75;margin-bottom:18px;max-width:520px}
+.insigne-rotulo{font-family:var(--sans);font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--lacre);margin-bottom:12px}
+
+/* ═════════ trayectoria: legajo de tinta ═════════ */
+.tl{padding:50px 58px}
+.tl-item{display:grid;grid-template-columns:128px 30px 1fr;gap:0 22px;align-items:start}
+.tl-año{font-family:var(--serif);font-size:21px;color:var(--gold);text-align:right;
+  padding:22px 0;line-height:1.15}
+.tl-eje{position:relative;height:100%;min-height:88px}
+.tl-eje::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;
+  background:repeating-linear-gradient(180deg,var(--gold-b) 0 7px, rgba(169,129,62,.25) 7px 11px)}
 .tl-item:first-child .tl-eje::before{top:32px}
 .tl-item:last-child  .tl-eje::before{bottom:calc(100% - 40px)}
-.tl-punto{position:absolute;left:50%;top:32px;transform:translate(-50%,-50%);
-  width:11px;height:11px;border-radius:50%;background:var(--gold-b);
-  box-shadow:0 0 0 4px rgba(169,129,62,.18)}
-.tl-cargo{padding:20px 0 26px}
-.tl-cargo b{display:block;font-size:19px;font-weight:400;color:var(--brown)}
+.tl-punto{position:absolute;left:50%;top:32px;transform:translate(-50%,-50%) rotate(45deg);
+  width:11px;height:11px;background:var(--lacre);
+  box-shadow:0 0 0 4px rgba(122,46,29,.16)}
+.tl-cargo{padding:18px 0 28px}
+.tl-cargo b{display:block;font-size:20px;font-weight:400;color:var(--brown)}
 .tl-cargo span{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft)}
 .link-discreto{display:inline-block;margin-top:20px;font-family:var(--sans);font-size:13.5px;
   color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--line-soft)}
 .link-discreto:hover{color:var(--brown)}
 
-/* ── prensa ── */
-.prensa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px}
-.pr{padding:28px 30px;display:flex;flex-direction:column;gap:12px;
-    transition:transform .3s, box-shadow .3s}
-.pr:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.pr .medio{font-family:var(--sans);font-size:10.5px;letter-spacing:.24em;
-           text-transform:uppercase;color:var(--gold)}
-.pr .titular{font-size:18.5px;line-height:1.42;color:var(--brown);font-weight:400;overflow-wrap:break-word}
-.pr .titular.q::before{content:"« "}.pr .titular.q::after{content:" »"}
-.pr .nota{font-family:var(--sans);font-size:12.5px;color:var(--brown-soft);margin-top:auto}
-.pr.feature{grid-column:1/-1;padding:50px 56px;text-align:center;align-items:center}
-.pr.feature .titular{font-size:clamp(23px,3.3vw,32px);font-weight:400;
-                     max-width:820px;color:var(--gold);font-style:italic}
-.pr.feature .titular.q::before{content:"\201C"}.pr.feature .titular.q::after{content:"\201D"}
+/* ═════════ prensa: recortes de periódico ═════════ */
+.prensa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));
+  gap:30px 24px;align-items:stretch}
+.recorte{position:relative;display:flex;flex-direction:column;gap:11px;
+  padding:34px 28px 26px;text-decoration:none;
+  background:
+    repeating-linear-gradient(0deg, rgba(90,69,48,.045) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg,#F8F3E2,#F1E8CE);
+  border:1px solid rgba(138,101,50,.32);
+  clip-path:polygon(0 2%,3% 0,97% 1%,100% 3%,99.4% 96%,96% 100%,4% 99%,.5% 97%);
+  box-shadow:0 14px 34px rgba(74,55,30,.20);
+  transition:transform .35s, box-shadow .35s}
+.recorte.r1{transform:rotate(-1.1deg)}
+.recorte.r2{transform:rotate(.9deg)}
+.recorte.r3{transform:rotate(-.5deg)}
+.recorte:hover{transform:rotate(0deg) translateY(-6px);box-shadow:0 22px 50px rgba(74,55,30,.28);z-index:2}
+.recorte::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-2deg);
+  width:88px;height:24px;background:rgba(214,193,140,.55);
+  border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
+  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+.recorte .medio{font-family:var(--sans);font-size:10px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--lacre);
+  border-bottom:2px solid rgba(122,46,29,.55);padding-bottom:7px;font-weight:600}
+.recorte .titular{font-size:18.5px;line-height:1.4;color:var(--brown);font-weight:400;overflow-wrap:break-word}
+.recorte .titular.q::before{content:"« "}.recorte .titular.q::after{content:" »"}
+.recorte .nota{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:auto}
+.recorte .ver-nota{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-b);
+  opacity:0;transform:translateX(-4px);transition:opacity .25s,transform .25s}
+.recorte.enlace:hover .ver-nota{opacity:1;transform:none}
+.recorte-feature{grid-column:1/-1;text-align:center;align-items:center;
+  padding:64px 56px 44px;transform:none}
+.recorte-feature::before{left:12%;transform:rotate(-4deg)}
+.recorte-feature::after{content:"";position:absolute;top:-11px;right:12%;transform:rotate(3deg);
+  width:88px;height:24px;background:rgba(214,193,140,.55);
+  border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
+  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+.recorte-feature .comillon{position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  font-family:Georgia,serif;font-size:120px;line-height:1;color:rgba(169,129,62,.28);
+  pointer-events:none;user-select:none}
+.recorte-feature .titular{font-size:clamp(23px,3.3vw,33px);font-style:italic;
+  color:var(--gold);max-width:840px;margin-top:26px}
+.recorte-feature .titular.q::before{content:"\201C"}.recorte-feature .titular.q::after{content:"\201D"}
+.recorte-feature:hover{transform:translateY(-6px)}
 
-/* ── podcast ── */
-.player{padding:32px 36px;max-width:640px}
+/* ═════════ podcast ═════════ */
+.player{padding:34px 38px;max-width:660px;position:relative;overflow:hidden}
+.player::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(90deg, rgba(138,101,50,.05) 0 2px, transparent 2px 26px)}
 .player .titulo{font-family:var(--sans);font-size:13px;letter-spacing:.08em;
-                color:var(--gold);margin-bottom:18px}
-.ctl{display:flex;align-items:center;gap:16px}
-#btnPlay{width:48px;height:48px;flex:none;border-radius:50%;border:none;cursor:pointer;
+                color:var(--gold);margin-bottom:18px;position:relative}
+.ctl{display:flex;align-items:center;gap:16px;position:relative}
+#btnPlay{width:52px;height:52px;flex:none;border-radius:50%;border:2px solid var(--gold-b);cursor:pointer;
   background:var(--brown);color:#F7F1E3;font-size:16px;line-height:1;
-  display:flex;align-items:center;justify-content:center;transition:background .25s}
-#btnPlay:hover{background:var(--gold)}
-.barra{flex:1;height:4px;border-radius:2px;background:rgba(138,101,50,.20);
+  display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s}
+#btnPlay:hover{background:var(--gold);transform:scale(1.06)}
+.barra{flex:1;height:5px;border-radius:3px;background:rgba(138,101,50,.20);
        cursor:pointer;position:relative}
-.barra .fill{height:100%;width:0%;border-radius:2px;background:var(--gold-b)}
+.barra .fill{height:100%;width:0%;border-radius:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-b))}
 .tiempo{font-family:var(--sans);font-size:12px;color:var(--brown-soft);min-width:42px;text-align:right}
-.player .otro{margin-top:22px;background:transparent;
+.player .otro{margin-top:22px;background:transparent;position:relative;
   border:1px solid var(--gold-b);color:var(--gold);padding:10px 22px;
   border-radius:22px;cursor:pointer;font-family:var(--sans);font-size:13.5px;
   transition:background .25s,color .25s}
 .player .otro:hover{background:var(--gold-b);color:#FBF6EA}
+.bobina{position:absolute;right:26px;top:26px;width:44px;height:44px;color:var(--gold-b);
+  opacity:.55;transition:opacity .3s}
+.bobina.girando{animation:girar2 3.2s linear infinite;opacity:.9}
+@keyframes girar2{to{transform:rotate(360deg)}}
 .spotify{display:flex;align-items:center;gap:11px;margin-top:26px;font-family:var(--sans)}
 .spotify a{color:#1a9e4b;text-decoration:none;font-weight:600;font-size:14.5px}
 
-/* ── contacto ── */
-.form{padding:38px 42px;max-width:580px}
+/* ═════════ contacto: correspondencia ═════════ */
+.form{padding:44px 44px 38px;max-width:600px;position:relative;overflow:hidden}
+.form::before{content:"";position:absolute;top:0;left:0;right:0;height:7px;
+  background:repeating-linear-gradient(-45deg,
+    #B8452E 0 14px, #F3EBD3 14px 28px, #3E5C7A 28px 42px, #F3EBD3 42px 56px)}
+.form .kicker{margin-bottom:22px}
 .form label{display:block;font-family:var(--sans);font-size:12px;
   letter-spacing:.10em;text-transform:uppercase;color:var(--brown-soft);margin:20px 0 8px}
-.form label:first-of-type{margin-top:0}
 .form input,.form textarea{width:100%;padding:13px 15px;border-radius:8px;
   border:1px solid var(--line);background:rgba(255,253,247,.8);
   color:var(--ink);font-family:var(--sans);font-size:15px;transition:border-color .25s}
 .form input:focus,.form textarea:focus{outline:none;border-color:var(--gold)}
 .form ::placeholder{color:rgba(122,98,72,.5)}
-.form button[type=submit]{margin-top:26px;background:var(--brown);color:#F7F1E3;
-  border:none;padding:14px 34px;border-radius:26px;font-family:var(--sans);
-  font-size:15px;font-weight:600;cursor:pointer;transition:background .25s}
-.form button[type=submit]:hover{background:var(--gold)}
+.form button[type=submit]{margin-top:26px;background:var(--lacre);color:#F3E3CE;
+  border:none;padding:14px 36px;border-radius:26px;font-family:var(--sans);
+  font-size:15px;font-weight:600;cursor:pointer;transition:background .25s,transform .25s}
+.form button[type=submit]:hover{background:var(--gold);transform:translateY(-2px)}
 .msg{margin-top:15px;font-family:var(--sans);font-size:14px}
+.correo-directo{display:inline-flex;align-items:center;gap:9px;margin:22px 4px 0;
+  font-family:var(--sans);font-size:14.5px;color:var(--brown-soft);text-decoration:none;
+  transition:color .25s}
+.correo-directo svg{color:var(--gold);flex-shrink:0}
+.correo-directo:hover{color:var(--gold)}
 
 /* ── títulos ── */
 .panel{padding:38px 44px}
@@ -221,11 +360,12 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
 .rec .que{font-family:var(--sans);font-size:14px;color:var(--ink);line-height:1.6}
 
 /* ── libros (página completa) ── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(285px,100%),1fr));gap:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:26px}
+.grid .tomo .tapa{padding:20px 24px}
 .card{padding:26px 28px;display:flex;flex-direction:column;border-top:3px solid var(--gold-b);
       transition:transform .3s, box-shadow .3s}
 .card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.card h3{font-weight:400;font-size:17px;line-height:1.38;margin-bottom:9px;
+.card h3{font-weight:400;font-size:16.5px;line-height:1.38;margin-bottom:9px;
          color:var(--brown);overflow-wrap:break-word}
 .card .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
 .card a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
@@ -238,43 +378,66 @@ h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
 /* ── pie editorial ── */
 footer{margin-top:44px;border-top:1px solid var(--line);
   background:rgba(233,222,196,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-  padding:44px 24px 38px;text-align:center;font-family:var(--sans);color:var(--brown-soft)}
-footer .sello{font-family:var(--serif);font-size:15px;color:var(--brown);
+  padding:48px 24px 40px;text-align:center;font-family:var(--sans);color:var(--brown-soft)}
+footer .orn{color:var(--gold-b);font-size:16px;letter-spacing:1.4em;padding-left:1.4em;margin-bottom:16px}
+footer .sello-pie{font-family:var(--serif);font-size:15px;color:var(--brown);
   letter-spacing:.04em;margin-bottom:10px}
-footer .derechos{font-size:12.5px;line-height:1.8;max-width:640px;margin:0 auto 14px}
+footer .derechos{font-size:12.5px;line-height:1.8;max-width:640px;margin:0 auto 8px}
+footer .colofon{font-family:var(--serif);font-style:italic;font-size:12.5px;
+  color:var(--brown-soft);opacity:.85;margin-bottom:16px}
 footer nav.pie{display:flex;gap:22px;justify-content:center;padding:0;font-size:12px}
 footer a{color:var(--gold);text-decoration:none}
 footer a:hover{text-decoration:underline}
 
 /* ── responsive ── */
+@media(max-width:980px){
+  .estante{grid-template-columns:repeat(2,1fr)}
+  .tomo.insigne{flex-direction:column}
+  .tomo.insigne .tapa{width:100%;aspect-ratio:3/2.4;border-right:none}
+  .rosa{right:-200px;opacity:.08}
+}
 @media(max-width:880px){
-  .hero{min-height:auto;padding:44px 0 88px}
-  .hero-int{grid-template-columns:1fr;gap:38px}
-  .marco{max-width:320px;margin:0 auto}
+  nav.principal{justify-content:center}
+  nav.principal .brand{margin-right:0;width:100%;text-align:center;border:none;padding:0 0 4px}
+  .hero{min-height:auto;padding:38px 0 0}
+  .hero-grid{grid-template-columns:1fr;gap:44px;margin-top:40px}
+  .marco-wrap{max-width:330px;margin:0 auto}
+  .sello{right:-18px;bottom:-24px;width:88px}
+  .cifras{gap:30px}
   .bio{column-count:1}
   .bio-panel{padding:34px 26px}
   .tl{padding:30px 20px}
-  .tl-item{grid-template-columns:72px 22px 1fr;gap:0 12px}
-  .tl-año{font-size:10.5px;letter-spacing:.08em}
-  .pr.feature{padding:36px 24px}
+  .tl-item{grid-template-columns:84px 24px 1fr;gap:0 12px}
+  .tl-año{font-size:15px}
+  .recorte-feature{padding:54px 24px 36px}
   .panel{padding:26px 20px}
+  .enc .folio{top:-40px;font-size:clamp(70px,17vw,110px)}
 }
-@media(max-width:520px){
-  section{padding:50px 0}
+@media(max-width:560px){
+  section{padding:56px 0}
   .wrap{padding:0 16px}
+  .estante{grid-template-columns:1fr}
+  .tomo.insigne .tapa{aspect-ratio:3/2.8}
   .bio{font-size:15.5px;text-align:left}
-  .tl-item{grid-template-columns:58px 18px 1fr;gap:0 10px}
-  .tl-año{font-size:9.5px}
+  .tl-item{grid-template-columns:64px 18px 1fr;gap:0 10px}
+  .tl-año{font-size:13px}
   .tl-cargo b{font-size:17px}
-  .pr{padding:24px 20px}
-  .player{padding:24px 20px}
-  .form{padding:26px 18px}
+  .recorte{padding:30px 20px 22px}
+  .player{padding:26px 20px}
+  .bobina{right:16px;top:16px;width:34px;height:34px}
+  .form{padding:34px 18px 28px}
   .rec{grid-template-columns:52px 1fr;gap:10px}
+  h1.nombre-mayor .nombre{letter-spacing:.34em;padding-left:.34em}
 }
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto}
+  [data-rev],.hero [data-in]{opacity:1!important;transform:none!important}
+  .rubrica .trazo{stroke-dashoffset:0}
+}
 </style></head><body>
 <div class="fondo" aria-hidden="true"></div>
-<header class="nav"><nav><a href="index.html">Inicio</a><a href="index.html#biografia">Biografía</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
+<div id="progreso" aria-hidden="true"></div>
+<header class="nav"><nav class="principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
 <div class="wrap">
 <div class="page-hero">
   <div class="kicker">Armando Martínez Garnica · Hoja de vida</div>
@@ -282,23 +445,44 @@ footer a:hover{text-decoration:underline}
 </div>
 <a class="volver" href="index.html">← Volver al inicio</a>
 <section><h2>Formación académica</h2><div class="panel g"><ul class='lista'><li>Experto electricista por el Instituto Técnico Industrial Dámaso Zapata, Bucaramanga, 1966.</li><li>Bachiller en Filosofía y Letras por el Colegio de Santander, Bucaramanga, 1967.</li><li>Licenciado en Historia y Geografía por la Universidad del Tolima, Ibagué, 1981.</li><li>Doctor en Historia por El Colegio de México, México D. F., Generación 1983-1986.</li><li>Post doctor en Historia por la Universidad Andina Simón Bolívar, Quito, primera generación, 2013-2014.</li></ul></div></section>
-<section><h2>Reconocimientos profesionales</h2><div class="panel g"><div class="decada">Década de 1980</div><div class="rec"><div class="año">1989</div><div class="que">Mención de honor por &quot;Meritoria labor archivística&quot;, adjudicada por la Asociación Colombiana de Archivistas, Capítulo de Santander.</div></div><div class="decada">Década de 1990</div><div class="rec"><div class="año">1991</div><div class="que">Diploma &quot;Archivista del año&quot;, otorgado por la Asociación Colombiana de Archivistas, Capítulo de Santander.</div></div><div class="rec"><div class="año">1994</div><div class="que">Diploma de reconocimiento por la contribución dada al conocimiento de la historia de Floridablanca, otorgado por la Casa de la Cultura &quot;Piedra del Sol&quot;.</div></div><div class="decada">Década de 2000</div><div class="rec"><div class="año">2000</div><div class="que">Decreto 818 (22 de noviembre) expedido por la alcaldesa de Ibagué, &quot;por el cual se exalta y reconoce la labor de un ciudadano sobresaliente&quot;. Reconocimiento por las labores de rescate y organización del Archivo Histórico de Ibagué entre 1980 y 1981.</div></div><div class="rec"><div class="año">2002</div><div class="que">Moción de reconocimiento (14 de mayo) del Consejo Académico de la Universidad Industrial de Santander “por su postulación a la convocatoria del Ministerio de Educación Nacional con el fin de elegir a los mejores maestros de las Instituciones de Educación Superior del país, en reconocimiento a su dedicación, su excelencia académica y el trabajo desinteresado en la formación de personas de alta calidad ética y sentido integral en su formación profesional”.</div></div><div class="rec"><div class="año">2002</div><div class="que">Declaración de Visitante Distinguido (8 de julio) concedida por Manuel Rosales, gobernador del Estado Zulia.</div></div><div class="rec"><div class="año">2003</div><div class="que">Primer puesto en el Quinto Concurso Nacional de Ensayo Filosófico &quot;Estanislao Zuleta&quot;, organizado por la Fundación para la Filosofía en Colombia y la Universidad Santiago de Cali. Título del ensayo: &quot;Educación, autoridad y conflicto&quot; (31 de agosto). Publicado por la Universidad Santiago de Cali (2004).</div></div><div class="rec"><div class="año">2003</div><div class="que">Acuerdo 002 (14 de agosto), expedido por el Consejo de la Facultad de Ciencias Humanas de la Universidad Industrial de Santander, &quot;otorgando moción de reconocimiento&quot;.</div></div><div class="rec"><div class="año">2003</div><div class="que">Botón de la distinción &quot;Guardián del Patrimonio cultural de Santander&quot;, concedida por la Fundación Museo de Arte Moderno de Bucaramanga en consideración a &quot;la tarea cumplida en la investigación, rescate y servicio público de los archivos históricos de Santander&quot; (29 de noviembre).</div></div><div class="rec"><div class="año">2005</div><div class="que">Resolución 041 (19 de septiembre), expedida por el decano de la Facultad de Ciencias de la Educación de la Universidad del Tolima, ordenando la entrega de un pergamino en testimonio de “méritos académicos y de protagonismo social y cultural”, con ocasión de la celebración de los 50 años de la Universidad del Tolima.</div></div><div class="rec"><div class="año">2006</div><div class="que">Acuerdo 27 (febrero 14) del Consejo Académico de la UIS, por el cual se decidió “otorgar el Premio Eloy Valenzuela, en la categoría investigador consolidado, en el área temática de Ciencias Sociales, al doctor Armando Martínez Garnica por su trabajo: La agenda liberal temprana en la Nueva Granada, 1800-1850”. Una placa y un diploma acompañaron este acuerdo, entregado el 1º de marzo de 2006 en el acto conmemorativo de los 58 años de vida institucional de la UIS.</div></div><div class="rec"><div class="año">2006</div><div class="que">Distintivo de Honor (6 de junio) concedido por Carlos Rodolfo Santiago Ramírez, embajador en Colombia del República Bolivariana de Venezuela. Registrado bajo el Nº 801 del folio Nº 22 del libro del Consejo de la Insignia.</div></div><div class="rec"><div class="año">2007</div><div class="que">Resolución 027 del 13 de mayo de 2007, emanada de la Asamblea Departamental de Santander, concediendo la Orden Luis Carlos Galán “como un justo y merecido reconocimiento por tan importante labor histórica desempeñada en nuestro acontecer regional”.</div></div><div class="rec"><div class="año">2007</div><div class="que">Reconocimiento (julio 19) otorgado por el alcalde de Mérida (Venezuela) “por su meritoria labor profesional y prodigiosa tarea de servir a los demás contribuyendo a la formación de nuestros pueblos y por sus investigaciones orientadas a preservar y rescatar valores e integrarlos como factores de expansión cultural y social, comunicando lo que sabe más allá del oficio de historiador”.</div></div><div class="rec"><div class="año">2008</div><div class="que">Decreto Nº 2585 (15 de julio) del Ministerio del Interior y de Justicia, por el cual se crea la Comisión de Honor para el Bicentenario de la Independencia de Colombia y se le nombra como uno de sus miembros.</div></div><div class="decada">Década de 2010</div><div class="rec"><div class="año">2010</div><div class="que">Resolución no. 225 (27 de diciembre) por la cual la Mesa Directiva del Concejo de Bucaramanga otorga la Orden “Andrés Páez de Sotomayor”, en categoría excelencia, como reconocimiento “por su invaluable compromiso por el rescate y conservación de nuestra historia”.</div></div><div class="rec"><div class="año">2011</div><div class="que">Botón “Dr. Pedro Rincón Gutiérrez” concedido por la Universidad de los Andes, sede Táchira, por el aporte al Congreso internacional San Cristóbal 450 años, 28 de marzo.</div></div><div class="rec"><div class="año">2012</div><div class="que">Diploma y medalla “Honor al mérito histórico”, concedido por la Academia de Historia de Santander, 24 de mayo.</div></div><div class="rec"><div class="año">2012</div><div class="que">Diploma de reconocimiento “por su contribución en la creación y desarrollo del programa de la Escuela de Historia”, concedido por la Facultad de Ciencias Humanas y la Escuela de Historia, 6 de septiembre.</div></div><div class="rec"><div class="año">2013</div><div class="que">Moción de reconocimiento “por la importante labor cumplida durante 25 años de servicio a la Universidad Industrial de Santander y por su compromiso en el logro de la misión institucional”, concedida por el Consejo Académico de la UIS, 15 de mayo.</div></div><div class="rec"><div class="año">2013</div><div class="que">Estatuilla de Bolívar educador, concedida por la Universidad Andina Simón Bolívar por su aporte a la misión de la universidad, con ocasión del redescubrimiento del informe del general José Gabriel Pérez sobre la entrevista que sostuvieron en Guayaquil (26 de julio de 1822) los generales Bolívar y San Martín.</div></div><div class="rec"><div class="año">2013</div><div class="que">Graduado destacado, Primera celebración del graduado de la Universidad del Tolima, área Academia-Investigación, 15 de noviembre.</div></div><div class="rec"><div class="año">2013</div><div class="que">Acuerdo 241 del 29 de octubre, emanado del Consejo Académico de la Universidad Industrial de Santander, por el cual se otorgó la distinción de “Profesor emérito”, en “reconocimiento de la trayectoria profesional que estimuló el desarrollo de iniciativas académicas y de investigación en la comunidad universitaria”.</div></div><div class="rec"><div class="año">2013</div><div class="que">Miembro del Grupo de Evaluadores de Investigación de la Pontificia Universidad Católica del Perú.</div></div><div class="rec"><div class="año">2014</div><div class="que">Botón de oro de la Sociedad Bolivariana de Venezuela, 9 de abril</div></div><div class="rec"><div class="año">2016</div><div class="que">Condecoración “Mérito a la excelencia investigativa”. Mejor investigador externo 2016 del Instituto de Estudios del Ministerio Público, 15 de noviembre.</div></div><div class="rec"><div class="año">2017</div><div class="que">Miembro del jurado calificador del premio anual de ciencias sociales y humanas concedido a la mejor investigación por la Fundación Alejandro Ángel Escobar.</div></div><div class="rec"><div class="año">2017</div><div class="que">Condecoración “Orden de la Democracia Simón Bolívar”, en el grado de Gran Cruz Caballero, otorgada por el Consejo de la Orden de la Democracia por autorización de la Cámara de Representantes del Congreso de la República de Colombia, 22 de noviembre.</div></div><div class="rec"><div class="año">2019</div><div class="que">Condecoración “Socorrano meritorio”, máximo galardón, otorgada por la Junta Directiva de la Casa de la Cultura del Socorro “Horacio Rodríguez Plata”, en reconocimiento al decidido apoyo a las labores de restauración del patrimonio documental del museo de esa Casa de Cultura cuando ejerció la dirección del Archivo General de la Nación.</div></div><div class="decada">Década de 2020</div><div class="rec"><div class="año">2020</div><div class="que">Orden Socorrano meritorio y medalla de oro otorgada por la Fundación Socorranos en Acción, en reconocimiento a sus investigaciones históricas sobre la villa del Socorro.</div></div><div class="rec"><div class="año">2021</div><div class="que">Placa y medalla “General Francisco de Paula Santander- Villa histórica” por el liderazgo en la organización del Congreso de Historia Conmemorativo en la Villa del Rosario.</div></div><div class="rec"><div class="año">2021</div><div class="que">Reconocimiento y placa otorgada por la Asamblea Departamental de Norte de Santander por la dirección académica del Congreso de Historia Conmemorativo en la Villa del Rosario, Villa del Rosario, 30 de agosto.</div></div><div class="rec"><div class="año">2023</div><div class="que">Orden “General Pablo Antonio Obando” otorgada por la Alcaldía municipal de Simacota, en reconocimiento por su pasión por las historias que moldearon el país y por su lucha incansable por conservar los archivos históricos del Departamento de Santander, Simacota, 26 de mayo.</div></div><div class="rec"><div class="año">2023</div><div class="que">Acuerdo de júbilo de la Academia de Mérida con ocasión de la honorable visita del presidente de la Academia Colombiana de Historia a la Academia de Mérida. Mérida, 25 de octubre.</div></div><div class="rec"><div class="año">2023</div><div class="que">Resolución 1103 (27 de octubre) de la Armada Nacional de Colombia, por el cual se confiere la medalla militar “Fe en la causa” de la Armada Nacional, en forma honoraria, por los servicios meritorios prestados en beneficio de la Armada Nacional. Entregada en Bogotá el 5 de abril de 2024.</div></div><div class="rec"><div class="año">2024</div><div class="que">Medalla de la Orden Congreso Americano de la Libertad, otorgada por la Academia Nacional de Historia del Ecuador, en reconocimiento por la organización de las Terceras Jornadas del Congreso Americano de la Libertad, realizadas en Bogotá del 25 al 26 de abril de 2024.</div></div><div class="rec"><div class="año">2024</div><div class="que">Orden al mérito histórico otorgada por la Academia de Historia de Santander en reconocimiento a la encomiable labor cultural en el ámbito nacional. Entregada en el Club del Comercio de Bucaramanga el 27 de junio.</div></div><div class="rec"><div class="año">2025</div><div class="que">Orden Ramón Nonato Pérez en el grado de Lancero ilustre. Entregada por la alcaldesa municipal de La Trinidad del Pauto, Casanare, el 28 de septiembre.</div></div><div class="rec"><div class="año">2025</div><div class="que">Reconocimiento de la Universidad del Atlántico y de la revista Historia Caribe por el aporte al desarrollo de la historiografía colombiana. Barranquilla, 9 de octubre.</div></div><div class="rec"><div class="año">2025</div><div class="que">Reconocimiento como investigador emérito, vitalicio, por el Ministerio de Ciencia, Tecnología e Innovación, 17 de diciembre.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Consulado de Colombia en San Cristóbal, “por su valiosa gestión en el rescate de la memoria cultural de la libertad en Colombia y Venezuela, en especial de Atanasio Girardot”, 11 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Condecoración Botón de Honor al mérito, “por su contribución a la cultura”, otorgada por el Concejo Municipal de San Cristóbal (Venezuela), 11 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Centro de Estudios Históricos y de la Cámara de Comercio de San Antonio del Táchira “por su invaluable contribución a la historiografía binacional y su destacada labor en la preservación de la memoria histórica de nuestra región”, 12 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Consulado de Colombia en San Antonio del Táchira “por su invaluable compromiso y acompañamiento en el rescate de la memoria histórica de Atanasio Girardot”, 12 de mayo.</div></div></div></section>
+<section><h2>Reconocimientos profesionales</h2><div class="panel g"><div class="decada">Década de 1980</div><div class="rec"><div class="año">1989</div><div class="que">Mención de honor por &quot;Meritoria labor archivística&quot;, adjudicada por la Asociación Colombiana de Archivistas, Capítulo de Santander.</div></div><div class="decada">Década de 1990</div><div class="rec"><div class="año">1991</div><div class="que">Diploma &quot;Archivista del año&quot;, otorgado por la Asociación Colombiana de Archivistas, Capítulo de Santander.</div></div><div class="rec"><div class="año">1994</div><div class="que">Diploma de reconocimiento por la contribución dada al conocimiento de la historia de Floridablanca, otorgado por la Casa de la Cultura &quot;Piedra del Sol&quot;.</div></div><div class="decada">Década de 2000</div><div class="rec"><div class="año">2000</div><div class="que">Decreto 818 (22 de noviembre) expedido por la alcaldesa de Ibagué, &quot;por el cual se exalta y reconoce la labor de un ciudadano sobresaliente&quot;. Reconocimiento por las labores de rescate y organización del Archivo Histórico de Ibagué entre 1980 y 1981.</div></div><div class="rec"><div class="año">2002</div><div class="que">Moción de reconocimiento (14 de mayo) del Consejo Académico de la Universidad Industrial de Santander “por su postulación a la convocatoria del Ministerio de Educación Nacional con el fin de elegir a los mejores maestros de las Instituciones de Educación Superior del país, en reconocimiento a su dedicación, su excelencia académica y el trabajo desinteresado en la formación de personas de alta calidad ética y sentido integral en su formación profesional”.</div></div><div class="rec"><div class="año">2002</div><div class="que">Declaración de Visitante Distinguido (8 de julio) concedida por Manuel Rosales, gobernador del Estado Zulia.</div></div><div class="rec"><div class="año">2003</div><div class="que">Primer puesto en el Quinto Concurso Nacional de Ensayo Filosófico &quot;Estanislao Zuleta&quot;, organizado por la Fundación para la Filosofía en Colombia y la Universidad Santiago de Cali. Título del ensayo: &quot;Educación, autoridad y conflicto&quot; (31 de agosto). Publicado por la Universidad Santiago de Cali (2004).</div></div><div class="rec"><div class="año">2003</div><div class="que">Acuerdo 002 (14 de agosto), expedido por el Consejo de la Facultad de Ciencias Humanas de la Universidad Industrial de Santander, &quot;otorgando moción de reconocimiento&quot;.</div></div><div class="rec"><div class="año">2003</div><div class="que">Botón de la distinción &quot;Guardián del Patrimonio cultural de Santander&quot;, concedida por la Fundación Museo de Arte Moderno de Bucaramanga en consideración a &quot;la tarea cumplida en la investigación, rescate y servicio público de los archivos históricos de Santander&quot; (29 de noviembre).</div></div><div class="rec"><div class="año">2005</div><div class="que">Resolución 041 (19 de septiembre), expedida por el decano de la Facultad de Ciencias de la Educación de la Universidad del Tolima, ordenando la entrega de un pergamino en testimonio de “méritos académicos y de protagonismo social y cultural”, con ocasión de la celebración de los 50 años de la Universidad del Tolima.</div></div><div class="rec"><div class="año">2006</div><div class="que">Acuerdo 27 (febrero 14) del Consejo Académico de la UIS, por el cual se decidió “otorgar el Premio Eloy Valenzuela, en la categoría investigador consolidado, en el área temática de Ciencias Sociales, al doctor Armando Martínez Garnica por su trabajo: La agenda liberal temprana en la Nueva Granada, 1800-1850”. Una placa y un diploma acompañaron este acuerdo, entregado el 1º de marzo de 2006 en el acto conmemorativo de los 58 años de vida institucional de la UIS.</div></div><div class="rec"><div class="año">2006</div><div class="que">Distintivo de Honor (6 de junio) concedido por Carlos Rodolfo Santiago Ramírez, embajador en Colombia de la República Bolivariana de Venezuela. Registrado bajo el Nº 801 del folio Nº 22 del libro del Consejo de la Insignia.</div></div><div class="rec"><div class="año">2007</div><div class="que">Resolución 027 del 13 de mayo de 2007, emanada de la Asamblea Departamental de Santander, concediendo la Orden Luis Carlos Galán “como un justo y merecido reconocimiento por tan importante labor histórica desempeñada en nuestro acontecer regional”.</div></div><div class="rec"><div class="año">2007</div><div class="que">Reconocimiento (julio 19) otorgado por el alcalde de Mérida (Venezuela) “por su meritoria labor profesional y prodigiosa tarea de servir a los demás contribuyendo a la formación de nuestros pueblos y por sus investigaciones orientadas a preservar y rescatar valores e integrarlos como factores de expansión cultural y social, comunicando lo que sabe más allá del oficio de historiador”.</div></div><div class="rec"><div class="año">2008</div><div class="que">Decreto Nº 2585 (15 de julio) del Ministerio del Interior y de Justicia, por el cual se crea la Comisión de Honor para el Bicentenario de la Independencia de Colombia y se le nombra como uno de sus miembros.</div></div><div class="decada">Década de 2010</div><div class="rec"><div class="año">2010</div><div class="que">Resolución no. 225 (27 de diciembre) por la cual la Mesa Directiva del Concejo de Bucaramanga otorga la Orden “Andrés Páez de Sotomayor”, en categoría excelencia, como reconocimiento “por su invaluable compromiso por el rescate y conservación de nuestra historia”.</div></div><div class="rec"><div class="año">2011</div><div class="que">Botón “Dr. Pedro Rincón Gutiérrez” concedido por la Universidad de los Andes, sede Táchira, por el aporte al Congreso internacional San Cristóbal 450 años, 28 de marzo.</div></div><div class="rec"><div class="año">2012</div><div class="que">Diploma y medalla “Honor al mérito histórico”, concedido por la Academia de Historia de Santander, 24 de mayo.</div></div><div class="rec"><div class="año">2012</div><div class="que">Diploma de reconocimiento “por su contribución en la creación y desarrollo del programa de la Escuela de Historia”, concedido por la Facultad de Ciencias Humanas y la Escuela de Historia, 6 de septiembre.</div></div><div class="rec"><div class="año">2013</div><div class="que">Moción de reconocimiento “por la importante labor cumplida durante 25 años de servicio a la Universidad Industrial de Santander y por su compromiso en el logro de la misión institucional”, concedida por el Consejo Académico de la UIS, 15 de mayo.</div></div><div class="rec"><div class="año">2013</div><div class="que">Estatuilla de Bolívar educador, concedida por la Universidad Andina Simón Bolívar por su aporte a la misión de la universidad, con ocasión del redescubrimiento del informe del general José Gabriel Pérez sobre la entrevista que sostuvieron en Guayaquil (26 de julio de 1822) los generales Bolívar y San Martín.</div></div><div class="rec"><div class="año">2013</div><div class="que">Graduado destacado, Primera celebración del graduado de la Universidad del Tolima, área Academia-Investigación, 15 de noviembre.</div></div><div class="rec"><div class="año">2013</div><div class="que">Acuerdo 241 del 29 de octubre, emanado del Consejo Académico de la Universidad Industrial de Santander, por el cual se otorgó la distinción de “Profesor emérito”, en “reconocimiento de la trayectoria profesional que estimuló el desarrollo de iniciativas académicas y de investigación en la comunidad universitaria”.</div></div><div class="rec"><div class="año">2013</div><div class="que">Miembro del Grupo de Evaluadores de Investigación de la Pontificia Universidad Católica del Perú.</div></div><div class="rec"><div class="año">2014</div><div class="que">Botón de oro de la Sociedad Bolivariana de Venezuela, 9 de abril</div></div><div class="rec"><div class="año">2016</div><div class="que">Condecoración “Mérito a la excelencia investigativa”. Mejor investigador externo 2016 del Instituto de Estudios del Ministerio Público, 15 de noviembre.</div></div><div class="rec"><div class="año">2017</div><div class="que">Miembro del jurado calificador del premio anual de ciencias sociales y humanas concedido a la mejor investigación por la Fundación Alejandro Ángel Escobar.</div></div><div class="rec"><div class="año">2017</div><div class="que">Condecoración “Orden de la Democracia Simón Bolívar”, en el grado de Gran Cruz Caballero, otorgada por el Consejo de la Orden de la Democracia por autorización de la Cámara de Representantes del Congreso de la República de Colombia, 22 de noviembre.</div></div><div class="rec"><div class="año">2019</div><div class="que">Condecoración “Socorrano meritorio”, máximo galardón, otorgada por la Junta Directiva de la Casa de la Cultura del Socorro “Horacio Rodríguez Plata”, en reconocimiento al decidido apoyo a las labores de restauración del patrimonio documental del museo de esa Casa de Cultura cuando ejerció la dirección del Archivo General de la Nación.</div></div><div class="decada">Década de 2020</div><div class="rec"><div class="año">2020</div><div class="que">Orden Socorrano meritorio y medalla de oro otorgada por la Fundación Socorranos en Acción, en reconocimiento a sus investigaciones históricas sobre la villa del Socorro.</div></div><div class="rec"><div class="año">2021</div><div class="que">Placa y medalla “General Francisco de Paula Santander- Villa histórica” por el liderazgo en la organización del Congreso de Historia Conmemorativo en la Villa del Rosario.</div></div><div class="rec"><div class="año">2021</div><div class="que">Reconocimiento y placa otorgada por la Asamblea Departamental de Norte de Santander por la dirección académica del Congreso de Historia Conmemorativo en la Villa del Rosario, Villa del Rosario, 30 de agosto.</div></div><div class="rec"><div class="año">2023</div><div class="que">Orden “General Pablo Antonio Obando” otorgada por la Alcaldía municipal de Simacota, en reconocimiento por su pasión por las historias que moldearon el país y por su lucha incansable por conservar los archivos históricos del Departamento de Santander, Simacota, 26 de mayo.</div></div><div class="rec"><div class="año">2023</div><div class="que">Acuerdo de júbilo de la Academia de Mérida con ocasión de la honorable visita del presidente de la Academia Colombiana de Historia a la Academia de Mérida. Mérida, 25 de octubre.</div></div><div class="rec"><div class="año">2023</div><div class="que">Resolución 1103 (27 de octubre) de la Armada Nacional de Colombia, por el cual se confiere la medalla militar “Fe en la causa” de la Armada Nacional, en forma honoraria, por los servicios meritorios prestados en beneficio de la Armada Nacional. Entregada en Bogotá el 5 de abril de 2024.</div></div><div class="rec"><div class="año">2024</div><div class="que">Medalla de la Orden Congreso Americano de la Libertad, otorgada por la Academia Nacional de Historia del Ecuador, en reconocimiento por la organización de las Terceras Jornadas del Congreso Americano de la Libertad, realizadas en Bogotá del 25 al 26 de abril de 2024.</div></div><div class="rec"><div class="año">2024</div><div class="que">Orden al mérito histórico otorgada por la Academia de Historia de Santander en reconocimiento a la encomiable labor cultural en el ámbito nacional. Entregada en el Club del Comercio de Bucaramanga el 27 de junio.</div></div><div class="rec"><div class="año">2025</div><div class="que">Orden Ramón Nonato Pérez en el grado de Lancero ilustre. Entregada por la alcaldesa municipal de La Trinidad del Pauto, Casanare, el 28 de septiembre.</div></div><div class="rec"><div class="año">2025</div><div class="que">Reconocimiento de la Universidad del Atlántico y de la revista Historia Caribe por el aporte al desarrollo de la historiografía colombiana. Barranquilla, 9 de octubre.</div></div><div class="rec"><div class="año">2025</div><div class="que">Reconocimiento como investigador emérito, vitalicio, por el Ministerio de Ciencia, Tecnología e Innovación, 17 de diciembre.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Consulado de Colombia en San Cristóbal, “por su valiosa gestión en el rescate de la memoria cultural de la libertad en Colombia y Venezuela, en especial de Atanasio Girardot”, 11 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Condecoración Botón de Honor al mérito, “por su contribución a la cultura”, otorgada por el Concejo Municipal de San Cristóbal (Venezuela), 11 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Centro de Estudios Históricos y de la Cámara de Comercio de San Antonio del Táchira “por su invaluable contribución a la historiografía binacional y su destacada labor en la preservación de la memoria histórica de nuestra región”, 12 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Consulado de Colombia en San Antonio del Táchira “por su invaluable compromiso y acompañamiento en el rescate de la memoria histórica de Atanasio Girardot”, 12 de mayo.</div></div></div></section>
 <section><h2>Membresías en asociaciones profesionales</h2><div class="panel g"><ul class='lista'><li>1987: Firmante del protocolo de constitución de la Asociación Colombiana de Historiadores. Ibagué, 27 de noviembre, Hotel Ambalá.</li><li>1991: Ingreso a la Academia de Historia de Santander como miembro correspondiente, con el trabajo &quot;La sensibilidad heurística&quot;, 9 de marzo.</li><li>2000-2006: Miembro de la Asociación de Historiadores Latinoamericanistas Europeos, AHILA.</li><li>2001-2003: Representante colombiano ante la Comisión de Historia del Instituto Panamericano de Geografía e Historia.</li><li>2002: Ingreso a la Academia Colombiana de Historia como miembro correspondiente, con el trabajo &quot;El debate legislativo por las calidades ciudadanas en el régimen representativo del Estado de la Nueva Granada (1821-1853)&quot;. Bogotá, 17 de septiembre.</li><li>2003-2006: vicepresidente de la Asociación Colombiana de Historiadores.</li><li>2004: Ingreso a la Academia de Historia de Santander como miembro de número, sillón F, con el trabajo &quot;De las ventajas de la historia para la vida&quot;. Bucaramanga, 29 de enero.</li><li>2005 (20 de julio) a 2006 (20 de julio): vicepresidente de la Academia de Historia de Santander.</li><li>2006 (20 de julio) a 2008 (20 de julio), 2012 (20 de julio) a 2016 (20 de julio), 2020 (20 de julio) a 2026 (20 de julio): presidente de la Academia de Historia de Santander.</li><li>2008: Miembro fundador de la Asociación Colombiana de Historia Regional y Local.</li><li>2010: Miembro correspondiente de la Academia Boyacense de Historia (27 de agosto).</li><li>2018: Miembro correspondiente de la Academia Colombiana de la Lengua (desde el 18 de junio), con el texto “Historia poética del río Chicamocha”.</li><li>2021a: Miembro honorario de la Academia de Historia de Norte de Santander (28 de febrero).</li><li>2021b: Individuo correspondiente de la Academia Santanderista de Colombia (28 de agosto).</li><li>2021c: Miembro de número de la Academia Colombiana de Historia, con el trabajo Elementos protocolarios de la Constitución de la Villa del Rosario de Cúcuta de Cúcuta (7 de septiembre). Silla 39, ocupada anteriormente por los académicos Martín Restrepo Mejía (1902), Miguel Aguilera (1940), Álvaro García Herrera (1974) y Antonio Cacua Prada (1981).</li><li>2022c: Miembro correspondiente extranjero de la Academia Dominicana de Historia (26 de mayo).</li><li>2022d: Académico correspondiente extranjero de la Academia Nacional de Historia del Ecuador (1° de agosto).</li><li>2022e: Académico correspondiente extranjero de la Academia Nacional de la Historia de la República Argentina (26 de diciembre).</li><li>2024: Miembro de número de la Academia Santanderista de Colombia (19 de septiembre).</li><li>2024: Académico correspondiente extranjero de la Academia Paraguaya de la Historia (30 de mayo).</li><li>2022.08.07 a 2026. 08.04: presidente de la Academia Colombiana de Historia.</li><li>2022b-2026: Miembro del Consejo Directivo del Colegio Máximo de las Academias de Colombia.</li><li>2026a: vicepresidente del Colegio Máximo de las Academias de Colombia, en representación de la Academia Colombiana de Historia.</li><li>2026b: Académico correspondiente extranjero de la Academia de Historia del Estado Táchira (11 de mayo)</li></ul></div></section>
 <section><h2>Diplomas y condecoraciones</h2>
 <div class="panel g">
 <p style="font-family:var(--sans);font-size:14.5px;line-height:1.7;margin-bottom:20px">
 Las fotografías de los diplomas, certificados y condecoraciones que respaldan esta hoja de
 vida están reunidas en un solo documento, en el orden del archivo personal.</p>
-<a class="cta" href="titulos_diplomas.pdf" target="_blank" rel="noopener">Ver PDF · 153 fotografías de los títulos →</a>
+<a class="cta" href="titulos_diplomas.pdf" target="_blank" rel="noopener">Ver PDF · 153 fotografías · 23 MB →</a>
 </div></section>
 </div>
 
 <footer>
-<div class="sello">Armando Martínez Garnica · Historiador</div>
+<div class="orn">❦ ❦ ❦</div>
+<div class="sello-pie">Armando Martínez Garnica · Historiador</div>
 <div class="derechos">© MMXXVI Armando Martínez Garnica. Todos los derechos reservados.<br>
 La reproducción total o parcial de los contenidos de este archivo digital requiere
 autorización expresa del autor. Colección personal digitalizada · Bucaramanga, Colombia.</div>
+<div class="colofon">Compuesto digitalmente al modo de los impresos antiguos.</div>
 <nav class="pie"><a href="libros.html">Biblioteca</a>
 <a href="titulos.html">Títulos y reconocimientos</a>
 <a href="index.html#contacto">Contacto</a></nav>
-</footer></body></html>
+</footer>
+<noscript><style>[data-rev]{opacity:1!important;transform:none!important}</style></noscript>
+<script>
+(function(){
+  var p=document.getElementById('progreso');
+  function medir(){var h=document.documentElement;
+    var s=h.scrollTop||document.body.scrollTop, m=h.scrollHeight-h.clientHeight;
+    p.style.width=(m>0?100*s/m:0)+'%';}
+  addEventListener('scroll',medir,{passive:true});medir();
+  if('IntersectionObserver' in window){
+    var o=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('vis');o.unobserve(e.target);}});},
+      {threshold:.12});
+    document.querySelectorAll('[data-rev]').forEach(function(el){o.observe(el);});
+  } else {
+    document.querySelectorAll('[data-rev]').forEach(function(el){el.classList.add('vis');});
+  }
+})();
+</script>
+</body></html>
