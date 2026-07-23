@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Títulos y reconocimientos · Armando Martínez Garnica</title><style>
+:root{
+  --paper:#EBDFC3; --paper-deep:#E2D3AF;
+  --panel:rgba(252,248,238,.90); --panel-solid:#FBF6EA;
+  --ink:#3A2D1D; --brown:#5A4530; --brown-soft:#7A6248;
+  --gold:#8A6532; --gold-b:#A9813E;
+  --line:#CDB98D; --line-soft:rgba(138,101,50,.28);
+  --serif:Constantia,"Palatino Linotype",Georgia,"Times New Roman",serif;
+  --sans:"Segoe UI",Inter,system-ui,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+html,body{max-width:100%;overflow-x:clip}
+img{max-width:100%;height:auto}
+body{
+  font-family:var(--serif);color:var(--ink);line-height:1.68;
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(46rem 30rem at 88% 2%,  rgba(122,90,44,.10), transparent 60%),
+    radial-gradient(40rem 30rem at -8% 24%, rgba(90,69,48,.09), transparent 58%),
+    radial-gradient(44rem 32rem at 105% 55%, rgba(138,101,50,.08), transparent 60%),
+    radial-gradient(38rem 30rem at -5% 78%,  rgba(122,90,44,.07), transparent 58%),
+    radial-gradient(46rem 34rem at 60% 102%, rgba(90,69,48,.08), transparent 62%),
+    linear-gradient(170deg,#EFE5CC 0%,#E8DBBC 52%,#EBDFC3 100%);
+  min-height:100vh;
+}
+
+/* ── panel pergamino ── */
+.g{
+  background:linear-gradient(180deg, rgba(255,253,247,.75), rgba(252,247,235,.55) 45%), var(--panel);
+  -webkit-backdrop-filter:blur(10px) saturate(1.1);
+  backdrop-filter:blur(10px) saturate(1.1);
+  border:1px solid var(--line);
+  border-top-color:rgba(255,255,255,.9);
+  border-radius:14px;
+  box-shadow:0 10px 34px rgba(74,55,30,.16), 0 2px 8px rgba(74,55,30,.10),
+             inset 0 1px 0 rgba(255,255,255,.8);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .g{background:var(--panel-solid)}
+  header.nav{background:#F1E8D2}
+}
+
+/* ── navegación ── */
+header.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(240,231,209,.85);
+  -webkit-backdrop-filter:blur(14px) saturate(1.15);
+  backdrop-filter:blur(14px) saturate(1.15);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 3px 18px rgba(74,55,30,.12);
+}
+nav{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 26px;
+    justify-content:center;padding:15px 18px;font-family:var(--sans);font-size:12.5px}
+nav a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
+      text-transform:uppercase;transition:color .25s;white-space:nowrap}
+nav a:hover{color:var(--gold)}
+
+/* ── estructura ── */
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+section{padding:68px 0}
+h2{font-weight:400;font-size:clamp(26px,3.4vw,33px);color:var(--brown);
+   margin-bottom:8px;overflow-wrap:break-word}
+h2::after{content:"";display:block;width:64px;height:2px;margin-top:12px;
+   background:linear-gradient(90deg,var(--gold-b),transparent)}
+.sub{font-family:var(--sans);font-size:14px;color:var(--brown-soft);margin:14px 0 32px;max-width:640px}
+.kicker{font-family:var(--sans);font-size:11.5px;letter-spacing:.22em;
+        text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.page-hero{padding:54px 0 4px}
+.page-hero h1{font-weight:400;font-size:clamp(30px,4.4vw,42px);color:var(--brown);line-height:1.14}
+
+/* ── hero ── */
+.hero{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:center;padding:78px 0 70px}
+.hero .marco{padding:12px;border-radius:16px}
+.hero img{width:100%;display:block;border-radius:8px;filter:sepia(.08)}
+.hero h1{font-weight:400;font-size:clamp(32px,5vw,50px);line-height:1.1;
+         color:var(--brown);overflow-wrap:break-word}
+.hero .lead{font-family:var(--sans);font-size:16px;color:var(--brown-soft);
+            margin-top:18px;max-width:540px;line-height:1.78}
+.hero .lead b{color:var(--gold);font-weight:600}
+
+/* ── biografía ── */
+.bio-panel{padding:50px 54px}
+.bio{column-count:2;column-gap:44px;text-align:justify;hyphens:auto;font-size:16.5px}
+.bio p+p{text-indent:1.5em}
+.bio em{font-style:italic}
+
+/* ── biblioteca destacada ── */
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:20px}
+.lib{padding:26px 28px 22px;display:flex;flex-direction:column;position:relative;
+     border-top:3px solid var(--gold-b);
+     transition:transform .3s, box-shadow .3s}
+.lib:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
+.lib h3{font-weight:400;font-size:17.5px;line-height:1.38;margin-bottom:8px;color:var(--brown)}
+.lib .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
+.lib a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
+.lib a:hover{text-decoration:underline}
+.cta{display:inline-block;margin-top:30px;background:var(--brown);color:#F7F1E3;
+     padding:13px 30px;border-radius:26px;text-decoration:none;
+     font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:background .25s}
+.cta:hover{background:var(--gold)}
+
+/* ── trayectoria ── */
+.tl{padding:44px 52px}
+.tl-item{display:grid;grid-template-columns:110px 26px 1fr;gap:0 18px;align-items:start}
+.tl-año{font-family:var(--sans);font-size:12px;letter-spacing:.13em;
+        text-transform:uppercase;color:var(--gold);text-align:right;padding:26px 0}
+.tl-eje{position:relative;height:100%;min-height:82px}
+.tl-eje::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,var(--line-soft) 12%,var(--line-soft) 88%,transparent)}
+.tl-item:first-child .tl-eje::before{top:32px}
+.tl-item:last-child  .tl-eje::before{bottom:calc(100% - 40px)}
+.tl-punto{position:absolute;left:50%;top:32px;transform:translate(-50%,-50%);
+  width:11px;height:11px;border-radius:50%;background:var(--gold-b);
+  box-shadow:0 0 0 4px rgba(169,129,62,.18)}
+.tl-cargo{padding:20px 0 26px}
+.tl-cargo b{display:block;font-size:19px;font-weight:400;color:var(--brown)}
+.tl-cargo span{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft)}
+.link-discreto{display:inline-block;margin-top:20px;font-family:var(--sans);font-size:13.5px;
+  color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--line-soft)}
+.link-discreto:hover{color:var(--brown)}
+
+/* ── prensa ── */
+.prensa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px}
+.pr{padding:28px 30px;display:flex;flex-direction:column;gap:12px;
+    transition:transform .3s, box-shadow .3s}
+.pr:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
+.pr .medio{font-family:var(--sans);font-size:10.5px;letter-spacing:.24em;
+           text-transform:uppercase;color:var(--gold)}
+.pr .titular{font-size:18.5px;line-height:1.42;color:var(--brown);font-weight:400;overflow-wrap:break-word}
+.pr .titular.q::before{content:"« "}.pr .titular.q::after{content:" »"}
+.pr .nota{font-family:var(--sans);font-size:12.5px;color:var(--brown-soft);margin-top:auto}
+.pr.feature{grid-column:1/-1;padding:50px 56px;text-align:center;align-items:center}
+.pr.feature .titular{font-size:clamp(23px,3.3vw,32px);font-weight:400;
+                     max-width:820px;color:var(--gold);font-style:italic}
+.pr.feature .titular.q::before{content:"\201C"}.pr.feature .titular.q::after{content:"\201D"}
+
+/* ── podcast ── */
+.player{padding:32px 36px;max-width:640px}
+.player .titulo{font-family:var(--sans);font-size:13px;letter-spacing:.08em;
+                color:var(--gold);margin-bottom:18px}
+.ctl{display:flex;align-items:center;gap:16px}
+#btnPlay{width:48px;height:48px;flex:none;border-radius:50%;border:none;cursor:pointer;
+  background:var(--brown);color:#F7F1E3;font-size:16px;line-height:1;
+  display:flex;align-items:center;justify-content:center;transition:background .25s}
+#btnPlay:hover{background:var(--gold)}
+.barra{flex:1;height:4px;border-radius:2px;background:rgba(138,101,50,.20);
+       cursor:pointer;position:relative}
+.barra .fill{height:100%;width:0%;border-radius:2px;background:var(--gold-b)}
+.tiempo{font-family:var(--sans);font-size:12px;color:var(--brown-soft);min-width:42px;text-align:right}
+.player .otro{margin-top:22px;background:transparent;
+  border:1px solid var(--gold-b);color:var(--gold);padding:10px 22px;
+  border-radius:22px;cursor:pointer;font-family:var(--sans);font-size:13.5px;
+  transition:background .25s,color .25s}
+.player .otro:hover{background:var(--gold-b);color:#FBF6EA}
+.spotify{display:flex;align-items:center;gap:11px;margin-top:26px;font-family:var(--sans)}
+.spotify a{color:#1a9e4b;text-decoration:none;font-weight:600;font-size:14.5px}
+
+/* ── contacto ── */
+.form{padding:38px 42px;max-width:580px}
+.form label{display:block;font-family:var(--sans);font-size:12px;
+  letter-spacing:.10em;text-transform:uppercase;color:var(--brown-soft);margin:20px 0 8px}
+.form label:first-of-type{margin-top:0}
+.form input,.form textarea{width:100%;padding:13px 15px;border-radius:8px;
+  border:1px solid var(--line);background:rgba(255,253,247,.8);
+  color:var(--ink);font-family:var(--sans);font-size:15px;transition:border-color .25s}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--gold)}
+.form ::placeholder{color:rgba(122,98,72,.5)}
+.form button[type=submit]{margin-top:26px;background:var(--brown);color:#F7F1E3;
+  border:none;padding:14px 34px;border-radius:26px;font-family:var(--sans);
+  font-size:15px;font-weight:600;cursor:pointer;transition:background .25s}
+.form button[type=submit]:hover{background:var(--gold)}
+.msg{margin-top:15px;font-family:var(--sans);font-size:14px}
+
+/* ── títulos ── */
+.panel{padding:38px 44px}
+.lista{list-style:none;padding:0}
+.lista li{border-bottom:1px solid rgba(138,101,50,.16);padding:14px 0;font-size:15.5px}
+.lista li:last-child{border-bottom:none}
+.decada{font-family:var(--sans);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+        color:var(--gold);margin:34px 0 6px}
+.decada:first-child{margin-top:0}
+.rec{display:grid;grid-template-columns:64px 1fr;gap:16px;
+     border-bottom:1px solid rgba(138,101,50,.12);padding:13px 0}
+.rec:last-child{border-bottom:none}
+.rec .año{font-family:var(--serif);font-size:17px;color:var(--gold)}
+.rec .que{font-family:var(--sans);font-size:14px;color:var(--ink);line-height:1.6}
+
+/* ── libros (página completa) ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(285px,100%),1fr));gap:20px}
+.card{padding:26px 28px;display:flex;flex-direction:column;border-top:3px solid var(--gold-b);
+      transition:transform .3s, box-shadow .3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
+.card h3{font-weight:400;font-size:17px;line-height:1.38;margin-bottom:9px;
+         color:var(--brown);overflow-wrap:break-word}
+.card .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
+.card a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
+.card a:hover{text-decoration:underline}
+.card .pend{margin-top:auto;color:var(--brown-soft);font-family:var(--sans);
+            font-size:12px;font-style:italic}
+.volver{display:inline-block;margin:28px 0 0;color:var(--gold);
+        text-decoration:none;font-family:var(--sans);font-size:13.5px}
+
+/* ── pie editorial ── */
+footer{margin-top:44px;border-top:1px solid var(--line);
+  background:rgba(233,222,196,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  padding:44px 24px 38px;text-align:center;font-family:var(--sans);color:var(--brown-soft)}
+footer .sello{font-family:var(--serif);font-size:15px;color:var(--brown);
+  letter-spacing:.04em;margin-bottom:10px}
+footer .derechos{font-size:12.5px;line-height:1.8;max-width:640px;margin:0 auto 14px}
+footer nav.pie{display:flex;gap:22px;justify-content:center;padding:0;font-size:12px}
+footer a{color:var(--gold);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* ── responsive ── */
+@media(max-width:880px){
+  .hero{grid-template-columns:1fr;gap:34px;padding:48px 0}
+  .hero .marco{max-width:330px}
+  .bio{column-count:1}
+  .bio-panel{padding:34px 26px}
+  .tl{padding:30px 20px}
+  .tl-item{grid-template-columns:72px 22px 1fr;gap:0 12px}
+  .tl-año{font-size:10.5px;letter-spacing:.08em}
+  .pr.feature{padding:36px 24px}
+  .panel{padding:26px 20px}
+}
+@media(max-width:520px){
+  section{padding:50px 0}
+  .wrap{padding:0 16px}
+  .bio{font-size:15.5px;text-align:left}
+  .tl-item{grid-template-columns:58px 18px 1fr;gap:0 10px}
+  .tl-año{font-size:9.5px}
+  .tl-cargo b{font-size:17px}
+  .pr{padding:24px 20px}
+  .player{padding:24px 20px}
+  .form{padding:26px 18px}
+  .rec{grid-template-columns:52px 1fr;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style></head><body>
+<header class="nav"><nav><a href="index.html">Inicio</a><a href="index.html#biografia">Biografía</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
+<div class="wrap">
+<div class="page-hero">
+  <div class="kicker">Armando Martínez Garnica · Hoja de vida</div>
+  <h1>Títulos y reconocimientos</h1>
+</div>
+<a class="volver" href="index.html">← Volver al inicio</a>
+<section><h2>Formación académica</h2><div class="panel g"><ul class='lista'><li>Experto electricista por el Instituto Técnico Industrial Dámaso Zapata, Bucaramanga, 1966.</li><li>Bachiller en Filosofía y Letras por el Colegio de Santander, Bucaramanga, 1967.</li><li>Licenciado en Historia y Geografía por la Universidad del Tolima, Ibagué, 1981.</li><li>Doctor en Historia por El Colegio de México, México D. F., Generación 1983-1986.</li><li>Post doctor en Historia por la Universidad Andina Simón Bolívar, Quito, primera generación, 2013-2014.</li></ul></div></section>
+<section><h2>Reconocimientos profesionales</h2><div class="panel g"><div class="decada">Década de 1980</div><div class="rec"><div class="año">1989</div><div class="que">Mención de honor por &quot;Meritoria labor archivística&quot;, adjudicada por la Asociación Colombiana de Archivistas, Capítulo de Santander.</div></div><div class="decada">Década de 1990</div><div class="rec"><div class="año">1991</div><div class="que">Diploma &quot;Archivista del año&quot;, otorgado por la Asociación Colombiana de Archivistas, Capítulo de Santander.</div></div><div class="rec"><div class="año">1994</div><div class="que">Diploma de reconocimiento por la contribución dada al conocimiento de la historia de Floridablanca, otorgado por la Casa de la Cultura &quot;Piedra del Sol&quot;.</div></div><div class="decada">Década de 2000</div><div class="rec"><div class="año">2000</div><div class="que">Decreto 818 (22 de noviembre) expedido por la alcaldesa de Ibagué, &quot;por el cual se exalta y reconoce la labor de un ciudadano sobresaliente&quot;. Reconocimiento por las labores de rescate y organización del Archivo Histórico de Ibagué entre 1980 y 1981.</div></div><div class="rec"><div class="año">2002</div><div class="que">Moción de reconocimiento (14 de mayo) del Consejo Académico de la Universidad Industrial de Santander “por su postulación a la convocatoria del Ministerio de Educación Nacional con el fin de elegir a los mejores maestros de las Instituciones de Educación Superior del país, en reconocimiento a su dedicación, su excelencia académica y el trabajo desinteresado en la formación de personas de alta calidad ética y sentido integral en su formación profesional”.</div></div><div class="rec"><div class="año">2002</div><div class="que">Declaración de Visitante Distinguido (8 de julio) concedida por Manuel Rosales, gobernador del Estado Zulia.</div></div><div class="rec"><div class="año">2003</div><div class="que">Primer puesto en el Quinto Concurso Nacional de Ensayo Filosófico &quot;Estanislao Zuleta&quot;, organizado por la Fundación para la Filosofía en Colombia y la Universidad Santiago de Cali. Título del ensayo: &quot;Educación, autoridad y conflicto&quot; (31 de agosto). Publicado por la Universidad Santiago de Cali (2004).</div></div><div class="rec"><div class="año">2003</div><div class="que">Acuerdo 002 (14 de agosto), expedido por el Consejo de la Facultad de Ciencias Humanas de la Universidad Industrial de Santander, &quot;otorgando moción de reconocimiento&quot;.</div></div><div class="rec"><div class="año">2003</div><div class="que">Botón de la distinción &quot;Guardián del Patrimonio cultural de Santander&quot;, concedida por la Fundación Museo de Arte Moderno de Bucaramanga en consideración a &quot;la tarea cumplida en la investigación, rescate y servicio público de los archivos históricos de Santander&quot; (29 de noviembre).</div></div><div class="rec"><div class="año">2005</div><div class="que">Resolución 041 (19 de septiembre), expedida por el decano de la Facultad de Ciencias de la Educación de la Universidad del Tolima, ordenando la entrega de un pergamino en testimonio de “méritos académicos y de protagonismo social y cultural”, con ocasión de la celebración de los 50 años de la Universidad del Tolima.</div></div><div class="rec"><div class="año">2006</div><div class="que">Acuerdo 27 (febrero 14) del Consejo Académico de la UIS, por el cual se decidió “otorgar el Premio Eloy Valenzuela, en la categoría investigador consolidado, en el área temática de Ciencias Sociales, al doctor Armando Martínez Garnica por su trabajo: La agenda liberal temprana en la Nueva Granada, 1800-1850”. Una placa y un diploma acompañaron este acuerdo, entregado el 1º de marzo de 2006 en el acto conmemorativo de los 58 años de vida institucional de la UIS.</div></div><div class="rec"><div class="año">2006</div><div class="que">Distintivo de Honor (6 de junio) concedido por Carlos Rodolfo Santiago Ramírez, embajador en Colombia del República Bolivariana de Venezuela. Registrado bajo el Nº 801 del folio Nº 22 del libro del Consejo de la Insignia.</div></div><div class="rec"><div class="año">2007</div><div class="que">Resolución 027 del 13 de mayo de 2007, emanada de la Asamblea Departamental de Santander, concediendo la Orden Luis Carlos Galán “como un justo y merecido reconocimiento por tan importante labor histórica desempeñada en nuestro acontecer regional”.</div></div><div class="rec"><div class="año">2007</div><div class="que">Reconocimiento (julio 19) otorgado por el alcalde de Mérida (Venezuela) “por su meritoria labor profesional y prodigiosa tarea de servir a los demás contribuyendo a la formación de nuestros pueblos y por sus investigaciones orientadas a preservar y rescatar valores e integrarlos como factores de expansión cultural y social, comunicando lo que sabe más allá del oficio de historiador”.</div></div><div class="rec"><div class="año">2008</div><div class="que">Decreto Nº 2585 (15 de julio) del Ministerio del Interior y de Justicia, por el cual se crea la Comisión de Honor para el Bicentenario de la Independencia de Colombia y se le nombra como uno de sus miembros.</div></div><div class="decada">Década de 2010</div><div class="rec"><div class="año">2010</div><div class="que">Resolución no. 225 (27 de diciembre) por la cual la Mesa Directiva del Concejo de Bucaramanga otorga la Orden “Andrés Páez de Sotomayor”, en categoría excelencia, como reconocimiento “por su invaluable compromiso por el rescate y conservación de nuestra historia”.</div></div><div class="rec"><div class="año">2011</div><div class="que">Botón “Dr. Pedro Rincón Gutiérrez” concedido por la Universidad de los Andes, sede Táchira, por el aporte al Congreso internacional San Cristóbal 450 años, 28 de marzo.</div></div><div class="rec"><div class="año">2012</div><div class="que">Diploma y medalla “Honor al mérito histórico”, concedido por la Academia de Historia de Santander, 24 de mayo.</div></div><div class="rec"><div class="año">2012</div><div class="que">Diploma de reconocimiento “por su contribución en la creación y desarrollo del programa de la Escuela de Historia”, concedido por la Facultad de Ciencias Humanas y la Escuela de Historia, 6 de septiembre.</div></div><div class="rec"><div class="año">2013</div><div class="que">Moción de reconocimiento “por la importante labor cumplida durante 25 años de servicio a la Universidad Industrial de Santander y por su compromiso en el logro de la misión institucional”, concedida por el Consejo Académico de la UIS, 15 de mayo.</div></div><div class="rec"><div class="año">2013</div><div class="que">Estatuilla de Bolívar educador, concedida por la Universidad Andina Simón Bolívar por su aporte a la misión de la universidad, con ocasión del redescubrimiento del informe del general José Gabriel Pérez sobre la entrevista que sostuvieron en Guayaquil (26 de julio de 1822) los generales Bolívar y San Martín.</div></div><div class="rec"><div class="año">2013</div><div class="que">Graduado destacado, Primera celebración del graduado de la Universidad del Tolima, área Academia-Investigación, 15 de noviembre.</div></div><div class="rec"><div class="año">2013</div><div class="que">Acuerdo 241 del 29 de octubre, emanado del Consejo Académico de la Universidad Industrial de Santander, por el cual se otorgó la distinción de “Profesor emérito”, en “reconocimiento de la trayectoria profesional que estimuló el desarrollo de iniciativas académicas y de investigación en la comunidad universitaria”.</div></div><div class="rec"><div class="año">2013</div><div class="que">Miembro del Grupo de Evaluadores de Investigación de la Pontificia Universidad Católica del Perú.</div></div><div class="rec"><div class="año">2014</div><div class="que">Botón de oro de la Sociedad Bolivariana de Venezuela, 9 de abril</div></div><div class="rec"><div class="año">2016</div><div class="que">Condecoración “Mérito a la excelencia investigativa”. Mejor investigador externo 2016 del Instituto de Estudios del Ministerio Público, 15 de noviembre.</div></div><div class="rec"><div class="año">2017</div><div class="que">Miembro del jurado calificador del premio anual de ciencias sociales y humanas concedido a la mejor investigación por la Fundación Alejandro Ángel Escobar.</div></div><div class="rec"><div class="año">2017</div><div class="que">Condecoración “Orden de la Democracia Simón Bolívar”, en el grado de Gran Cruz Caballero, otorgada por el Consejo de la Orden de la Democracia por autorización de la Cámara de Representantes del Congreso de la República de Colombia, 22 de noviembre.</div></div><div class="rec"><div class="año">2019</div><div class="que">Condecoración “Socorrano meritorio”, máximo galardón, otorgada por la Junta Directiva de la Casa de la Cultura del Socorro “Horacio Rodríguez Plata”, en reconocimiento al decidido apoyo a las labores de restauración del patrimonio documental del museo de esa Casa de Cultura cuando ejerció la dirección del Archivo General de la Nación.</div></div><div class="decada">Década de 2020</div><div class="rec"><div class="año">2020</div><div class="que">Orden Socorrano meritorio y medalla de oro otorgada por la Fundación Socorranos en Acción, en reconocimiento a sus investigaciones históricas sobre la villa del Socorro.</div></div><div class="rec"><div class="año">2021</div><div class="que">Placa y medalla “General Francisco de Paula Santander- Villa histórica” por el liderazgo en la organización del Congreso de Historia Conmemorativo en la Villa del Rosario.</div></div><div class="rec"><div class="año">2021</div><div class="que">Reconocimiento y placa otorgada por la Asamblea Departamental de Norte de Santander por la dirección académica del Congreso de Historia Conmemorativo en la Villa del Rosario, Villa del Rosario, 30 de agosto.</div></div><div class="rec"><div class="año">2023</div><div class="que">Orden “General Pablo Antonio Obando” otorgada por la Alcaldía municipal de Simacota, en reconocimiento por su pasión por las historias que moldearon el país y por su lucha incansable por conservar los archivos históricos del Departamento de Santander, Simacota, 26 de mayo.</div></div><div class="rec"><div class="año">2023</div><div class="que">Acuerdo de júbilo de la Academia de Mérida con ocasión de la honorable visita del presidente de la Academia Colombiana de Historia a la Academia de Mérida. Mérida, 25 de octubre.</div></div><div class="rec"><div class="año">2023</div><div class="que">Resolución 1103 (27 de octubre) de la Armada Nacional de Colombia, por el cual se confiere la medalla militar “Fe en la causa” de la Armada Nacional, en forma honoraria, por los servicios meritorios prestados en beneficio de la Armada Nacional. Entregada en Bogotá el 5 de abril de 2024.</div></div><div class="rec"><div class="año">2024</div><div class="que">Medalla de la Orden Congreso Americano de la Libertad, otorgada por la Academia Nacional de Historia del Ecuador, en reconocimiento por la organización de las Terceras Jornadas del Congreso Americano de la Libertad, realizadas en Bogotá del 25 al 26 de abril de 2024.</div></div><div class="rec"><div class="año">2024</div><div class="que">Orden al mérito histórico otorgada por la Academia de Historia de Santander en reconocimiento a la encomiable labor cultural en el ámbito nacional. Entregada en el Club del Comercio de Bucaramanga el 27 de junio.</div></div><div class="rec"><div class="año">2025</div><div class="que">Orden Ramón Nonato Pérez en el grado de Lancero ilustre. Entregada por la alcaldesa municipal de La Trinidad del Pauto, Casanare, el 28 de septiembre.</div></div><div class="rec"><div class="año">2025</div><div class="que">Reconocimiento de la Universidad del Atlántico y de la revista Historia Caribe por el aporte al desarrollo de la historiografía colombiana. Barranquilla, 9 de octubre.</div></div><div class="rec"><div class="año">2025</div><div class="que">Reconocimiento como investigador emérito, vitalicio, por el Ministerio de Ciencia, Tecnología e Innovación, 17 de diciembre.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Consulado de Colombia en San Cristóbal, “por su valiosa gestión en el rescate de la memoria cultural de la libertad en Colombia y Venezuela, en especial de Atanasio Girardot”, 11 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Condecoración Botón de Honor al mérito, “por su contribución a la cultura”, otorgada por el Concejo Municipal de San Cristóbal (Venezuela), 11 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Centro de Estudios Históricos y de la Cámara de Comercio de San Antonio del Táchira “por su invaluable contribución a la historiografía binacional y su destacada labor en la preservación de la memoria histórica de nuestra región”, 12 de mayo.</div></div><div class="rec"><div class="año">2026</div><div class="que">Reconocimiento del Consulado de Colombia en San Antonio del Táchira “por su invaluable compromiso y acompañamiento en el rescate de la memoria histórica de Atanasio Girardot”, 12 de mayo.</div></div></div></section>
+<section><h2>Membresías en asociaciones profesionales</h2><div class="panel g"><ul class='lista'><li>1987: Firmante del protocolo de constitución de la Asociación Colombiana de Historiadores. Ibagué, 27 de noviembre, Hotel Ambalá.</li><li>1991: Ingreso a la Academia de Historia de Santander como miembro correspondiente, con el trabajo &quot;La sensibilidad heurística&quot;, 9 de marzo.</li><li>2000-2006: Miembro de la Asociación de Historiadores Latinoamericanistas Europeos, AHILA.</li><li>2001-2003: Representante colombiano ante la Comisión de Historia del Instituto Panamericano de Geografía e Historia.</li><li>2002: Ingreso a la Academia Colombiana de Historia como miembro correspondiente, con el trabajo &quot;El debate legislativo por las calidades ciudadanas en el régimen representativo del Estado de la Nueva Granada (1821-1853)&quot;. Bogotá, 17 de septiembre.</li><li>2003-2006: vicepresidente de la Asociación Colombiana de Historiadores.</li><li>2004: Ingreso a la Academia de Historia de Santander como miembro de número, sillón F, con el trabajo &quot;De las ventajas de la historia para la vida&quot;. Bucaramanga, 29 de enero.</li><li>2005 (20 de julio) a 2006 (20 de julio): vicepresidente de la Academia de Historia de Santander.</li><li>2006 (20 de julio) a 2008 (20 de julio), 2012 (20 de julio) a 2016 (20 de julio), 2020 (20 de julio) a 2026 (20 de julio): presidente de la Academia de Historia de Santander.</li><li>2008: Miembro fundador de la Asociación Colombiana de Historia Regional y Local.</li><li>2010: Miembro correspondiente de la Academia Boyacense de Historia (27 de agosto).</li><li>2018: Miembro correspondiente de la Academia Colombiana de la Lengua (desde el 18 de junio), con el texto “Historia poética del río Chicamocha”.</li><li>2021a: Miembro honorario de la Academia de Historia de Norte de Santander (28 de febrero).</li><li>2021b: Individuo correspondiente de la Academia Santanderista de Colombia (28 de agosto).</li><li>2021c: Miembro de número de la Academia Colombiana de Historia, con el trabajo Elementos protocolarios de la Constitución de la Villa del Rosario de Cúcuta de Cúcuta (7 de septiembre). Silla 39, ocupada anteriormente por los académicos Martín Restrepo Mejía (1902), Miguel Aguilera (1940), Álvaro García Herrera (1974) y Antonio Cacua Prada (1981).</li><li>2022c: Miembro correspondiente extranjero de la Academia Dominicana de Historia (26 de mayo).</li><li>2022d: Académico correspondiente extranjero de la Academia Nacional de Historia del Ecuador (1° de agosto).</li><li>2022e: Académico correspondiente extranjero de la Academia Nacional de la Historia de la República Argentina (26 de diciembre).</li><li>2024: Miembro de número de la Academia Santanderista de Colombia (19 de septiembre).</li><li>2024: Académico correspondiente extranjero de la Academia Paraguaya de la Historia (30 de mayo).</li><li>2022.08.07 a 2026. 08.04: presidente de la Academia Colombiana de Historia.</li><li>2022b-2026: Miembro del Consejo Directivo del Colegio Máximo de las Academias de Colombia.</li><li>2026a: vicepresidente del Colegio Máximo de las Academias de Colombia, en representación de la Academia Colombiana de Historia.</li><li>2026b: Académico correspondiente extranjero de la Academia de Historia del Estado Táchira (11 de mayo)</li></ul></div></section>
+<section><h2>Diplomas y condecoraciones</h2>
+<div class="panel g">
+<p style="font-family:var(--sans);font-size:14.5px;line-height:1.7;margin-bottom:20px">
+Las fotografías de los diplomas, certificados y condecoraciones que respaldan esta hoja de
+vida están reunidas en un solo documento, en el orden del archivo personal.</p>
+<a class="cta" href="titulos_diplomas.pdf" target="_blank" rel="noopener">Ver PDF · 153 fotografías de los títulos →</a>
+</div></section>
+</div>
+
+<footer>
+<div class="sello">Armando Martínez Garnica · Historiador</div>
+<div class="derechos">© MMXXVI Armando Martínez Garnica. Todos los derechos reservados.<br>
+La reproducción total o parcial de los contenidos de este archivo digital requiere
+autorización expresa del autor. Colección personal digitalizada · Bucaramanga, Colombia.</div>
+<nav class="pie"><a href="libros.html">Biblioteca</a>
+<a href="titulos.html">Títulos y reconocimientos</a>
+<a href="index.html#contacto">Contacto</a></nav>
+</footer></body></html>
