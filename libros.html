@@ -62,6 +62,7 @@ nav.principal .brand{font-family:var(--serif);font-size:17px;letter-spacing:.28e
   color:var(--brown);text-decoration:none;margin-right:auto;
   border:1px solid var(--line-soft);border-radius:3px;padding:3px 10px 3px 12px}
 nav.principal .brand:hover{color:var(--gold)}
+nav.principal a{transition:color .35s cubic-bezier(.2,.7,.3,1)}
 nav.principal a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
   text-transform:uppercase;transition:color .25s;white-space:nowrap;position:relative}
 nav.principal a:not(.brand)::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;
@@ -195,25 +196,18 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .tomo{position:relative;display:flex;flex-direction:column;text-decoration:none;
   transition:transform .38s cubic-bezier(.2,.7,.3,1)}
 .tomo:hover{transform:translateY(-10px)}
-.tapa{position:relative;aspect-ratio:3/3.9;display:flex;align-items:center;justify-content:center;
-  background:
-    radial-gradient(120% 90% at 50% 10%, rgba(122,90,44,.28), transparent 55%),
-    linear-gradient(165deg,#4A3826,#2E2214 70%);
-  border:1px solid rgba(138,101,50,.4);border-bottom:none;
-  padding:26px 30px;overflow:hidden}
-.tapa::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(115deg, rgba(255,255,255,0) 42%, rgba(255,250,235,.14) 50%, rgba(255,255,255,0) 58%);
-  transform:translateX(-110%);transition:transform .8s ease}
-.tomo:hover .tapa::after{transform:translateX(110%)}
+.tapa{position:relative;aspect-ratio:3/3.9;display:flex;align-items:flex-end;justify-content:center;
+  background:transparent;border:none;padding:22px 26px 0;overflow:visible}
 .tapa img{max-height:100%;width:auto;max-width:100%;object-fit:contain;
-  box-shadow:0 14px 34px rgba(0,0,0,.5), 0 3px 8px rgba(0,0,0,.4);
-  border:1px solid rgba(216,176,138,.3);
-  transition:transform .38s cubic-bezier(.2,.7,.3,1)}
-.tomo:hover .tapa img{transform:scale(1.035) rotate(.4deg)}
-.cat{position:absolute;top:14px;left:14px;z-index:2;
-  font-family:var(--sans);font-size:9.5px;letter-spacing:.22em;color:#E8C9A6;
-  border:1px solid rgba(216,176,138,.55);border-radius:2px;padding:3px 8px;
-  background:rgba(46,34,20,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+  box-shadow:0 16px 34px rgba(74,55,30,.30), 0 4px 10px rgba(74,55,30,.20);
+  border:1px solid rgba(138,101,50,.22);
+  transition:transform .42s cubic-bezier(.2,.7,.3,1), box-shadow .42s cubic-bezier(.2,.7,.3,1)}
+.tomo:hover .tapa img{transform:translateY(-4px) scale(1.028) rotate(.35deg);
+  box-shadow:0 26px 52px rgba(74,55,30,.34), 0 6px 14px rgba(74,55,30,.22)}
+.cat{position:absolute;top:6px;left:8px;z-index:2;
+  font-family:var(--sans);font-size:9.5px;letter-spacing:.22em;color:var(--gold);
+  border:1px solid rgba(138,101,50,.4);border-radius:2px;padding:3px 8px;
+  background:rgba(252,247,235,.82);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 .placa{background:linear-gradient(180deg,#F6EFDD,#EDE2C4);
   border:1px solid var(--line);border-top:2px solid var(--gold-b);
   padding:18px 20px 16px;display:flex;flex-direction:column;flex:1;
@@ -225,8 +219,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 
 /* obra insigne: primera ficha en formato panorámico */
 .tomo.insigne{grid-column:1/-1;flex-direction:row;align-items:stretch;gap:0}
-.tomo.insigne .tapa{aspect-ratio:auto;width:320px;flex:none;border-bottom:1px solid rgba(138,101,50,.4);
-  border-right:none;padding:34px}
+.tomo.insigne .tapa{aspect-ratio:auto;width:320px;flex:none;border:none;
+  align-items:center;padding:34px}
 .tomo.insigne .placa{border-top:2px solid var(--gold-b);justify-content:center;padding:34px 44px}
 .tomo.insigne .placa h3{font-size:clamp(20px,2.6vw,27px)}
 .tomo.insigne .placa .autor{font-size:12.5px;margin-bottom:16px}
