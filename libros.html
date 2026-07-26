@@ -24,6 +24,7 @@
   --ink:#3A2D1D; --brown:#5A4530; --brown-soft:#7A6248;
   --gold:#8A6532; --gold-b:#A9813E; --lacre:#7A2E1D;
   --line:#CDB98D; --line-soft:rgba(138,101,50,.28);
+  --gold-ink:#75562A; --nav-h:72px; --ease-out:cubic-bezier(.2,.7,.3,1); --dur-base:.35s;
   --serif:Constantia,"Palatino Linotype",Georgia,"Times New Roman",serif;
   --sans:"Segoe UI",Inter,system-ui,Arial,sans-serif;
 }
@@ -32,7 +33,8 @@ html{scroll-behavior:smooth}
 html,body{max-width:100%;overflow-x:clip}
 img{max-width:100%;height:auto}
 body{font-family:var(--serif);color:var(--ink);line-height:1.68;
-  background-color:var(--paper);min-height:100vh}
+  background-color:var(--paper);min-height:100vh;
+  font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1,"kern" 1,"liga" 1}
 
 /* ── fondo fijo: pergamino de archivo ── */
 .fondo{position:fixed;inset:0;z-index:-1;pointer-events:none;
@@ -66,6 +68,11 @@ body{font-family:var(--serif);color:var(--ink);line-height:1.68;
 }
 
 /* ── navegación ── */
+.skip-link{position:absolute;left:16px;top:-60px;z-index:100;
+  background:var(--ink);color:#F7F1E3;font-family:var(--sans);font-size:14px;
+  padding:10px 18px;border-radius:0 0 6px 6px;text-decoration:none;
+  transition:top .25s ease}
+.skip-link:focus{top:0}
 header.nav{position:sticky;top:0;z-index:50;
   background:rgba(240,231,209,.88);
   -webkit-backdrop-filter:blur(14px) saturate(1.15);
@@ -79,17 +86,20 @@ nav.principal .brand{font-family:var(--serif);font-size:17px;letter-spacing:.28e
   color:var(--brown);text-decoration:none;margin-right:auto;
   border:1px solid var(--line-soft);border-radius:3px;padding:3px 10px 3px 12px}
 nav.principal .brand:hover{color:var(--gold)}
-nav.principal a{transition:color .35s cubic-bezier(.2,.7,.3,1)}
 nav.principal a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
-  text-transform:uppercase;transition:color .25s;white-space:nowrap;position:relative}
-nav.principal a:not(.brand)::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;
-  background:var(--gold-b);transition:width .3s}
-nav.principal a:not(.brand):hover::after{width:100%}
-nav.principal a:hover{color:var(--gold)}
+  text-transform:uppercase;white-space:nowrap;position:relative;
+  transition:color var(--dur-base) var(--ease-out)}
+nav.principal a:not(.brand)::after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:1px;
+  background:var(--gold-b);transform:scaleX(0);transform-origin:left;
+  transition:transform var(--dur-base) var(--ease-out)}
+nav.principal a:not(.brand):hover::after,nav.principal a:not(.brand):focus-visible::after{transform:scaleX(1)}
+nav.principal a:hover,nav.principal a:focus-visible{color:var(--gold)}
+nav.principal a:focus-visible{outline:none}
 
 /* ── estructura ── */
 .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
 section{padding:84px 0;position:relative}
+section[id]{scroll-margin-top:var(--nav-h)}
 .banda-osc{background:linear-gradient(180deg, rgba(90,69,48,.075), rgba(90,69,48,.13));
   border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
 .banda-clara{background:linear-gradient(180deg, rgba(255,252,242,.5), rgba(255,252,242,.28));
@@ -99,32 +109,43 @@ section{padding:84px 0;position:relative}
 .enc{position:relative;margin-bottom:10px}
 .enc .folio{position:absolute;right:-6px;top:-58px;font-family:var(--serif);
   font-size:clamp(90px,13vw,150px);line-height:1;color:transparent;
-  -webkit-text-stroke:1.5px rgba(138,101,50,.22);pointer-events:none;user-select:none}
+  -webkit-text-stroke:1.5px rgba(138,101,50,.22);pointer-events:none;user-select:none;
+  text-shadow:-1px -1px 0 rgba(255,251,235,.35), 1px 1.5px 1px rgba(58,45,29,.28)}
 @supports not (-webkit-text-stroke:1px black){.enc .folio{color:rgba(138,101,50,.10)}}
 .enc .rotulo{font-family:var(--sans);font-size:10.5px;letter-spacing:.34em;
-  text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  text-transform:uppercase;color:var(--gold-ink);margin-bottom:10px}
 h2{font-weight:400;font-size:clamp(30px,4.6vw,46px);color:var(--brown);
    margin-bottom:8px;overflow-wrap:break-word;line-height:1.08;
-   display:inline-block;max-width:100%}
+   display:inline-block;max-width:100%;text-wrap:balance}
 h2::after{content:"";display:block;width:100%;height:2px;margin-top:14px;
    background:linear-gradient(90deg,var(--gold-b),transparent)}
 .sub{font-family:var(--sans);font-size:14px;color:var(--brown-soft);margin:14px 0 36px;max-width:640px}
 .kicker{font-family:var(--sans);font-size:11.5px;letter-spacing:.22em;
-        text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+        text-transform:uppercase;color:var(--gold-ink);margin-bottom:14px}
 .page-hero{padding:54px 0 4px}
 .page-hero h1{font-weight:400;font-size:clamp(30px,4.4vw,42px);color:var(--brown);line-height:1.14}
 
 /* aparición al hacer scroll */
-[data-rev]{opacity:0;transform:translateY(26px);
+[data-rev]{opacity:0;transform:translateY(26px);transition-delay:var(--rev-delay,0s);
   transition:opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1)}
 [data-rev].vis{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-rev]{transition-delay:0s!important}}
 
 /* ═════════ HERO «frontispicio» ═════════ */
 .hero{min-height:96vh;display:flex;flex-direction:column;justify-content:center;
       position:relative;padding:44px 0 0;overflow:visible}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:140px;z-index:-1;
+  background:linear-gradient(180deg, transparent, rgba(58,45,29,.09) 65%, rgba(58,45,29,.15));
+  pointer-events:none}
+.hero + section{position:relative;
+  box-shadow:inset 0 24px 32px -28px rgba(58,45,29,.32)}
 .rosa{position:absolute;right:-140px;top:44%;transform:translateY(-50%);
-  width:min(560px,58vw);color:var(--gold);opacity:.11;z-index:-1;
+  width:min(560px,58vw);color:var(--gold);opacity:.16;z-index:-1;
+  mix-blend-mode:multiply;
+  filter:drop-shadow(-1px -1px 0 rgba(255,247,225,.18)) drop-shadow(2px 3px 3px rgba(58,45,29,.22));
   animation:girar 150s linear infinite}
+@supports not (mix-blend-mode:multiply){.rosa{opacity:.11;mix-blend-mode:normal}}
+.hero.fuera .rosa,.hero.fuera h1.nombre-mayor .apellido{animation-play-state:paused}
 @keyframes girar{to{transform:translateY(-50%) rotate(360deg)}}
 .hero-top{text-align:center;position:relative}
 .hero-top .kicker{margin-bottom:20px}
@@ -132,13 +153,13 @@ h2::after{content:"";display:block;width:100%;height:2px;margin-top:14px;
 h1.nombre-mayor{font-weight:400;line-height:.98;color:var(--brown)}
 h1.nombre-mayor .nombre{display:block;font-size:clamp(19px,2.6vw,27px);
   letter-spacing:.55em;text-transform:uppercase;color:var(--brown-soft);
-  margin-bottom:12px;padding-left:.55em}
+  margin-bottom:12px;padding-left:.55em;transform:translateX(.275em)}
 h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   letter-spacing:.005em;
   background:linear-gradient(105deg,var(--brown) 0 38%,var(--gold-b) 50%,var(--brown) 62% 100%);
   background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:var(--brown);
-  animation:destello 9s ease-in-out infinite}
+  animation:destello 9s ease-in-out infinite;text-wrap:balance}
 @keyframes destello{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
 @supports not (-webkit-background-clip:text){h1.nombre-mayor .apellido{background:none;-webkit-text-fill-color:currentColor;color:var(--brown)}}
 .rubrica{display:block;width:min(520px,72vw);margin:10px auto 0;color:var(--gold-b)}
@@ -147,11 +168,11 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 
 .hero-grid{display:grid;grid-template-columns:400px 1fr;gap:70px;align-items:center;
   margin-top:54px}
-.marco-wrap{position:relative;justify-self:center}
+.marco-wrap{position:relative;justify-self:center;--tilt:-1.6deg}
 .marco{background:linear-gradient(160deg,#5A4530,#3E2E1C 70%);padding:13px;
   box-shadow:0 30px 70px rgba(58,45,29,.44), 0 6px 18px rgba(58,45,29,.25);
-  transform:rotate(-1.6deg);transition:transform .5s;position:relative}
-.marco-wrap:hover .marco{transform:rotate(0deg)}
+  transform:rotate(var(--tilt));transition:transform .5s;position:relative}
+.marco-wrap:hover{--tilt:0deg}
 .marco .filete{border:1px solid rgba(216,176,138,.75);padding:11px;background:#F6EFDD}
 .marco img{display:block;width:100%;border:1px solid rgba(138,101,50,.4);filter:sepia(.1)}
 .marco .placa-lat{margin-top:11px;text-align:center;
@@ -160,10 +181,14 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   background:linear-gradient(180deg,#E9DCBB,#D9C48F);border:1px solid rgba(110,82,42,.5);
   border-radius:2px;padding:7px 58px 7px 14px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 1px 3px rgba(58,45,29,.3)}
-.sello{position:absolute;right:-34px;bottom:-30px;width:104px;
-  transform:rotate(9deg);filter:drop-shadow(0 8px 14px rgba(58,30,17,.4));
-  transition:transform .4s}
-.marco-wrap:hover .sello{transform:rotate(3deg) scale(1.04)}
+.sello-wrap{position:absolute;right:-34px;bottom:-30px;width:104px;
+  transform:rotate(calc(var(--tilt) + 7.6deg));transition:transform .4s}
+.marco-wrap:hover .sello-wrap{transform:rotate(calc(var(--tilt) + 4.6deg)) scale(1.04)}
+.sello-wrap::before{content:"";position:absolute;left:10%;top:56%;width:80%;height:44%;
+  background:radial-gradient(closest-side, rgba(48,36,23,.45), rgba(48,36,23,0) 72%);
+  filter:blur(4px);transform:rotate(-8deg);pointer-events:none;z-index:-1}
+.sello{display:block;width:100%;height:100%;
+  filter:drop-shadow(0 8px 14px rgba(58,30,17,.4))}
 
 .hero-datos .lead{font-family:var(--sans);font-size:16.5px;color:var(--brown-soft);
   max-width:560px;line-height:1.85}
@@ -172,7 +197,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .cifra{position:relative;padding:10px 26px;text-align:center}
 .cifra+.cifra::before{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:1px;
   background:linear-gradient(180deg,transparent,var(--line-soft) 20%,var(--line-soft) 80%,transparent)}
-.cifra .n{font-family:var(--serif);font-size:clamp(28px,3.2vw,38px);color:var(--gold);
+.cifra .n{font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1;
+  font-family:var(--serif);font-size:clamp(28px,3.2vw,38px);color:var(--gold);
   line-height:1;font-style:italic;font-weight:400;letter-spacing:-.01em;
   display:inline-block;transform:rotate(-1.5deg)}
 .cifra:nth-child(2) .n{transform:rotate(1deg)}
@@ -185,6 +211,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
      padding:13px 30px;border-radius:26px;text-decoration:none;
      font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:background .25s,transform .25s}
 .cta:hover{background:var(--gold);transform:translateY(-2px)}
+.cta:focus-visible,.cta-ghost:focus-visible{outline:2px solid var(--lacre);outline-offset:3px}
+.cta:active,.cta-ghost:active{transform:scale(.96)}
 .cta-ghost{display:inline-block;border:1px solid var(--gold-b);color:var(--gold);
   padding:12px 28px;border-radius:26px;text-decoration:none;
   font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:all .25s}
@@ -200,7 +228,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .bio-panel{padding:52px 56px;position:relative}
 .bio-panel::before{content:"§ I";position:absolute;top:22px;right:30px;
   font-family:var(--serif);font-size:15px;color:var(--gold-b);opacity:.75}
-.bio{column-count:2;column-gap:46px;text-align:justify;hyphens:auto;font-size:16.5px}
+.bio{columns:2 23em;column-gap:46px;text-align:justify;hyphens:auto;font-size:16.5px;orphans:3;widows:3}
+.bio.escribiendo{column-count:1;text-align:left}
 .bio p+p{text-indent:1.5em}
 .bio em{font-style:italic}
 .bio > p:first-child::first-letter{font-size:3.4em;float:left;line-height:.82;
@@ -213,14 +242,25 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .tomo{position:relative;display:flex;flex-direction:column;text-decoration:none;
   transition:transform .38s cubic-bezier(.2,.7,.3,1)}
 .tomo:hover{transform:translateY(-10px)}
+.tomo:focus-visible{transform:translateY(-10px);outline:none}
+.tomo:focus-visible .tapa img{transform:translateY(-4px) scale(1.028) rotate(.35deg);
+  box-shadow:0 26px 52px rgba(74,55,30,.34), 0 6px 14px rgba(74,55,30,.22), 0 2px 1px rgba(74,55,30,.36)}
+.tomo:focus-visible .placa .leer{text-decoration:underline}
+.tomo:active .tapa img{transform:translateY(-1px) scale(1.01)}
 .tapa{position:relative;aspect-ratio:3/3.9;display:flex;align-items:flex-end;justify-content:center;
   background:transparent;border:none;padding:22px 26px 0;overflow:visible}
+.tapa::after{content:"";position:absolute;left:50%;bottom:4px;width:60%;height:13px;
+  transform:translateX(-50%) scaleX(1);
+  background:radial-gradient(closest-side, rgba(58,45,29,.38), rgba(58,45,29,0) 75%);
+  filter:blur(3px);pointer-events:none;
+  transition:transform .42s cubic-bezier(.2,.7,.3,1), opacity .42s cubic-bezier(.2,.7,.3,1)}
+.tomo:hover .tapa::after{transform:translateX(-50%) scaleX(.84);opacity:.65}
 .tapa img{max-height:100%;width:auto;max-width:100%;object-fit:contain;
-  box-shadow:0 16px 34px rgba(74,55,30,.30), 0 4px 10px rgba(74,55,30,.20);
+  box-shadow:0 16px 34px rgba(74,55,30,.30), 0 4px 10px rgba(74,55,30,.20), 0 3px 2px rgba(74,55,30,.32);
   border:1px solid rgba(138,101,50,.22);
   transition:transform .42s cubic-bezier(.2,.7,.3,1), box-shadow .42s cubic-bezier(.2,.7,.3,1)}
 .tomo:hover .tapa img{transform:translateY(-4px) scale(1.028) rotate(.35deg);
-  box-shadow:0 26px 52px rgba(74,55,30,.34), 0 6px 14px rgba(74,55,30,.22)}
+  box-shadow:0 26px 52px rgba(74,55,30,.34), 0 6px 14px rgba(74,55,30,.22), 0 2px 1px rgba(74,55,30,.36)}
 .cat{position:absolute;top:6px;left:8px;z-index:2;
   font-family:var(--sans);font-size:9.5px;letter-spacing:.22em;color:var(--gold);
   border:1px solid rgba(138,101,50,.4);border-radius:2px;padding:3px 8px;
@@ -229,7 +269,7 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   border:1px solid var(--line);border-top:2px solid var(--gold-b);
   padding:18px 20px 16px;display:flex;flex-direction:column;flex:1;
   box-shadow:0 12px 30px rgba(74,55,30,.2)}
-.placa h3{font-weight:400;font-size:16.5px;line-height:1.36;margin-bottom:6px;color:var(--brown)}
+.placa h3{font-weight:400;font-size:16.5px;line-height:1.36;margin-bottom:6px;color:var(--brown);text-wrap:balance}
 .placa .autor{font-family:var(--sans);font-size:11.5px;color:var(--brown-soft);margin-bottom:12px}
 .placa .leer{margin-top:auto;color:var(--gold);font-family:var(--sans);font-size:13px}
 .tomo:hover .placa .leer{text-decoration:underline}
@@ -239,7 +279,7 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .tomo.insigne .tapa{aspect-ratio:auto;width:320px;flex:none;border:none;
   align-items:center;padding:34px}
 .tomo.insigne .placa{border-top:2px solid var(--gold-b);justify-content:center;padding:34px 44px}
-.tomo.insigne .placa h3{font-size:clamp(20px,2.6vw,27px)}
+.tomo.insigne .placa h3{font-size:clamp(20px,2.6vw,27px);text-wrap:balance}
 .tomo.insigne .placa .autor{font-size:12.5px;margin-bottom:16px}
 .tomo.insigne .nota-insigne{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft);
   line-height:1.75;margin-bottom:18px;max-width:520px}
@@ -249,7 +289,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 /* ═════════ trayectoria: legajo de tinta ═════════ */
 .tl{padding:50px 58px}
 .tl-item{display:grid;grid-template-columns:128px 30px 1fr;gap:0 22px;align-items:start}
-.tl-año{font-family:var(--serif);font-size:21px;color:var(--gold);text-align:right;
+.tl-año{font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1;
+  font-family:var(--serif);font-size:21px;color:var(--gold);text-align:right;
   padding:22px 0;line-height:1.15}
 .tl-eje{position:relative;height:100%;min-height:88px}
 .tl-eje::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;
@@ -263,11 +304,12 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .tl-item:hover .tl-punto{transform:translate(-50%,-50%) scale(1.25) rotate(-8deg)}
 .tl-punto svg{display:block;width:100%;height:100%}
 .tl-cargo{padding:18px 0 28px}
-.tl-cargo b{display:block;font-size:20px;font-weight:400;color:var(--brown)}
+.tl-cargo b{display:block;font-size:20px;font-weight:400;color:var(--brown);text-wrap:balance}
 .tl-cargo span{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft)}
 .link-discreto{display:inline-block;margin-top:20px;font-family:var(--sans);font-size:13.5px;
-  color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--line-soft)}
+  color:var(--gold-ink);text-decoration:none;border-bottom:1px dotted var(--line-soft)}
 .link-discreto:hover{color:var(--brown)}
+.link-discreto:focus-visible{color:var(--brown);outline:2px solid var(--gold-b);outline-offset:2px}
 
 /* ═════════ prensa: recortes de periódico ═════════ */
 .prensa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));
@@ -275,20 +317,29 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .recorte{position:relative;display:flex;flex-direction:column;gap:11px;
   padding:34px 28px 26px;text-decoration:none;
   background:
-    repeating-linear-gradient(0deg, rgba(90,69,48,.045) 0 1px, transparent 1px 5px),
+    url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.30%200%200%200%200%200.22%200%200%200%200%200.12%200%200%200%200.085%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22260%22%20height%3D%22260%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"),
+    repeating-linear-gradient(1deg, rgba(90,69,48,.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(-1.4deg, rgba(90,69,48,.035) 0 1px, transparent 1px 6px),
     linear-gradient(180deg,#F8F3E2,#F1E8CE);
+  background-blend-mode:multiply, normal, normal, normal;
   border:1px solid rgba(138,101,50,.32);
   clip-path:polygon(0 2%,3% 0,97% 1%,100% 3%,99.4% 96%,96% 100%,4% 99%,.5% 97%);
-  box-shadow:0 14px 34px rgba(74,55,30,.20);
+  box-shadow:0 14px 34px rgba(74,55,30,.20), inset 0 1px 0 rgba(255,255,255,.55);
   transition:transform .35s, box-shadow .35s}
 .recorte.r1{transform:rotate(-1.1deg)}
 .recorte.r2{transform:rotate(.9deg)}
 .recorte.r3{transform:rotate(-.5deg)}
-.recorte:hover{transform:rotate(0deg) translateY(-6px);box-shadow:0 22px 50px rgba(74,55,30,.28);z-index:2}
+.recorte:hover{transform:rotate(0deg) translateY(-6px);
+  box-shadow:0 22px 50px rgba(74,55,30,.28), inset 0 1px 0 rgba(255,255,255,.6);z-index:2}
+.recorte:focus-visible{transform:rotate(0deg) translateY(-6px);
+  box-shadow:0 22px 50px rgba(74,55,30,.28), inset 0 1px 0 rgba(255,255,255,.6);
+  z-index:2;outline:2px solid var(--gold-b);outline-offset:4px}
+.recorte.enlace:focus-visible .ver-nota{opacity:1;transform:none}
+.recorte:active{transform:translateY(-2px) scale(.99)}
 .recorte::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-2deg);
   width:88px;height:24px;background:rgba(214,193,140,.55);
   border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
-  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+  box-shadow:0 2px 4px rgba(74,55,30,.22), 0 7px 11px -3px rgba(74,55,30,.30)}
 .recorte .medio{color:var(--ink);
   border-bottom:2px solid rgba(122,46,29,.55);padding-bottom:9px}
 .masth{display:inline-flex;align-items:baseline;gap:7px;line-height:1;
@@ -304,7 +355,7 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   align-items:center}
 .m-silla svg{width:17px;height:20px;color:var(--lacre)}
 .m-hist{font-family:var(--serif);font-weight:700;font-size:21px}
-.recorte .titular{font-size:18.5px;line-height:1.4;color:var(--brown);font-weight:400;overflow-wrap:break-word}
+.recorte .titular{font-size:18.5px;line-height:1.4;color:var(--brown);font-weight:400;overflow-wrap:break-word;text-wrap:balance}
 .recorte .titular.q::before{content:"« "}.recorte .titular.q::after{content:" »"}
 .recorte .nota{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:auto}
 .recorte .ver-nota{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-b);
@@ -316,13 +367,14 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .recorte-feature::after{content:"";position:absolute;top:-11px;right:12%;transform:rotate(3deg);
   width:88px;height:24px;background:rgba(214,193,140,.55);
   border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
-  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+  box-shadow:0 2px 4px rgba(74,55,30,.22), 0 7px 11px -3px rgba(74,55,30,.30)}
 .recorte-feature .comillon{position:absolute;top:6px;left:50%;transform:translateX(-50%);
   font-family:Georgia,serif;font-size:120px;line-height:1;color:rgba(169,129,62,.28);
   pointer-events:none;user-select:none}
 .recorte-feature .titular{font-size:clamp(23px,3.3vw,33px);font-style:italic;
-  color:var(--gold);max-width:840px;margin-top:26px}
-.recorte-feature .titular.q::before{content:"\201C"}.recorte-feature .titular.q::after{content:"\201D"}
+  color:var(--gold);max-width:840px;margin-top:26px;text-wrap:balance;hanging-punctuation:first last}
+.recorte-feature .titular.q::before{content:"\201C";margin-left:-.32em}
+.recorte-feature .titular.q::after{content:"\201D";margin-right:-.32em}
 .recorte-feature:hover{transform:translateY(-6px)}
 
 /* ═════════ podcast ═════════ */
@@ -336,9 +388,14 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   background:var(--brown);color:#F7F1E3;font-size:16px;line-height:1;
   display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s}
 #btnPlay:hover{background:var(--gold);transform:scale(1.06)}
+#btnPlay:focus-visible{outline:2px solid var(--lacre);outline-offset:3px}
+#btnPlay:active{transform:scale(.96)}
+#btnPlay .ico{display:inline-block;transition:transform .16s var(--ease-out)}
 .barra{flex:1;height:5px;border-radius:3px;background:rgba(138,101,50,.20);
-       cursor:pointer;position:relative}
-.barra .fill{height:100%;width:0%;border-radius:3px;
+       cursor:pointer;position:relative;transition:height .15s var(--ease-out)}
+.barra:hover,.barra:focus-visible{height:8px}
+.barra:focus-visible{outline:2px solid var(--gold-b);outline-offset:3px}
+.barra .fill{height:100%;width:0%;border-radius:3px;transition:width .15s linear;
   background:linear-gradient(90deg,var(--gold),var(--gold-b))}
 .tiempo{font-family:var(--sans);font-size:12px;color:var(--brown-soft);min-width:42px;text-align:right}
 .player .otro{margin-top:22px;background:transparent;position:relative;
@@ -346,6 +403,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   border-radius:22px;cursor:pointer;font-family:var(--sans);font-size:13.5px;
   transition:background .25s,color .25s}
 .player .otro:hover{background:var(--gold-b);color:#FBF6EA}
+.player .otro:focus-visible,.form button[type=submit]:focus-visible{outline:2px solid var(--lacre);outline-offset:3px}
+.player .otro:active,.form button[type=submit]:active{transform:scale(.96)}
 .bobina{position:absolute;right:26px;top:26px;width:44px;height:44px;color:var(--gold-b);
   opacity:.55;transition:opacity .3s}
 .bobina.girando{animation:girar2 3.2s linear infinite;opacity:.9}
@@ -364,7 +423,9 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .form input,.form textarea{width:100%;padding:13px 15px;border-radius:8px;
   border:1px solid var(--line);background:rgba(255,253,247,.8);
   color:var(--ink);font-family:var(--sans);font-size:15px;transition:border-color .25s}
-.form input:focus,.form textarea:focus{outline:none;border-color:var(--gold)}
+.form input:focus,.form textarea:focus{border-color:var(--gold)}
+.form input:focus-visible,.form textarea:focus-visible{
+  outline:2px solid var(--gold);outline-offset:1px;box-shadow:0 0 0 3px rgba(169,129,62,.25)}
 .form ::placeholder{color:rgba(122,98,72,.5)}
 .form button[type=submit]{margin-top:26px;background:var(--lacre);color:#F3E3CE;
   border:none;padding:14px 36px;border-radius:26px;font-family:var(--sans);
@@ -376,6 +437,11 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   transition:color .25s}
 .correo-directo svg{color:var(--gold);flex-shrink:0}
 .correo-directo:hover{color:var(--gold)}
+.correo-directo:focus-visible{color:var(--brown);outline:2px solid var(--gold-b);outline-offset:2px}
+@media (hover:none){
+  .recorte .ver-nota{opacity:1;transform:none}
+  .tomo .placa .leer{text-decoration:underline;text-underline-offset:2px}
+}
 
 /* ── títulos ── */
 .panel{padding:38px 44px}
@@ -388,7 +454,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .rec{display:grid;grid-template-columns:64px 1fr;gap:16px;
      border-bottom:1px solid rgba(138,101,50,.12);padding:13px 0}
 .rec:last-child{border-bottom:none}
-.rec .año{font-family:var(--serif);font-size:17px;color:var(--gold)}
+.rec .año{font-family:var(--serif);font-size:17px;color:var(--gold);
+  font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1}
 .rec .que{font-family:var(--sans);font-size:14px;color:var(--ink);line-height:1.6}
 
 /* ── libros (página completa) ── */
@@ -396,8 +463,13 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .grid .tomo .tapa{padding:20px 24px}
 .card{padding:26px 28px;display:flex;flex-direction:column;border-top:3px solid var(--gold-b);
       transition:transform .3s, box-shadow .3s}
-.card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.card h3{font-weight:400;font-size:16.5px;line-height:1.38;margin-bottom:9px;
+.card:hover{transform:translateY(-4px);
+  box-shadow:0 18px 44px rgba(74,55,30,.22), inset 0 1px 0 rgba(255,255,255,.85)}
+.card:focus-visible{transform:translateY(-4px);
+  box-shadow:0 18px 44px rgba(74,55,30,.22), inset 0 1px 0 rgba(255,255,255,.85);
+  outline:2px solid var(--gold-b);outline-offset:4px}
+.card:active{transform:translateY(-1px) scale(.99)}
+.card h3{text-wrap:balance;font-weight:400;font-size:16.5px;line-height:1.38;margin-bottom:9px;
          color:var(--brown);overflow-wrap:break-word}
 .card .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
 .card a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
@@ -415,9 +487,10 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   border-bottom:1px solid rgba(138,101,50,.14);transition:background .2s}
 .pub:last-child{border-bottom:none}
 .pub:hover{background:rgba(169,129,62,.07)}
-.pub .pt{font-size:16px;color:var(--brown);line-height:1.4}
+.pub:focus-visible{background:rgba(169,129,62,.07);outline:2px solid var(--gold-b);outline-offset:-2px}
+.pub .pt{font-size:16px;color:var(--brown);line-height:1.4;text-wrap:balance}
 .pub:hover .pt{color:var(--gold)}
-.pub .pm{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:3px}
+.pub .pm{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:3px;font-variant-numeric:oldstyle-nums}
 .pub .pm::after{content:" · leer →";color:var(--gold-b);font-weight:600}
 
 /* ── pie editorial ── */
@@ -442,12 +515,13 @@ footer a:hover{text-decoration:underline}
   .rosa{right:-200px;opacity:.08}
 }
 @media(max-width:880px){
+  :root{--nav-h:120px}
   nav.principal{justify-content:center}
   nav.principal .brand{margin-right:0;width:100%;text-align:center;border:none;padding:0 0 4px}
   .hero{min-height:auto;padding:38px 0 0}
   .hero-grid{grid-template-columns:1fr;gap:44px;margin-top:40px}
   .marco-wrap{max-width:330px;margin:0 auto}
-  .sello{right:-18px;bottom:-24px;width:88px}
+  .sello-wrap{right:-18px;bottom:-24px;width:88px}
   .cifras{gap:30px}
   .bio{column-count:1}
   .bio-panel{padding:34px 26px}
@@ -459,6 +533,7 @@ footer a:hover{text-decoration:underline}
   .enc .folio{top:-40px;font-size:clamp(70px,17vw,110px)}
 }
 @media(max-width:560px){
+  :root{--nav-h:136px}
   section{padding:56px 0}
   .wrap{padding:0 16px}
   .estante{grid-template-columns:1fr}
@@ -482,9 +557,9 @@ footer a:hover{text-decoration:underline}
 </style></head><body>
 <div class="fondo" aria-hidden="true"></div>
 <div id="progreso" aria-hidden="true"></div>
-<header class="nav"><nav class="principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
+<header class="nav"><a class="skip-link" href="#contenido">Saltar al contenido</a><nav class="principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
 <div class="wrap">
-<div class="page-hero">
+<div class="page-hero" id="contenido">
   <div class="kicker">Colección personal digitalizada</div>
   <h1>La biblioteca</h1>
 </div>
@@ -492,16 +567,16 @@ footer a:hover{text-decoration:underline}
 <section><h2>Obra propia y ediciones a su cargo</h2>
 <p class="sub">Ediciones digitales de la colección personal, transcritas y verificadas
 contra el ejemplar impreso.</p>
-<div class="grid"><a class="tomo" href="libros/Cap%C3%ADtulo%20de%20el%20terror%20y%20la%20sangre%20sublime.html"><div class="tapa"><img src="img/portadas/Cap%C3%ADtulo%20de%20el%20terror%20y%20la%20sangre%20sublime.jpg" alt="Portada de 1816 / El terror y la sangre sublime" loading="lazy"></div><div class="placa"><h3>1816 / El terror y la sangre sublime</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%201.html"><div class="tapa"><span class="cat">CAT. 01</span><img src="img/portadas/Libro%201.jpg" alt="Portada de Historia de Colombia. Las experiencias de la sociedad republicana" loading="lazy"></div><div class="placa"><h3>Historia de Colombia. Las experiencias de la sociedad republicana</h3><div class="autor">Armando Martínez Garnica (coordinador)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2010.html"><div class="tapa"><span class="cat">CAT. 10</span><img src="img/portadas/Libro%2010.jpg" alt="Portada de Nuevas miradas sobre la historia de la Independencia de Colombia" loading="lazy"></div><div class="placa"><h3>Nuevas miradas sobre la historia de la Independencia de Colombia</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2011.html"><div class="tapa"><span class="cat">CAT. 11</span><img src="img/portadas/Libro%2011.jpg" alt="Portada de 1808. La eclosión juntera en el mundo hispano" loading="lazy"></div><div class="placa"><h3>1808. La eclosión juntera en el mundo hispano</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «1808. La eclosión juntera en el mundo hispano» (coord. M. Chust)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2012.html"><div class="tapa"><span class="cat">CAT. 12</span><img src="img/portadas/Libro%2012.jpg" alt="Portada de Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820" loading="lazy"></div><div class="placa"><h3>Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2013.html"><div class="tapa"><span class="cat">CAT. 13</span><img src="img/portadas/Libro%2013.jpg" alt="Portada de Las independencias iberoamericanas en su laberinto. Controversias, cuestiones, interpretaciones" loading="lazy"></div><div class="placa"><h3>Las independencias iberoamericanas en su laberinto. Controversias, cuestiones, interpretaciones</h3><div class="autor">Armando Martínez Garnica — Su entrevista en «Las independencias iberoamericanas en su laberinto» (ed. M. Chust)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2014.html"><div class="tapa"><span class="cat">CAT. 14</span><img src="img/portadas/Libro%2014.jpg" alt="Portada de Las declaraciones de independencia. Los textos fundamentales de las independencias americanas" loading="lazy"></div><div class="placa"><h3>Las declaraciones de independencia. Los textos fundamentales de las independencias americanas</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «Las declaraciones de independencia» (obra colectiva)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2015.html"><div class="tapa"><span class="cat">CAT. 15</span><img src="img/portadas/Libro%2015.jpg" alt="Portada de La visión del Nuevo Reino de Granada en las Cortes de Cádiz (1810-1813)" loading="lazy"></div><div class="placa"><h3>La visión del Nuevo Reino de Granada en las Cortes de Cádiz (1810-1813)</h3><div class="autor">Jairo Gutiérrez Ramos &amp; Armando Martínez Garnica (editores)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2016.html"><div class="tapa"><span class="cat">CAT. 16</span><img src="img/portadas/Libro%2016.jpg" alt="Portada de Bastillas, cetros y blasones. La independencia en Iberoamérica" loading="lazy"></div><div class="placa"><h3>Bastillas, cetros y blasones. La independencia en Iberoamérica</h3><div class="autor">Ivana Frasquet (coord.); capítulo: Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2018.html"><div class="tapa"><span class="cat">CAT. 18</span><img src="img/portadas/Libro%2018.jpg" alt="Portada de Jamás ha llovido reyes el cielo… De independencias, revoluciones y liberalismos en Iberoamérica" loading="lazy"></div><div class="placa"><h3>Jamás ha llovido reyes el cielo… De independencias, revoluciones y liberalismos en Iberoamérica</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2019.html"><div class="tapa"><span class="cat">CAT. 19</span><img src="img/portadas/Libro%2019.jpg" alt="Portada de Nuevas miradas a la Campaña Libertadora" loading="lazy"></div><div class="placa"><h3>Nuevas miradas a la Campaña Libertadora</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%202.html"><div class="tapa"><span class="cat">CAT. 02</span><img src="img/portadas/Libro%202.jpg" alt="Portada de El legado de la «Patria Boba»" loading="lazy"></div><div class="placa"><h3>El legado de la «Patria Boba»</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2020.html"><div class="tapa"><span class="cat">CAT. 20</span><img src="img/portadas/Libro%2020.jpg" alt="Portada de La opción gaditana en el Nuevo Reino de Granada" loading="lazy"></div><div class="placa"><h3>La opción gaditana en el Nuevo Reino de Granada</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2021.html"><div class="tapa"><span class="cat">CAT. 21</span><img src="img/portadas/Libro%2021.jpg" alt="Portada de El Bicentenario de la Independencia de Colombia 2019 y los retos de la celebración. Un encuentro en torno a las nuevas corrientes historiográficas" loading="lazy"></div><div class="placa"><h3>El Bicentenario de la Independencia de Colombia 2019 y los retos de la celebración. Un encuentro en torno a las nuevas corrientes historiográficas</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2022.html"><div class="tapa"><span class="cat">CAT. 22</span><img src="img/portadas/Libro%2022.jpg" alt="Portada de La Provincia de García Rovira. Orígenes de sus poblamientos urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de García Rovira. Orígenes de sus poblamientos urbanos</h3><div class="autor">Jairo Gutiérrez Ramos y Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2023.html"><div class="tapa"><span class="cat">CAT. 23</span><img src="img/portadas/Libro%2023.jpg" alt="Portada de La Provincia de Vélez. Orígenes de sus poblamientos urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de Vélez. Orígenes de sus poblamientos urbanos</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2024.html"><div class="tapa"><span class="cat">CAT. 24</span><img src="img/portadas/Libro%2024.jpg" alt="Portada de La Provincia de Guanentá. Orígenes de sus poblamientos urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de Guanentá. Orígenes de sus poblamientos urbanos</h3><div class="autor">Amado Antonio Guerrero Rincón; Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2025.html"><div class="tapa"><span class="cat">CAT. 25</span><img src="img/portadas/Libro%2025.jpg" alt="Portada de La Provincia de Mares. Orígenes de sus Poblamientos Urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de Mares. Orígenes de sus Poblamientos Urbanos</h3><div class="autor">Armando Martínez Garnica; Juan Alberto Rueda Cardozo</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2026.html"><div class="tapa"><span class="cat">CAT. 26</span><img src="img/portadas/Libro%2026.jpg" alt="Portada de ¡Y Colombia fue! La independencia neogranadina y la primera República de Colombia, 1808-1831" loading="lazy"></div><div class="placa"><h3>¡Y Colombia fue! La independencia neogranadina y la primera República de Colombia, 1808-1831</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «¡Y Colombia fue!» (ed. Ó. Almario)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2027.html"><div class="tapa"><span class="cat">CAT. 27</span><img src="img/portadas/Libro%2027.jpg" alt="Portada de Revista de la Academia Colombiana de Jurisprudencia" loading="lazy"></div><div class="placa"><h3>Revista de la Academia Colombiana de Jurisprudencia</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2028.html"><div class="tapa"><span class="cat">CAT. 28</span><img src="img/portadas/Libro%2028.jpg" alt="Portada de La formación de los Estados-naciones americanos (1808-1830). Ayer 74, Revista de Historia Contemporánea, 2009 (2)" loading="lazy"></div><div class="placa"><h3>La formación de los Estados-naciones americanos (1808-1830). Ayer 74, Revista de Historia Contemporánea, 2009 (2)</h3><div class="autor">Armando Martínez Garnica e Inés Quintero Montiel</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%203.html"><div class="tapa"><span class="cat">CAT. 03</span><img src="img/portadas/Libro%203.jpg" alt="Portada de Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe" loading="lazy"></div><div class="placa"><h3>Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe</h3><div class="autor">Armando Martínez Garnica; Daniel Gutiérrez Ardila (editores académicos)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2030.html"><div class="tapa"><span class="cat">CAT. 30</span><img src="img/portadas/Libro%2030.jpg" alt="Portada de 120 años de luz y fuerza en Santander" loading="lazy"></div><div class="placa"><h3>120 años de luz y fuerza en Santander</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2031.html"><div class="tapa"><span class="cat">CAT. 31</span><img src="img/portadas/Libro%2031.jpg" alt="Portada de Historia básica de Bucaramanga. Cuatro siglos de un poblamiento, 1622-2022" loading="lazy"></div><div class="placa"><h3>Historia básica de Bucaramanga. Cuatro siglos de un poblamiento, 1622-2022</h3><div class="autor">Armando Martínez Garnica; Álvaro Acevedo Tarazona; Jerson Fidel Jaimes Rodríguez; Diana Carolina Sevilla Torres; Guillermo Vargas Caballero; Gabriel Samacá Alonso; Leonardo Caballero Piza</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2032.html"><div class="tapa"><span class="cat">CAT. 32</span><img src="img/portadas/Libro%2032.jpg" alt="Portada de La Confederación de las Provincias Unidas de la Nueva Granada" loading="lazy"></div><div class="placa"><h3>La Confederación de las Provincias Unidas de la Nueva Granada</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2033.html"><div class="tapa"><span class="cat">CAT. 33</span><img src="img/portadas/Libro%2033.jpg" alt="Portada de La República, 1819-1880" loading="lazy"></div><div class="placa"><h3>La República, 1819-1880</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2034.html"><div class="tapa"><span class="cat">CAT. 34</span><img src="img/portadas/Libro%2034.jpg" alt="Portada de La Independencia de Colombia. 1780-1830" loading="lazy"></div><div class="placa"><h3>La Independencia de Colombia. 1780-1830</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2035.html"><div class="tapa"><span class="cat">CAT. 35</span><img src="img/portadas/Libro%2035.jpg" alt="Portada de La Provincia de Soto. Orígenes de sus Poblamientos Urbanos." loading="lazy"></div><div class="placa"><h3>La Provincia de Soto. Orígenes de sus Poblamientos Urbanos.</h3><div class="autor">Armando Martínez Garnica; Amado Antonio Guerrero Rincón</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2036.html"><div class="tapa"><span class="cat">CAT. 36</span><img src="img/portadas/Libro%2036.jpg" alt="Portada de Revolución, independencias y guerras civiles" loading="lazy"></div><div class="placa"><h3>Revolución, independencias y guerras civiles</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2037.html"><div class="tapa"><span class="cat">CAT. 37</span><img src="img/portadas/Libro%2037.jpg" alt="Portada de Los colegios electorales de la década revolucionaria" loading="lazy"></div><div class="placa"><h3>Los colegios electorales de la década revolucionaria</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2038.html"><div class="tapa"><span class="cat">CAT. 38</span><img src="img/portadas/Libro%2038.jpg" alt="Portada de Colombia, la grande. Abordajes historiográficos y nuevas perspectivas" loading="lazy"></div><div class="placa"><h3>Colombia, la grande. Abordajes historiográficos y nuevas perspectivas</h3><div class="autor">Armando Martínez Garnica (capítulo); Ángel Rafael Almarza y Gabriel Samacá Alonso (editores académicos)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2039.html"><div class="tapa"><span class="cat">CAT. 39</span><img src="img/portadas/Libro%2039.jpg" alt="Portada de Historia de la provincia de Guane (1540-1939)" loading="lazy"></div><div class="placa"><h3>Historia de la provincia de Guane (1540-1939)</h3><div class="autor">Armando Martínez Garnica; María Consuelo Moreno González; Álvaro Acevedo Tarazona; Gimena Gutiérrez Martínez</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%204.html"><div class="tapa"><span class="cat">CAT. 04</span><img src="img/portadas/Libro%204.jpg" alt="Portada de La batalla decisiva" loading="lazy"></div><div class="placa"><h3>La batalla decisiva</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2040.html"><div class="tapa"><span class="cat">CAT. 40</span><img src="img/portadas/Libro%2040.jpg" alt="Portada de La batalla de Boyacá. Voces testimoniales" loading="lazy"></div><div class="placa"><h3>La batalla de Boyacá. Voces testimoniales</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2041.html"><div class="tapa"><span class="cat">CAT. 41</span><img src="img/portadas/Libro%2041.jpg" alt="Portada de La época de Francisco de Paula Santander" loading="lazy"></div><div class="placa"><h3>La época de Francisco de Paula Santander</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2042.html"><div class="tapa"><span class="cat">CAT. 42</span><img src="img/portadas/Libro%2042.jpg" alt="Portada de Club del Comercio de Bucaramanga" loading="lazy"></div><div class="placa"><h3>Club del Comercio de Bucaramanga</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2043.html"><div class="tapa"><span class="cat">CAT. 43</span><img src="img/portadas/Libro%2043.jpg" alt="Portada de Historia Íntima del Congreso Constituyente de la Villa del Rosario de Cúcuta" loading="lazy"></div><div class="placa"><h3>Historia Íntima del Congreso Constituyente de la Villa del Rosario de Cúcuta</h3><div class="autor">Armando Martínez Garnica - Silvano Pabón Villamizar</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2044.html"><div class="tapa"><span class="cat">CAT. 44</span><img src="img/portadas/Libro%2044.jpg" alt="Portada de Aeropuerto Internacional Palonegro" loading="lazy"></div><div class="placa"><h3>Aeropuerto Internacional Palonegro</h3><div class="autor">Dr. Armando Martínez Garnica (texto); Carlos Eslava Flórez (fotografías y dirección)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2045.html"><div class="tapa"><span class="cat">CAT. 45</span><img src="img/portadas/Libro%2045.jpg" alt="Portada de Introducción a la historia de Barrancabermeja" loading="lazy"></div><div class="placa"><h3>Introducción a la historia de Barrancabermeja</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2046.html"><div class="tapa"><span class="cat">CAT. 46</span><img src="img/portadas/Libro%2046.jpg" alt="Portada de Colectivos sociales y participación popular en la independencia hispanoamericana" loading="lazy"></div><div class="placa"><h3>Colectivos sociales y participación popular en la independencia hispanoamericana</h3><div class="autor">Armando Martínez Garnica (artículo); Germán Cardozo Galué y Arlene Urdaneta Quintero (compiladores)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2047.html"><div class="tapa"><span class="cat">CAT. 47</span><img src="img/portadas/Libro%2047.jpg" alt="Portada de Colombia" loading="lazy"></div><div class="placa"><h3>Colombia</h3><div class="autor">Armando Martínez Garnica (artículo, Revista Semana)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2048.html"><div class="tapa"><span class="cat">CAT. 48</span><img src="img/portadas/Libro%2048.jpg" alt="Portada de América. Contacto e independencia" loading="lazy"></div><div class="placa"><h3>América. Contacto e independencia</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%205.html"><div class="tapa"><span class="cat">CAT. 05</span><img src="img/portadas/Libro%205.jpg" alt="Portada de Historia de las políticas de la Armada Colombiana" loading="lazy"></div><div class="placa"><h3>Historia de las políticas de la Armada Colombiana</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%208.html"><div class="tapa"><span class="cat">CAT. 08</span><img src="img/portadas/Libro%208.jpg" alt="Portada de Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;" loading="lazy"></div><div class="placa"><h3>Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%209.html"><div class="tapa"><span class="cat">CAT. 09</span><img src="img/portadas/Libro%209.jpg" alt="Portada de El gran libro del Bicentenario" loading="lazy"></div><div class="placa"><h3>El gran libro del Bicentenario</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «El gran libro del Bicentenario» (obra colectiva)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%20para%20j%C3%B3venes.html"><div class="tapa"><img src="img/portadas/Libro%20para%20j%C3%B3venes.jpg" alt="Portada de La encrucijada del apóstol Santiago" loading="lazy"></div><div class="placa"><h3>La encrucijada del apóstol Santiago</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a></div></section>
+<div class="grid"><a class="tomo" href="libros/Cap%C3%ADtulo%20de%20el%20terror%20y%20la%20sangre%20sublime.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><img src="img/portadas/Cap%C3%ADtulo%20de%20el%20terror%20y%20la%20sangre%20sublime.jpg" alt="Portada de 1816 / El terror y la sangre sublime" loading="lazy"></div><div class="placa"><h3>1816 / El terror y la sangre sublime</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%201.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 01</span><img src="img/portadas/Libro%201.jpg" alt="Portada de Historia de Colombia. Las experiencias de la sociedad republicana" loading="lazy"></div><div class="placa"><h3>Historia de Colombia. Las experiencias de la sociedad republicana</h3><div class="autor">Armando Martínez Garnica (coordinador)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2010.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 10</span><img src="img/portadas/Libro%2010.jpg" alt="Portada de Nuevas miradas sobre la historia de la Independencia de Colombia" loading="lazy"></div><div class="placa"><h3>Nuevas miradas sobre la historia de la Independencia de Colombia</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2011.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 11</span><img src="img/portadas/Libro%2011.jpg" alt="Portada de 1808. La eclosión juntera en el mundo hispano" loading="lazy"></div><div class="placa"><h3>1808. La eclosión juntera en el mundo hispano</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «1808. La eclosión juntera en el mundo hispano» (coord. M. Chust)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2012.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 12</span><img src="img/portadas/Libro%2012.jpg" alt="Portada de Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820" loading="lazy"></div><div class="placa"><h3>Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2013.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 13</span><img src="img/portadas/Libro%2013.jpg" alt="Portada de Las independencias iberoamericanas en su laberinto. Controversias, cuestiones, interpretaciones" loading="lazy"></div><div class="placa"><h3>Las independencias iberoamericanas en su laberinto. Controversias, cuestiones, interpretaciones</h3><div class="autor">Armando Martínez Garnica — Su entrevista en «Las independencias iberoamericanas en su laberinto» (ed. M. Chust)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2014.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 14</span><img src="img/portadas/Libro%2014.jpg" alt="Portada de Las declaraciones de independencia. Los textos fundamentales de las independencias americanas" loading="lazy"></div><div class="placa"><h3>Las declaraciones de independencia. Los textos fundamentales de las independencias americanas</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «Las declaraciones de independencia» (obra colectiva)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2015.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 15</span><img src="img/portadas/Libro%2015.jpg" alt="Portada de La visión del Nuevo Reino de Granada en las Cortes de Cádiz (1810-1813)" loading="lazy"></div><div class="placa"><h3>La visión del Nuevo Reino de Granada en las Cortes de Cádiz (1810-1813)</h3><div class="autor">Jairo Gutiérrez Ramos &amp; Armando Martínez Garnica (editores)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2016.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 16</span><img src="img/portadas/Libro%2016.jpg" alt="Portada de Bastillas, cetros y blasones. La independencia en Iberoamérica" loading="lazy"></div><div class="placa"><h3>Bastillas, cetros y blasones. La independencia en Iberoamérica</h3><div class="autor">Ivana Frasquet (coord.); capítulo: Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2018.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 18</span><img src="img/portadas/Libro%2018.jpg" alt="Portada de Jamás ha llovido reyes el cielo… De independencias, revoluciones y liberalismos en Iberoamérica" loading="lazy"></div><div class="placa"><h3>Jamás ha llovido reyes el cielo… De independencias, revoluciones y liberalismos en Iberoamérica</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2019.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 19</span><img src="img/portadas/Libro%2019.jpg" alt="Portada de Nuevas miradas a la Campaña Libertadora" loading="lazy"></div><div class="placa"><h3>Nuevas miradas a la Campaña Libertadora</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%202.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 02</span><img src="img/portadas/Libro%202.jpg" alt="Portada de El legado de la «Patria Boba»" loading="lazy"></div><div class="placa"><h3>El legado de la «Patria Boba»</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2020.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 20</span><img src="img/portadas/Libro%2020.jpg" alt="Portada de La opción gaditana en el Nuevo Reino de Granada" loading="lazy"></div><div class="placa"><h3>La opción gaditana en el Nuevo Reino de Granada</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2021.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 21</span><img src="img/portadas/Libro%2021.jpg" alt="Portada de El Bicentenario de la Independencia de Colombia 2019 y los retos de la celebración. Un encuentro en torno a las nuevas corrientes historiográficas" loading="lazy"></div><div class="placa"><h3>El Bicentenario de la Independencia de Colombia 2019 y los retos de la celebración. Un encuentro en torno a las nuevas corrientes historiográficas</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2022.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 22</span><img src="img/portadas/Libro%2022.jpg" alt="Portada de La Provincia de García Rovira. Orígenes de sus poblamientos urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de García Rovira. Orígenes de sus poblamientos urbanos</h3><div class="autor">Jairo Gutiérrez Ramos y Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2023.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 23</span><img src="img/portadas/Libro%2023.jpg" alt="Portada de La Provincia de Vélez. Orígenes de sus poblamientos urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de Vélez. Orígenes de sus poblamientos urbanos</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2024.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 24</span><img src="img/portadas/Libro%2024.jpg" alt="Portada de La Provincia de Guanentá. Orígenes de sus poblamientos urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de Guanentá. Orígenes de sus poblamientos urbanos</h3><div class="autor">Amado Antonio Guerrero Rincón; Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2025.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 25</span><img src="img/portadas/Libro%2025.jpg" alt="Portada de La Provincia de Mares. Orígenes de sus Poblamientos Urbanos" loading="lazy"></div><div class="placa"><h3>La Provincia de Mares. Orígenes de sus Poblamientos Urbanos</h3><div class="autor">Armando Martínez Garnica; Juan Alberto Rueda Cardozo</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2026.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 26</span><img src="img/portadas/Libro%2026.jpg" alt="Portada de ¡Y Colombia fue! La independencia neogranadina y la primera República de Colombia, 1808-1831" loading="lazy"></div><div class="placa"><h3>¡Y Colombia fue! La independencia neogranadina y la primera República de Colombia, 1808-1831</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «¡Y Colombia fue!» (ed. Ó. Almario)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2027.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 27</span><img src="img/portadas/Libro%2027.jpg" alt="Portada de Revista de la Academia Colombiana de Jurisprudencia" loading="lazy"></div><div class="placa"><h3>Revista de la Academia Colombiana de Jurisprudencia</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2028.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 28</span><img src="img/portadas/Libro%2028.jpg" alt="Portada de La formación de los Estados-naciones americanos (1808-1830). Ayer 74, Revista de Historia Contemporánea, 2009 (2)" loading="lazy"></div><div class="placa"><h3>La formación de los Estados-naciones americanos (1808-1830). Ayer 74, Revista de Historia Contemporánea, 2009 (2)</h3><div class="autor">Armando Martínez Garnica e Inés Quintero Montiel</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%203.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 03</span><img src="img/portadas/Libro%203.jpg" alt="Portada de Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe" loading="lazy"></div><div class="placa"><h3>Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe</h3><div class="autor">Armando Martínez Garnica; Daniel Gutiérrez Ardila (editores académicos)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2030.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 30</span><img src="img/portadas/Libro%2030.jpg" alt="Portada de 120 años de luz y fuerza en Santander" loading="lazy"></div><div class="placa"><h3>120 años de luz y fuerza en Santander</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2031.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 31</span><img src="img/portadas/Libro%2031.jpg" alt="Portada de Historia básica de Bucaramanga. Cuatro siglos de un poblamiento, 1622-2022" loading="lazy"></div><div class="placa"><h3>Historia básica de Bucaramanga. Cuatro siglos de un poblamiento, 1622-2022</h3><div class="autor">Armando Martínez Garnica; Álvaro Acevedo Tarazona; Jerson Fidel Jaimes Rodríguez; Diana Carolina Sevilla Torres; Guillermo Vargas Caballero; Gabriel Samacá Alonso; Leonardo Caballero Piza</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2032.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 32</span><img src="img/portadas/Libro%2032.jpg" alt="Portada de La Confederación de las Provincias Unidas de la Nueva Granada" loading="lazy"></div><div class="placa"><h3>La Confederación de las Provincias Unidas de la Nueva Granada</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2033.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 33</span><img src="img/portadas/Libro%2033.jpg" alt="Portada de La República, 1819-1880" loading="lazy"></div><div class="placa"><h3>La República, 1819-1880</h3><div class="autor">Armando Martínez Garnica (capítulo)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2034.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 34</span><img src="img/portadas/Libro%2034.jpg" alt="Portada de La Independencia de Colombia. 1780-1830" loading="lazy"></div><div class="placa"><h3>La Independencia de Colombia. 1780-1830</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2035.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 35</span><img src="img/portadas/Libro%2035.jpg" alt="Portada de La Provincia de Soto. Orígenes de sus Poblamientos Urbanos." loading="lazy"></div><div class="placa"><h3>La Provincia de Soto. Orígenes de sus Poblamientos Urbanos.</h3><div class="autor">Armando Martínez Garnica; Amado Antonio Guerrero Rincón</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2036.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 36</span><img src="img/portadas/Libro%2036.jpg" alt="Portada de Revolución, independencias y guerras civiles" loading="lazy"></div><div class="placa"><h3>Revolución, independencias y guerras civiles</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2037.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 37</span><img src="img/portadas/Libro%2037.jpg" alt="Portada de Los colegios electorales de la década revolucionaria" loading="lazy"></div><div class="placa"><h3>Los colegios electorales de la década revolucionaria</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2038.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 38</span><img src="img/portadas/Libro%2038.jpg" alt="Portada de Colombia, la grande. Abordajes historiográficos y nuevas perspectivas" loading="lazy"></div><div class="placa"><h3>Colombia, la grande. Abordajes historiográficos y nuevas perspectivas</h3><div class="autor">Armando Martínez Garnica (capítulo); Ángel Rafael Almarza y Gabriel Samacá Alonso (editores académicos)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2039.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 39</span><img src="img/portadas/Libro%2039.jpg" alt="Portada de Historia de la provincia de Guane (1540-1939)" loading="lazy"></div><div class="placa"><h3>Historia de la provincia de Guane (1540-1939)</h3><div class="autor">Armando Martínez Garnica; María Consuelo Moreno González; Álvaro Acevedo Tarazona; Gimena Gutiérrez Martínez</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%204.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 04</span><img src="img/portadas/Libro%204.jpg" alt="Portada de La batalla decisiva" loading="lazy"></div><div class="placa"><h3>La batalla decisiva</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2040.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 40</span><img src="img/portadas/Libro%2040.jpg" alt="Portada de La batalla de Boyacá. Voces testimoniales" loading="lazy"></div><div class="placa"><h3>La batalla de Boyacá. Voces testimoniales</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2041.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 41</span><img src="img/portadas/Libro%2041.jpg" alt="Portada de La época de Francisco de Paula Santander" loading="lazy"></div><div class="placa"><h3>La época de Francisco de Paula Santander</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2042.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 42</span><img src="img/portadas/Libro%2042.jpg" alt="Portada de Club del Comercio de Bucaramanga" loading="lazy"></div><div class="placa"><h3>Club del Comercio de Bucaramanga</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2043.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 43</span><img src="img/portadas/Libro%2043.jpg" alt="Portada de Historia Íntima del Congreso Constituyente de la Villa del Rosario de Cúcuta" loading="lazy"></div><div class="placa"><h3>Historia Íntima del Congreso Constituyente de la Villa del Rosario de Cúcuta</h3><div class="autor">Armando Martínez Garnica - Silvano Pabón Villamizar</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2044.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 44</span><img src="img/portadas/Libro%2044.jpg" alt="Portada de Aeropuerto Internacional Palonegro" loading="lazy"></div><div class="placa"><h3>Aeropuerto Internacional Palonegro</h3><div class="autor">Dr. Armando Martínez Garnica (texto); Carlos Eslava Flórez (fotografías y dirección)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2045.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 45</span><img src="img/portadas/Libro%2045.jpg" alt="Portada de Introducción a la historia de Barrancabermeja" loading="lazy"></div><div class="placa"><h3>Introducción a la historia de Barrancabermeja</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2046.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 46</span><img src="img/portadas/Libro%2046.jpg" alt="Portada de Colectivos sociales y participación popular en la independencia hispanoamericana" loading="lazy"></div><div class="placa"><h3>Colectivos sociales y participación popular en la independencia hispanoamericana</h3><div class="autor">Armando Martínez Garnica (artículo); Germán Cardozo Galué y Arlene Urdaneta Quintero (compiladores)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2047.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 47</span><img src="img/portadas/Libro%2047.jpg" alt="Portada de Colombia" loading="lazy"></div><div class="placa"><h3>Colombia</h3><div class="autor">Armando Martínez Garnica (artículo, Revista Semana)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2048.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><span class="cat">CAT. 48</span><img src="img/portadas/Libro%2048.jpg" alt="Portada de América. Contacto e independencia" loading="lazy"></div><div class="placa"><h3>América. Contacto e independencia</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%205.html" data-rev style="--rev-delay:0.14s"><div class="tapa"><span class="cat">CAT. 05</span><img src="img/portadas/Libro%205.jpg" alt="Portada de Historia de las políticas de la Armada Colombiana" loading="lazy"></div><div class="placa"><h3>Historia de las políticas de la Armada Colombiana</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%208.html" data-rev style="--rev-delay:0.21s"><div class="tapa"><span class="cat">CAT. 08</span><img src="img/portadas/Libro%208.jpg" alt="Portada de Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;" loading="lazy"></div><div class="placa"><h3>Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%209.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 09</span><img src="img/portadas/Libro%209.jpg" alt="Portada de El gran libro del Bicentenario" loading="lazy"></div><div class="placa"><h3>El gran libro del Bicentenario</h3><div class="autor">Armando Martínez Garnica — Su capítulo en «El gran libro del Bicentenario» (obra colectiva)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%20para%20j%C3%B3venes.html" data-rev style="--rev-delay:0.07s"><div class="tapa"><img src="img/portadas/Libro%20para%20j%C3%B3venes.jpg" alt="Portada de La encrucijada del apóstol Santiago" loading="lazy"></div><div class="placa"><h3>La encrucijada del apóstol Santiago</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a></div></section>
 <section><h2>Otras obras de su biblioteca</h2>
 <p class="sub">De las obras de terceros solo se publica la ficha; el contenido pertenece
 a sus autores y editoriales.</p>
-<div class="grid"><div class="card g"><h3>De las independencias iberoamericanas a los estados nacionales (1810-1850). 200 años de historia</h3><div class="autor">Ivana Frasquet y Andréa Slemian (eds.)</div><div class="pend">Ficha bibliográfica · texto en revisión de derechos</div></div><div class="card g"><h3>SANTANDER. Destino Turístico de Talla Mundial. Patrimonio Histórico y Cultural de Colombia</h3><div class="autor">Samuel D. Tcherassi B.</div><div class="pend">Ficha bibliográfica · texto en revisión de derechos</div></div></div></section>
+<div class="grid"><div class="card g" data-rev style="--rev-delay:0.00s"><h3>De las independencias iberoamericanas a los estados nacionales (1810-1850). 200 años de historia</h3><div class="autor">Ivana Frasquet y Andréa Slemian (eds.)</div><div class="pend">Ficha bibliográfica · texto en revisión de derechos</div></div><div class="card g" data-rev style="--rev-delay:0.07s"><h3>SANTANDER. Destino Turístico de Talla Mundial. Patrimonio Histórico y Cultural de Colombia</h3><div class="autor">Samuel D. Tcherassi B.</div><div class="pend">Ficha bibliográfica · texto en revisión de derechos</div></div></div></section>
 <section><h2>Publicaciones académicas en línea</h2>
 <p class="sub">Selección de artículos, ediciones digitales y entrevistas con acceso
 verificado en revistas y repositorios académicos. Su producción completa supera los
 doscientos artículos; aquí se enlazan los disponibles en abierto.</p>
-<div class="panel g"><div class="pub-grupo"><div class="decada">Artículos en revistas académicas</div><a class="pub" href="https://publicaciones.banrepcultural.org/index.php/boletin_cultural/article/view/22008/22114" target="_blank" rel="noopener"><div class="pt">Los colegios electorales de la década revolucionaria</div><div class="pm">Boletín Cultural y Bibliográfico · Banco de la República, 2022</div></a><a class="pub" href="https://revistas.utp.edu.co/index.php/historia/article/view/23211/14771" target="_blank" rel="noopener"><div class="pt">El Ejecutivo frente al Congreso en las primeras décadas de la experiencia republicana, 1821-1840</div><div class="pm">Ciencia Nueva · Universidad Tecnológica de Pereira, 2019</div></a><a class="pub" href="https://ediciones.uis.edu.co/index.php/publicacionesuis/catalog/view/499/924/411-1" target="_blank" rel="noopener"><div class="pt">El problema de la selección temática en una historia local: el caso de Bucaramanga</div><div class="pm">Boletín de Historia y Antigüedades, 2019</div></a><a class="pub" href="https://revistas.utp.edu.co/index.php/historia/article/view/14461/9001" target="_blank" rel="noopener"><div class="pt">La historia regional y la generación de las identidades</div><div class="pm">Ciencia Nueva · Universidad Tecnológica de Pereira, 2017</div></a><a class="pub" href="https://doi.org/10.26564/16926250.673" target="_blank" rel="noopener"><div class="pt">El sentido de la enseñanza de las humanidades: una experiencia universitaria</div><div class="pm">Revista Grafía · Universidad Autónoma de Colombia, 2016 · con Álvaro Acevedo</div></a><a class="pub" href="http://erevistas.saber.ula.ve/index.php/actualinvestigacion/article/view/3157/3070" target="_blank" rel="noopener"><div class="pt">¿Puede seguir existiendo la historia regional?</div><div class="pm">Actual Investigación · Universidad de los Andes (Mérida), 2003</div></a><a class="pub" href="http://www.asamblea.gov.pa/legispan/pdf_lnb/2000_LNB/2002_LNB/2002_443_LNB.pdf" target="_blank" rel="noopener"><div class="pt">La agenda de la Administración Obaldía en la transición al régimen federal (1855)</div><div class="pm">Revista cultural Lotería · Panamá, 2002</div></a></div><div class="pub-grupo"><div class="decada">Ediciones digitales de libros</div><a class="pub" href="https://doi.org/10.12804/th9789587842203" target="_blank" rel="noopener"><div class="pt">Historia de la Primera República de Colombia, 1819-1831</div><div class="pm">Editorial Universidad del Rosario, 2019 · DOI</div></a><a class="pub" href="https://heyzine.com/flip-book/5d9383485e.html" target="_blank" rel="noopener"><div class="pt">Historia de las políticas de la Armada Colombiana</div><div class="pm">Universidad del Rosario · Armada de Colombia, 2025</div></a><a class="pub" href="https://www.ellibrototal.com/ltotal/?t=1&amp;d=22088" target="_blank" rel="noopener"><div class="pt">Club del Comercio de Bucaramanga. 150 años</div><div class="pm">Ministerio de las Culturas · El Libro Total, 2024</div></a><a class="pub" href="https://ediciones.uis.edu.co/index.php/publicacionesuis/catalog/view/485/882/395-1" target="_blank" rel="noopener"><div class="pt">Historia básica de Bucaramanga. Cuatro siglos de un poblamiento</div><div class="pm">Ediciones UIS, 2022</div></a></div><div class="pub-grupo"><div class="decada">Entrevistas académicas</div><a class="pub" href="http://www.revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" target="_blank" rel="noopener"><div class="pt">«Ser historiador en Colombia es el más puro resultado de la casualidad»</div><div class="pm">HiSTOReLo · Universidad Nacional, 2013</div></a><a class="pub" href="http://historiaabierta.org/historia2.0/index.php/revista/article/view/H20810/107" target="_blank" rel="noopener"><div class="pt">Entrevista con Diana González y Jairo Melo</div><div class="pm">Historia 2.0, 2014</div></a></div></div></section>
+<div class="panel g"><div class="pub-grupo"><div class="decada">Artículos en revistas académicas</div><a class="pub" href="https://publicaciones.banrepcultural.org/index.php/boletin_cultural/article/view/22008/22114" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">Los colegios electorales de la década revolucionaria</div><div class="pm">Boletín Cultural y Bibliográfico · Banco de la República, 2022</div></a><a class="pub" href="https://revistas.utp.edu.co/index.php/historia/article/view/23211/14771" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">El Ejecutivo frente al Congreso en las primeras décadas de la experiencia republicana, 1821-1840</div><div class="pm">Ciencia Nueva · Universidad Tecnológica de Pereira, 2019</div></a><a class="pub" href="https://ediciones.uis.edu.co/index.php/publicacionesuis/catalog/view/499/924/411-1" target="_blank" rel="noopener" data-rev style="--rev-delay:0.10s"><div class="pt">El problema de la selección temática en una historia local: el caso de Bucaramanga</div><div class="pm">Boletín de Historia y Antigüedades, 2019</div></a><a class="pub" href="https://revistas.utp.edu.co/index.php/historia/article/view/14461/9001" target="_blank" rel="noopener" data-rev style="--rev-delay:0.15s"><div class="pt">La historia regional y la generación de las identidades</div><div class="pm">Ciencia Nueva · Universidad Tecnológica de Pereira, 2017</div></a><a class="pub" href="https://doi.org/10.26564/16926250.673" target="_blank" rel="noopener" data-rev style="--rev-delay:0.20s"><div class="pt">El sentido de la enseñanza de las humanidades: una experiencia universitaria</div><div class="pm">Revista Grafía · Universidad Autónoma de Colombia, 2016 · con Álvaro Acevedo</div></a><a class="pub" href="http://erevistas.saber.ula.ve/index.php/actualinvestigacion/article/view/3157/3070" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">¿Puede seguir existiendo la historia regional?</div><div class="pm">Actual Investigación · Universidad de los Andes (Mérida), 2003</div></a><a class="pub" href="http://www.asamblea.gov.pa/legispan/pdf_lnb/2000_LNB/2002_LNB/2002_443_LNB.pdf" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">La agenda de la Administración Obaldía en la transición al régimen federal (1855)</div><div class="pm">Revista cultural Lotería · Panamá, 2002</div></a></div><div class="pub-grupo"><div class="decada">Ediciones digitales de libros</div><a class="pub" href="https://doi.org/10.12804/th9789587842203" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">Historia de la Primera República de Colombia, 1819-1831</div><div class="pm">Editorial Universidad del Rosario, 2019 · DOI</div></a><a class="pub" href="https://heyzine.com/flip-book/5d9383485e.html" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">Historia de las políticas de la Armada Colombiana</div><div class="pm">Universidad del Rosario · Armada de Colombia, 2025</div></a><a class="pub" href="https://www.ellibrototal.com/ltotal/?t=1&amp;d=22088" target="_blank" rel="noopener" data-rev style="--rev-delay:0.10s"><div class="pt">Club del Comercio de Bucaramanga. 150 años</div><div class="pm">Ministerio de las Culturas · El Libro Total, 2024</div></a><a class="pub" href="https://ediciones.uis.edu.co/index.php/publicacionesuis/catalog/view/485/882/395-1" target="_blank" rel="noopener" data-rev style="--rev-delay:0.15s"><div class="pt">Historia básica de Bucaramanga. Cuatro siglos de un poblamiento</div><div class="pm">Ediciones UIS, 2022</div></a></div><div class="pub-grupo"><div class="decada">Entrevistas académicas</div><a class="pub" href="http://www.revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">«Ser historiador en Colombia es el más puro resultado de la casualidad»</div><div class="pm">HiSTOReLo · Universidad Nacional, 2013</div></a><a class="pub" href="http://historiaabierta.org/historia2.0/index.php/revista/article/view/H20810/107" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">Entrevista con Diana González y Jairo Melo</div><div class="pm">Historia 2.0, 2014</div></a></div></div></section>
 </div>
 
 <footer>
@@ -530,6 +605,13 @@ autorización expresa del autor. Colección personal digitalizada · Bucaramanga
     document.querySelectorAll('[data-rev]').forEach(function(el){o.observe(el);});
   } else {
     document.querySelectorAll('[data-rev]').forEach(function(el){el.classList.add('vis');});
+  }
+  var hero = document.querySelector('.hero');
+  if(hero && 'IntersectionObserver' in window){
+    var oh = new IntersectionObserver(function(es){
+      es.forEach(function(e){ hero.classList.toggle('fuera', !e.isIntersecting); });
+    }, {threshold:0});
+    oh.observe(hero);
   }
 })();
 </script>

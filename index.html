@@ -24,6 +24,7 @@
   --ink:#3A2D1D; --brown:#5A4530; --brown-soft:#7A6248;
   --gold:#8A6532; --gold-b:#A9813E; --lacre:#7A2E1D;
   --line:#CDB98D; --line-soft:rgba(138,101,50,.28);
+  --gold-ink:#75562A; --nav-h:72px; --ease-out:cubic-bezier(.2,.7,.3,1); --dur-base:.35s;
   --serif:Constantia,"Palatino Linotype",Georgia,"Times New Roman",serif;
   --sans:"Segoe UI",Inter,system-ui,Arial,sans-serif;
 }
@@ -32,7 +33,8 @@ html{scroll-behavior:smooth}
 html,body{max-width:100%;overflow-x:clip}
 img{max-width:100%;height:auto}
 body{font-family:var(--serif);color:var(--ink);line-height:1.68;
-  background-color:var(--paper);min-height:100vh}
+  background-color:var(--paper);min-height:100vh;
+  font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1,"kern" 1,"liga" 1}
 
 /* ── fondo fijo: pergamino de archivo ── */
 .fondo{position:fixed;inset:0;z-index:-1;pointer-events:none;
@@ -66,6 +68,11 @@ body{font-family:var(--serif);color:var(--ink);line-height:1.68;
 }
 
 /* ── navegación ── */
+.skip-link{position:absolute;left:16px;top:-60px;z-index:100;
+  background:var(--ink);color:#F7F1E3;font-family:var(--sans);font-size:14px;
+  padding:10px 18px;border-radius:0 0 6px 6px;text-decoration:none;
+  transition:top .25s ease}
+.skip-link:focus{top:0}
 header.nav{position:sticky;top:0;z-index:50;
   background:rgba(240,231,209,.88);
   -webkit-backdrop-filter:blur(14px) saturate(1.15);
@@ -79,17 +86,20 @@ nav.principal .brand{font-family:var(--serif);font-size:17px;letter-spacing:.28e
   color:var(--brown);text-decoration:none;margin-right:auto;
   border:1px solid var(--line-soft);border-radius:3px;padding:3px 10px 3px 12px}
 nav.principal .brand:hover{color:var(--gold)}
-nav.principal a{transition:color .35s cubic-bezier(.2,.7,.3,1)}
 nav.principal a{color:var(--brown-soft);text-decoration:none;letter-spacing:.13em;
-  text-transform:uppercase;transition:color .25s;white-space:nowrap;position:relative}
-nav.principal a:not(.brand)::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;
-  background:var(--gold-b);transition:width .3s}
-nav.principal a:not(.brand):hover::after{width:100%}
-nav.principal a:hover{color:var(--gold)}
+  text-transform:uppercase;white-space:nowrap;position:relative;
+  transition:color var(--dur-base) var(--ease-out)}
+nav.principal a:not(.brand)::after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:1px;
+  background:var(--gold-b);transform:scaleX(0);transform-origin:left;
+  transition:transform var(--dur-base) var(--ease-out)}
+nav.principal a:not(.brand):hover::after,nav.principal a:not(.brand):focus-visible::after{transform:scaleX(1)}
+nav.principal a:hover,nav.principal a:focus-visible{color:var(--gold)}
+nav.principal a:focus-visible{outline:none}
 
 /* ── estructura ── */
 .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
 section{padding:84px 0;position:relative}
+section[id]{scroll-margin-top:var(--nav-h)}
 .banda-osc{background:linear-gradient(180deg, rgba(90,69,48,.075), rgba(90,69,48,.13));
   border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
 .banda-clara{background:linear-gradient(180deg, rgba(255,252,242,.5), rgba(255,252,242,.28));
@@ -99,32 +109,43 @@ section{padding:84px 0;position:relative}
 .enc{position:relative;margin-bottom:10px}
 .enc .folio{position:absolute;right:-6px;top:-58px;font-family:var(--serif);
   font-size:clamp(90px,13vw,150px);line-height:1;color:transparent;
-  -webkit-text-stroke:1.5px rgba(138,101,50,.22);pointer-events:none;user-select:none}
+  -webkit-text-stroke:1.5px rgba(138,101,50,.22);pointer-events:none;user-select:none;
+  text-shadow:-1px -1px 0 rgba(255,251,235,.35), 1px 1.5px 1px rgba(58,45,29,.28)}
 @supports not (-webkit-text-stroke:1px black){.enc .folio{color:rgba(138,101,50,.10)}}
 .enc .rotulo{font-family:var(--sans);font-size:10.5px;letter-spacing:.34em;
-  text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  text-transform:uppercase;color:var(--gold-ink);margin-bottom:10px}
 h2{font-weight:400;font-size:clamp(30px,4.6vw,46px);color:var(--brown);
    margin-bottom:8px;overflow-wrap:break-word;line-height:1.08;
-   display:inline-block;max-width:100%}
+   display:inline-block;max-width:100%;text-wrap:balance}
 h2::after{content:"";display:block;width:100%;height:2px;margin-top:14px;
    background:linear-gradient(90deg,var(--gold-b),transparent)}
 .sub{font-family:var(--sans);font-size:14px;color:var(--brown-soft);margin:14px 0 36px;max-width:640px}
 .kicker{font-family:var(--sans);font-size:11.5px;letter-spacing:.22em;
-        text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+        text-transform:uppercase;color:var(--gold-ink);margin-bottom:14px}
 .page-hero{padding:54px 0 4px}
 .page-hero h1{font-weight:400;font-size:clamp(30px,4.4vw,42px);color:var(--brown);line-height:1.14}
 
 /* aparición al hacer scroll */
-[data-rev]{opacity:0;transform:translateY(26px);
+[data-rev]{opacity:0;transform:translateY(26px);transition-delay:var(--rev-delay,0s);
   transition:opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1)}
 [data-rev].vis{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-rev]{transition-delay:0s!important}}
 
 /* ═════════ HERO «frontispicio» ═════════ */
 .hero{min-height:96vh;display:flex;flex-direction:column;justify-content:center;
       position:relative;padding:44px 0 0;overflow:visible}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:140px;z-index:-1;
+  background:linear-gradient(180deg, transparent, rgba(58,45,29,.09) 65%, rgba(58,45,29,.15));
+  pointer-events:none}
+.hero + section{position:relative;
+  box-shadow:inset 0 24px 32px -28px rgba(58,45,29,.32)}
 .rosa{position:absolute;right:-140px;top:44%;transform:translateY(-50%);
-  width:min(560px,58vw);color:var(--gold);opacity:.11;z-index:-1;
+  width:min(560px,58vw);color:var(--gold);opacity:.16;z-index:-1;
+  mix-blend-mode:multiply;
+  filter:drop-shadow(-1px -1px 0 rgba(255,247,225,.18)) drop-shadow(2px 3px 3px rgba(58,45,29,.22));
   animation:girar 150s linear infinite}
+@supports not (mix-blend-mode:multiply){.rosa{opacity:.11;mix-blend-mode:normal}}
+.hero.fuera .rosa,.hero.fuera h1.nombre-mayor .apellido{animation-play-state:paused}
 @keyframes girar{to{transform:translateY(-50%) rotate(360deg)}}
 .hero-top{text-align:center;position:relative}
 .hero-top .kicker{margin-bottom:20px}
@@ -132,13 +153,13 @@ h2::after{content:"";display:block;width:100%;height:2px;margin-top:14px;
 h1.nombre-mayor{font-weight:400;line-height:.98;color:var(--brown)}
 h1.nombre-mayor .nombre{display:block;font-size:clamp(19px,2.6vw,27px);
   letter-spacing:.55em;text-transform:uppercase;color:var(--brown-soft);
-  margin-bottom:12px;padding-left:.55em}
+  margin-bottom:12px;padding-left:.55em;transform:translateX(.275em)}
 h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   letter-spacing:.005em;
   background:linear-gradient(105deg,var(--brown) 0 38%,var(--gold-b) 50%,var(--brown) 62% 100%);
   background-size:260% 100%;-webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:var(--brown);
-  animation:destello 9s ease-in-out infinite}
+  animation:destello 9s ease-in-out infinite;text-wrap:balance}
 @keyframes destello{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
 @supports not (-webkit-background-clip:text){h1.nombre-mayor .apellido{background:none;-webkit-text-fill-color:currentColor;color:var(--brown)}}
 .rubrica{display:block;width:min(520px,72vw);margin:10px auto 0;color:var(--gold-b)}
@@ -147,11 +168,11 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 
 .hero-grid{display:grid;grid-template-columns:400px 1fr;gap:70px;align-items:center;
   margin-top:54px}
-.marco-wrap{position:relative;justify-self:center}
+.marco-wrap{position:relative;justify-self:center;--tilt:-1.6deg}
 .marco{background:linear-gradient(160deg,#5A4530,#3E2E1C 70%);padding:13px;
   box-shadow:0 30px 70px rgba(58,45,29,.44), 0 6px 18px rgba(58,45,29,.25);
-  transform:rotate(-1.6deg);transition:transform .5s;position:relative}
-.marco-wrap:hover .marco{transform:rotate(0deg)}
+  transform:rotate(var(--tilt));transition:transform .5s;position:relative}
+.marco-wrap:hover{--tilt:0deg}
 .marco .filete{border:1px solid rgba(216,176,138,.75);padding:11px;background:#F6EFDD}
 .marco img{display:block;width:100%;border:1px solid rgba(138,101,50,.4);filter:sepia(.1)}
 .marco .placa-lat{margin-top:11px;text-align:center;
@@ -160,10 +181,14 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   background:linear-gradient(180deg,#E9DCBB,#D9C48F);border:1px solid rgba(110,82,42,.5);
   border-radius:2px;padding:7px 58px 7px 14px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 1px 3px rgba(58,45,29,.3)}
-.sello{position:absolute;right:-34px;bottom:-30px;width:104px;
-  transform:rotate(9deg);filter:drop-shadow(0 8px 14px rgba(58,30,17,.4));
-  transition:transform .4s}
-.marco-wrap:hover .sello{transform:rotate(3deg) scale(1.04)}
+.sello-wrap{position:absolute;right:-34px;bottom:-30px;width:104px;
+  transform:rotate(calc(var(--tilt) + 7.6deg));transition:transform .4s}
+.marco-wrap:hover .sello-wrap{transform:rotate(calc(var(--tilt) + 4.6deg)) scale(1.04)}
+.sello-wrap::before{content:"";position:absolute;left:10%;top:56%;width:80%;height:44%;
+  background:radial-gradient(closest-side, rgba(48,36,23,.45), rgba(48,36,23,0) 72%);
+  filter:blur(4px);transform:rotate(-8deg);pointer-events:none;z-index:-1}
+.sello{display:block;width:100%;height:100%;
+  filter:drop-shadow(0 8px 14px rgba(58,30,17,.4))}
 
 .hero-datos .lead{font-family:var(--sans);font-size:16.5px;color:var(--brown-soft);
   max-width:560px;line-height:1.85}
@@ -172,7 +197,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .cifra{position:relative;padding:10px 26px;text-align:center}
 .cifra+.cifra::before{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:1px;
   background:linear-gradient(180deg,transparent,var(--line-soft) 20%,var(--line-soft) 80%,transparent)}
-.cifra .n{font-family:var(--serif);font-size:clamp(28px,3.2vw,38px);color:var(--gold);
+.cifra .n{font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1;
+  font-family:var(--serif);font-size:clamp(28px,3.2vw,38px);color:var(--gold);
   line-height:1;font-style:italic;font-weight:400;letter-spacing:-.01em;
   display:inline-block;transform:rotate(-1.5deg)}
 .cifra:nth-child(2) .n{transform:rotate(1deg)}
@@ -185,6 +211,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
      padding:13px 30px;border-radius:26px;text-decoration:none;
      font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:background .25s,transform .25s}
 .cta:hover{background:var(--gold);transform:translateY(-2px)}
+.cta:focus-visible,.cta-ghost:focus-visible{outline:2px solid var(--lacre);outline-offset:3px}
+.cta:active,.cta-ghost:active{transform:scale(.96)}
 .cta-ghost{display:inline-block;border:1px solid var(--gold-b);color:var(--gold);
   padding:12px 28px;border-radius:26px;text-decoration:none;
   font-family:var(--sans);font-size:14px;letter-spacing:.04em;transition:all .25s}
@@ -200,7 +228,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .bio-panel{padding:52px 56px;position:relative}
 .bio-panel::before{content:"§ I";position:absolute;top:22px;right:30px;
   font-family:var(--serif);font-size:15px;color:var(--gold-b);opacity:.75}
-.bio{column-count:2;column-gap:46px;text-align:justify;hyphens:auto;font-size:16.5px}
+.bio{columns:2 23em;column-gap:46px;text-align:justify;hyphens:auto;font-size:16.5px;orphans:3;widows:3}
+.bio.escribiendo{column-count:1;text-align:left}
 .bio p+p{text-indent:1.5em}
 .bio em{font-style:italic}
 .bio > p:first-child::first-letter{font-size:3.4em;float:left;line-height:.82;
@@ -213,14 +242,25 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .tomo{position:relative;display:flex;flex-direction:column;text-decoration:none;
   transition:transform .38s cubic-bezier(.2,.7,.3,1)}
 .tomo:hover{transform:translateY(-10px)}
+.tomo:focus-visible{transform:translateY(-10px);outline:none}
+.tomo:focus-visible .tapa img{transform:translateY(-4px) scale(1.028) rotate(.35deg);
+  box-shadow:0 26px 52px rgba(74,55,30,.34), 0 6px 14px rgba(74,55,30,.22), 0 2px 1px rgba(74,55,30,.36)}
+.tomo:focus-visible .placa .leer{text-decoration:underline}
+.tomo:active .tapa img{transform:translateY(-1px) scale(1.01)}
 .tapa{position:relative;aspect-ratio:3/3.9;display:flex;align-items:flex-end;justify-content:center;
   background:transparent;border:none;padding:22px 26px 0;overflow:visible}
+.tapa::after{content:"";position:absolute;left:50%;bottom:4px;width:60%;height:13px;
+  transform:translateX(-50%) scaleX(1);
+  background:radial-gradient(closest-side, rgba(58,45,29,.38), rgba(58,45,29,0) 75%);
+  filter:blur(3px);pointer-events:none;
+  transition:transform .42s cubic-bezier(.2,.7,.3,1), opacity .42s cubic-bezier(.2,.7,.3,1)}
+.tomo:hover .tapa::after{transform:translateX(-50%) scaleX(.84);opacity:.65}
 .tapa img{max-height:100%;width:auto;max-width:100%;object-fit:contain;
-  box-shadow:0 16px 34px rgba(74,55,30,.30), 0 4px 10px rgba(74,55,30,.20);
+  box-shadow:0 16px 34px rgba(74,55,30,.30), 0 4px 10px rgba(74,55,30,.20), 0 3px 2px rgba(74,55,30,.32);
   border:1px solid rgba(138,101,50,.22);
   transition:transform .42s cubic-bezier(.2,.7,.3,1), box-shadow .42s cubic-bezier(.2,.7,.3,1)}
 .tomo:hover .tapa img{transform:translateY(-4px) scale(1.028) rotate(.35deg);
-  box-shadow:0 26px 52px rgba(74,55,30,.34), 0 6px 14px rgba(74,55,30,.22)}
+  box-shadow:0 26px 52px rgba(74,55,30,.34), 0 6px 14px rgba(74,55,30,.22), 0 2px 1px rgba(74,55,30,.36)}
 .cat{position:absolute;top:6px;left:8px;z-index:2;
   font-family:var(--sans);font-size:9.5px;letter-spacing:.22em;color:var(--gold);
   border:1px solid rgba(138,101,50,.4);border-radius:2px;padding:3px 8px;
@@ -229,7 +269,7 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   border:1px solid var(--line);border-top:2px solid var(--gold-b);
   padding:18px 20px 16px;display:flex;flex-direction:column;flex:1;
   box-shadow:0 12px 30px rgba(74,55,30,.2)}
-.placa h3{font-weight:400;font-size:16.5px;line-height:1.36;margin-bottom:6px;color:var(--brown)}
+.placa h3{font-weight:400;font-size:16.5px;line-height:1.36;margin-bottom:6px;color:var(--brown);text-wrap:balance}
 .placa .autor{font-family:var(--sans);font-size:11.5px;color:var(--brown-soft);margin-bottom:12px}
 .placa .leer{margin-top:auto;color:var(--gold);font-family:var(--sans);font-size:13px}
 .tomo:hover .placa .leer{text-decoration:underline}
@@ -239,7 +279,7 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .tomo.insigne .tapa{aspect-ratio:auto;width:320px;flex:none;border:none;
   align-items:center;padding:34px}
 .tomo.insigne .placa{border-top:2px solid var(--gold-b);justify-content:center;padding:34px 44px}
-.tomo.insigne .placa h3{font-size:clamp(20px,2.6vw,27px)}
+.tomo.insigne .placa h3{font-size:clamp(20px,2.6vw,27px);text-wrap:balance}
 .tomo.insigne .placa .autor{font-size:12.5px;margin-bottom:16px}
 .tomo.insigne .nota-insigne{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft);
   line-height:1.75;margin-bottom:18px;max-width:520px}
@@ -249,7 +289,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 /* ═════════ trayectoria: legajo de tinta ═════════ */
 .tl{padding:50px 58px}
 .tl-item{display:grid;grid-template-columns:128px 30px 1fr;gap:0 22px;align-items:start}
-.tl-año{font-family:var(--serif);font-size:21px;color:var(--gold);text-align:right;
+.tl-año{font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1;
+  font-family:var(--serif);font-size:21px;color:var(--gold);text-align:right;
   padding:22px 0;line-height:1.15}
 .tl-eje{position:relative;height:100%;min-height:88px}
 .tl-eje::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;
@@ -263,11 +304,12 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .tl-item:hover .tl-punto{transform:translate(-50%,-50%) scale(1.25) rotate(-8deg)}
 .tl-punto svg{display:block;width:100%;height:100%}
 .tl-cargo{padding:18px 0 28px}
-.tl-cargo b{display:block;font-size:20px;font-weight:400;color:var(--brown)}
+.tl-cargo b{display:block;font-size:20px;font-weight:400;color:var(--brown);text-wrap:balance}
 .tl-cargo span{font-family:var(--sans);font-size:13.5px;color:var(--brown-soft)}
 .link-discreto{display:inline-block;margin-top:20px;font-family:var(--sans);font-size:13.5px;
-  color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--line-soft)}
+  color:var(--gold-ink);text-decoration:none;border-bottom:1px dotted var(--line-soft)}
 .link-discreto:hover{color:var(--brown)}
+.link-discreto:focus-visible{color:var(--brown);outline:2px solid var(--gold-b);outline-offset:2px}
 
 /* ═════════ prensa: recortes de periódico ═════════ */
 .prensa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));
@@ -275,20 +317,29 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .recorte{position:relative;display:flex;flex-direction:column;gap:11px;
   padding:34px 28px 26px;text-decoration:none;
   background:
-    repeating-linear-gradient(0deg, rgba(90,69,48,.045) 0 1px, transparent 1px 5px),
+    url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.30%200%200%200%200%200.22%200%200%200%200%200.12%200%200%200%200.085%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22260%22%20height%3D%22260%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"),
+    repeating-linear-gradient(1deg, rgba(90,69,48,.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(-1.4deg, rgba(90,69,48,.035) 0 1px, transparent 1px 6px),
     linear-gradient(180deg,#F8F3E2,#F1E8CE);
+  background-blend-mode:multiply, normal, normal, normal;
   border:1px solid rgba(138,101,50,.32);
   clip-path:polygon(0 2%,3% 0,97% 1%,100% 3%,99.4% 96%,96% 100%,4% 99%,.5% 97%);
-  box-shadow:0 14px 34px rgba(74,55,30,.20);
+  box-shadow:0 14px 34px rgba(74,55,30,.20), inset 0 1px 0 rgba(255,255,255,.55);
   transition:transform .35s, box-shadow .35s}
 .recorte.r1{transform:rotate(-1.1deg)}
 .recorte.r2{transform:rotate(.9deg)}
 .recorte.r3{transform:rotate(-.5deg)}
-.recorte:hover{transform:rotate(0deg) translateY(-6px);box-shadow:0 22px 50px rgba(74,55,30,.28);z-index:2}
+.recorte:hover{transform:rotate(0deg) translateY(-6px);
+  box-shadow:0 22px 50px rgba(74,55,30,.28), inset 0 1px 0 rgba(255,255,255,.6);z-index:2}
+.recorte:focus-visible{transform:rotate(0deg) translateY(-6px);
+  box-shadow:0 22px 50px rgba(74,55,30,.28), inset 0 1px 0 rgba(255,255,255,.6);
+  z-index:2;outline:2px solid var(--gold-b);outline-offset:4px}
+.recorte.enlace:focus-visible .ver-nota{opacity:1;transform:none}
+.recorte:active{transform:translateY(-2px) scale(.99)}
 .recorte::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-2deg);
   width:88px;height:24px;background:rgba(214,193,140,.55);
   border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
-  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+  box-shadow:0 2px 4px rgba(74,55,30,.22), 0 7px 11px -3px rgba(74,55,30,.30)}
 .recorte .medio{color:var(--ink);
   border-bottom:2px solid rgba(122,46,29,.55);padding-bottom:9px}
 .masth{display:inline-flex;align-items:baseline;gap:7px;line-height:1;
@@ -304,7 +355,7 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   align-items:center}
 .m-silla svg{width:17px;height:20px;color:var(--lacre)}
 .m-hist{font-family:var(--serif);font-weight:700;font-size:21px}
-.recorte .titular{font-size:18.5px;line-height:1.4;color:var(--brown);font-weight:400;overflow-wrap:break-word}
+.recorte .titular{font-size:18.5px;line-height:1.4;color:var(--brown);font-weight:400;overflow-wrap:break-word;text-wrap:balance}
 .recorte .titular.q::before{content:"« "}.recorte .titular.q::after{content:" »"}
 .recorte .nota{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:auto}
 .recorte .ver-nota{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold-b);
@@ -316,13 +367,14 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .recorte-feature::after{content:"";position:absolute;top:-11px;right:12%;transform:rotate(3deg);
   width:88px;height:24px;background:rgba(214,193,140,.55);
   border-left:1px dashed rgba(120,95,50,.3);border-right:1px dashed rgba(120,95,50,.3);
-  box-shadow:0 2px 5px rgba(74,55,30,.18)}
+  box-shadow:0 2px 4px rgba(74,55,30,.22), 0 7px 11px -3px rgba(74,55,30,.30)}
 .recorte-feature .comillon{position:absolute;top:6px;left:50%;transform:translateX(-50%);
   font-family:Georgia,serif;font-size:120px;line-height:1;color:rgba(169,129,62,.28);
   pointer-events:none;user-select:none}
 .recorte-feature .titular{font-size:clamp(23px,3.3vw,33px);font-style:italic;
-  color:var(--gold);max-width:840px;margin-top:26px}
-.recorte-feature .titular.q::before{content:"\201C"}.recorte-feature .titular.q::after{content:"\201D"}
+  color:var(--gold);max-width:840px;margin-top:26px;text-wrap:balance;hanging-punctuation:first last}
+.recorte-feature .titular.q::before{content:"\201C";margin-left:-.32em}
+.recorte-feature .titular.q::after{content:"\201D";margin-right:-.32em}
 .recorte-feature:hover{transform:translateY(-6px)}
 
 /* ═════════ podcast ═════════ */
@@ -336,9 +388,14 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   background:var(--brown);color:#F7F1E3;font-size:16px;line-height:1;
   display:flex;align-items:center;justify-content:center;transition:background .25s,transform .25s}
 #btnPlay:hover{background:var(--gold);transform:scale(1.06)}
+#btnPlay:focus-visible{outline:2px solid var(--lacre);outline-offset:3px}
+#btnPlay:active{transform:scale(.96)}
+#btnPlay .ico{display:inline-block;transition:transform .16s var(--ease-out)}
 .barra{flex:1;height:5px;border-radius:3px;background:rgba(138,101,50,.20);
-       cursor:pointer;position:relative}
-.barra .fill{height:100%;width:0%;border-radius:3px;
+       cursor:pointer;position:relative;transition:height .15s var(--ease-out)}
+.barra:hover,.barra:focus-visible{height:8px}
+.barra:focus-visible{outline:2px solid var(--gold-b);outline-offset:3px}
+.barra .fill{height:100%;width:0%;border-radius:3px;transition:width .15s linear;
   background:linear-gradient(90deg,var(--gold),var(--gold-b))}
 .tiempo{font-family:var(--sans);font-size:12px;color:var(--brown-soft);min-width:42px;text-align:right}
 .player .otro{margin-top:22px;background:transparent;position:relative;
@@ -346,6 +403,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   border-radius:22px;cursor:pointer;font-family:var(--sans);font-size:13.5px;
   transition:background .25s,color .25s}
 .player .otro:hover{background:var(--gold-b);color:#FBF6EA}
+.player .otro:focus-visible,.form button[type=submit]:focus-visible{outline:2px solid var(--lacre);outline-offset:3px}
+.player .otro:active,.form button[type=submit]:active{transform:scale(.96)}
 .bobina{position:absolute;right:26px;top:26px;width:44px;height:44px;color:var(--gold-b);
   opacity:.55;transition:opacity .3s}
 .bobina.girando{animation:girar2 3.2s linear infinite;opacity:.9}
@@ -364,7 +423,9 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .form input,.form textarea{width:100%;padding:13px 15px;border-radius:8px;
   border:1px solid var(--line);background:rgba(255,253,247,.8);
   color:var(--ink);font-family:var(--sans);font-size:15px;transition:border-color .25s}
-.form input:focus,.form textarea:focus{outline:none;border-color:var(--gold)}
+.form input:focus,.form textarea:focus{border-color:var(--gold)}
+.form input:focus-visible,.form textarea:focus-visible{
+  outline:2px solid var(--gold);outline-offset:1px;box-shadow:0 0 0 3px rgba(169,129,62,.25)}
 .form ::placeholder{color:rgba(122,98,72,.5)}
 .form button[type=submit]{margin-top:26px;background:var(--lacre);color:#F3E3CE;
   border:none;padding:14px 36px;border-radius:26px;font-family:var(--sans);
@@ -376,6 +437,11 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   transition:color .25s}
 .correo-directo svg{color:var(--gold);flex-shrink:0}
 .correo-directo:hover{color:var(--gold)}
+.correo-directo:focus-visible{color:var(--brown);outline:2px solid var(--gold-b);outline-offset:2px}
+@media (hover:none){
+  .recorte .ver-nota{opacity:1;transform:none}
+  .tomo .placa .leer{text-decoration:underline;text-underline-offset:2px}
+}
 
 /* ── títulos ── */
 .panel{padding:38px 44px}
@@ -388,7 +454,8 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .rec{display:grid;grid-template-columns:64px 1fr;gap:16px;
      border-bottom:1px solid rgba(138,101,50,.12);padding:13px 0}
 .rec:last-child{border-bottom:none}
-.rec .año{font-family:var(--serif);font-size:17px;color:var(--gold)}
+.rec .año{font-family:var(--serif);font-size:17px;color:var(--gold);
+  font-variant-numeric:oldstyle-nums;font-feature-settings:"onum" 1}
 .rec .que{font-family:var(--sans);font-size:14px;color:var(--ink);line-height:1.6}
 
 /* ── libros (página completa) ── */
@@ -396,8 +463,13 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
 .grid .tomo .tapa{padding:20px 24px}
 .card{padding:26px 28px;display:flex;flex-direction:column;border-top:3px solid var(--gold-b);
       transition:transform .3s, box-shadow .3s}
-.card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(74,55,30,.22)}
-.card h3{font-weight:400;font-size:16.5px;line-height:1.38;margin-bottom:9px;
+.card:hover{transform:translateY(-4px);
+  box-shadow:0 18px 44px rgba(74,55,30,.22), inset 0 1px 0 rgba(255,255,255,.85)}
+.card:focus-visible{transform:translateY(-4px);
+  box-shadow:0 18px 44px rgba(74,55,30,.22), inset 0 1px 0 rgba(255,255,255,.85);
+  outline:2px solid var(--gold-b);outline-offset:4px}
+.card:active{transform:translateY(-1px) scale(.99)}
+.card h3{text-wrap:balance;font-weight:400;font-size:16.5px;line-height:1.38;margin-bottom:9px;
          color:var(--brown);overflow-wrap:break-word}
 .card .autor{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-bottom:16px}
 .card a{margin-top:auto;color:var(--gold);text-decoration:none;font-family:var(--sans);font-size:13.5px}
@@ -415,9 +487,10 @@ h1.nombre-mayor .apellido{display:block;font-size:clamp(46px,8.6vw,104px);
   border-bottom:1px solid rgba(138,101,50,.14);transition:background .2s}
 .pub:last-child{border-bottom:none}
 .pub:hover{background:rgba(169,129,62,.07)}
-.pub .pt{font-size:16px;color:var(--brown);line-height:1.4}
+.pub:focus-visible{background:rgba(169,129,62,.07);outline:2px solid var(--gold-b);outline-offset:-2px}
+.pub .pt{font-size:16px;color:var(--brown);line-height:1.4;text-wrap:balance}
 .pub:hover .pt{color:var(--gold)}
-.pub .pm{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:3px}
+.pub .pm{font-family:var(--sans);font-size:12px;color:var(--brown-soft);margin-top:3px;font-variant-numeric:oldstyle-nums}
 .pub .pm::after{content:" · leer →";color:var(--gold-b);font-weight:600}
 
 /* ── pie editorial ── */
@@ -442,12 +515,13 @@ footer a:hover{text-decoration:underline}
   .rosa{right:-200px;opacity:.08}
 }
 @media(max-width:880px){
+  :root{--nav-h:120px}
   nav.principal{justify-content:center}
   nav.principal .brand{margin-right:0;width:100%;text-align:center;border:none;padding:0 0 4px}
   .hero{min-height:auto;padding:38px 0 0}
   .hero-grid{grid-template-columns:1fr;gap:44px;margin-top:40px}
   .marco-wrap{max-width:330px;margin:0 auto}
-  .sello{right:-18px;bottom:-24px;width:88px}
+  .sello-wrap{right:-18px;bottom:-24px;width:88px}
   .cifras{gap:30px}
   .bio{column-count:1}
   .bio-panel{padding:34px 26px}
@@ -459,6 +533,7 @@ footer a:hover{text-decoration:underline}
   .enc .folio{top:-40px;font-size:clamp(70px,17vw,110px)}
 }
 @media(max-width:560px){
+  :root{--nav-h:136px}
   section{padding:56px 0}
   .wrap{padding:0 16px}
   .estante{grid-template-columns:1fr}
@@ -482,8 +557,8 @@ footer a:hover{text-decoration:underline}
 </style></head><body>
 <div class="fondo" aria-hidden="true"></div>
 <div id="progreso" aria-hidden="true"></div>
-<header class="nav"><nav class="principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
-<div class="hero">
+<header class="nav"><a class="skip-link" href="#contenido">Saltar al contenido</a><nav class="principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
+<div class="hero" id="contenido">
   <div class="wrap">
     <svg class="rosa" viewBox="0 0 400 400" aria-hidden="true">
 <g fill="none" stroke="currentColor">
@@ -520,11 +595,11 @@ M170 33 C230 40 300 36 352 31" stroke="currentColor" stroke-width="2.2" stroke-l
       <div class="marco-wrap" data-in style="animation-delay:.45s">
         <div class="marco">
           <div class="filete">
-            <img src="img/retrato.jpg" alt="Retrato de Armando Martínez Garnica">
+            <img src="img/retrato.jpg" alt="Retrato de Armando Martínez Garnica" width="760" height="842" loading="eager" fetchpriority="high">
             <div class="placa-lat">Una vida dedicada a que Colombia no olvide su historia</div>
           </div>
         </div>
-        <svg class="sello" viewBox="0 0 120 120" aria-hidden="true">
+        <div class="sello-wrap"><svg class="sello" viewBox="0 0 120 120" aria-hidden="true">
 <defs><radialGradient id="lacre" cx="42%" cy="36%" r="72%">
 <stop offset="0%" stop-color="#9C4A33"/><stop offset="55%" stop-color="#7A2E1D"/>
 <stop offset="100%" stop-color="#571E11"/></radialGradient></defs>
@@ -537,7 +612,7 @@ M170 33 C230 40 300 36 352 31" stroke="currentColor" stroke-width="2.2" stroke-l
  fill="#D8B08A" letter-spacing="2.6" opacity=".85">ARCHIVO</text>
 <text x="60" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="7.2"
  fill="#D8B08A" letter-spacing="2.2" opacity=".85">BUCARAMANGA</text>
-</svg>
+</svg></div>
       </div>
       <div class="hero-datos">
         <p class="lead" data-in style="animation-delay:.65s">Doctor en Historia por <b>El Colegio de México</b> ·
@@ -626,20 +701,27 @@ personal, ahora digitalizado.</p>
     el.style.minHeight = el.getBoundingClientRect().height + 'px';
     el.classList.add('escribiendo');
     el.innerHTML = '';
-    var mostrado = 0;
-    var paso = Math.max(1, Math.round(total/700));
-    var timer = setInterval(function(){
-      mostrado += paso;
-      if(mostrado >= total){
+    var duracion = 1400;
+    var pasosTotales = 40;
+    var inicio = null, ultimoPaso = -1;
+    function tick(ts){
+      if(inicio === null) inicio = ts;
+      var avance = Math.min(1, (ts - inicio) / duracion);
+      var paso = Math.floor(avance * pasosTotales);
+      if(paso !== ultimoPaso){
+        ultimoPaso = paso;
+        el.innerHTML = '';
+        el.appendChild(construir(Math.round(total * avance)));
+      }
+      if(avance < 1){
+        requestAnimationFrame(tick);
+      } else {
         el.innerHTML = original;
         el.classList.remove('escribiendo');
         el.style.minHeight = '';
-        clearInterval(timer);
-        return;
       }
-      el.innerHTML = '';
-      el.appendChild(construir(mostrado));
-    }, 20);
+    }
+    requestAnimationFrame(tick);
   }
 
   if('IntersectionObserver' in window){
@@ -660,7 +742,7 @@ personal, ahora digitalizado.</p>
       <h2>La biblioteca</h2></div>
     <p class="sub">Cincuenta y un libros de su colección personal fueron digitalizados página a
     página y transcritos contra el ejemplar impreso. Una selección de su obra:</p>
-    <div class="estante"><a class="tomo insigne" href="libros/Libro%208.html" data-rev><div class="tapa"><span class="cat">CAT. 08</span><img src="img/portadas/Libro%208.jpg" alt="Portada de Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;" loading="lazy"></div><div class="placa"><div class="insigne-rotulo">Obra insigne de la colección</div><h3>Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;</h3><div class="autor">Armando Martínez Garnica</div><div class="nota-insigne">Edición digital íntegra, digitalizada página a página del ejemplar de su colección personal.</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2041.html" data-rev><div class="tapa"><span class="cat">CAT. 41</span><img src="img/portadas/Libro%2041.jpg" alt="Portada de La época de Francisco de Paula Santander" loading="lazy"></div><div class="placa"><h3>La época de Francisco de Paula Santander</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%202.html" data-rev><div class="tapa"><span class="cat">CAT. 02</span><img src="img/portadas/Libro%202.jpg" alt="Portada de El legado de la «Patria Boba»" loading="lazy"></div><div class="placa"><h3>El legado de la «Patria Boba»</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%203.html" data-rev><div class="tapa"><span class="cat">CAT. 03</span><img src="img/portadas/Libro%203.jpg" alt="Portada de Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe" loading="lazy"></div><div class="placa"><h3>Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe</h3><div class="autor">Armando Martínez Garnica; Daniel Gutiérrez Ardila (editores académicos)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2012.html" data-rev><div class="tapa"><span class="cat">CAT. 12</span><img src="img/portadas/Libro%2012.jpg" alt="Portada de Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820" loading="lazy"></div><div class="placa"><h3>Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2036.html" data-rev><div class="tapa"><span class="cat">CAT. 36</span><img src="img/portadas/Libro%2036.jpg" alt="Portada de Revolución, independencias y guerras civiles" loading="lazy"></div><div class="placa"><h3>Revolución, independencias y guerras civiles</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a></div>
+    <div class="estante"><a class="tomo insigne" href="libros/Libro%208.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 08</span><img src="img/portadas/Libro%208.jpg" alt="Portada de Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;" loading="lazy"></div><div class="placa"><div class="insigne-rotulo">Obra insigne de la colección</div><h3>Historia de la primera República de Colombia, 1819-1831. &quot;Decid Colombia sea, y Colombia será&quot;</h3><div class="autor">Armando Martínez Garnica</div><div class="nota-insigne">Edición digital íntegra, digitalizada página a página del ejemplar de su colección personal.</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2041.html" data-rev style="--rev-delay:0.08s"><div class="tapa"><span class="cat">CAT. 41</span><img src="img/portadas/Libro%2041.jpg" alt="Portada de La época de Francisco de Paula Santander" loading="lazy"></div><div class="placa"><h3>La época de Francisco de Paula Santander</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%202.html" data-rev style="--rev-delay:0.16s"><div class="tapa"><span class="cat">CAT. 02</span><img src="img/portadas/Libro%202.jpg" alt="Portada de El legado de la «Patria Boba»" loading="lazy"></div><div class="placa"><h3>El legado de la «Patria Boba»</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%203.html" data-rev style="--rev-delay:0.00s"><div class="tapa"><span class="cat">CAT. 03</span><img src="img/portadas/Libro%203.jpg" alt="Portada de Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe" loading="lazy"></div><div class="placa"><h3>Quién es quién en 1810. Guía de forasteros del Virreinato de Santa Fe</h3><div class="autor">Armando Martínez Garnica; Daniel Gutiérrez Ardila (editores académicos)</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2012.html" data-rev style="--rev-delay:0.08s"><div class="tapa"><span class="cat">CAT. 12</span><img src="img/portadas/Libro%2012.jpg" alt="Portada de Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820" loading="lazy"></div><div class="placa"><h3>Sermones patrióticos en el comienzo de la República de Colombia, 1819-1820</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a><a class="tomo" href="libros/Libro%2036.html" data-rev style="--rev-delay:0.16s"><div class="tapa"><span class="cat">CAT. 36</span><img src="img/portadas/Libro%2036.jpg" alt="Portada de Revolución, independencias y guerras civiles" loading="lazy"></div><div class="placa"><h3>Revolución, independencias y guerras civiles</h3><div class="autor">Armando Martínez Garnica</div><span class="leer">Leer edición digital →</span></div></a></div>
     <a class="cta" href="libros.html" style="margin-top:36px">Explorar la biblioteca completa →</a>
   </div>
 </section>
@@ -671,7 +753,7 @@ personal, ahora digitalizado.</p>
       <div class="rotulo">Folio III</div>
       <h2>Trayectoria</h2></div>
     <p class="sub">Los cargos que definieron una vida al servicio de la historia.</p>
-    <div class="tl g" data-rev><div class="tl-item">
+    <div class="tl g"><div class="tl-item" data-rev style="--rev-delay:0.00s">
 <div class="tl-año">1987–2013</div>
 <div class="tl-eje"><span class="tl-punto"><svg viewBox="0 0 40 40" aria-hidden="true">
 <defs><radialGradient id="lm1" cx="42%" cy="36%" r="72%">
@@ -682,7 +764,7 @@ personal, ahora digitalizado.</p>
 <text x="20" y="25.5" text-anchor="middle" font-family="Georgia,serif" font-size="14.5"
  fill="#E8C9A6">I</text></svg></span></div>
 <div class="tl-cargo"><b>Profesor titular, Escuela de Historia</b><span>Universidad Industrial de Santander — distinguido profesor emérito</span></div>
-</div><div class="tl-item">
+</div><div class="tl-item" data-rev style="--rev-delay:0.09s">
 <div class="tl-año">18 años</div>
 <div class="tl-eje"><span class="tl-punto"><svg viewBox="0 0 40 40" aria-hidden="true">
 <defs><radialGradient id="lm2" cx="42%" cy="36%" r="72%">
@@ -693,7 +775,7 @@ personal, ahora digitalizado.</p>
 <text x="20" y="25.5" text-anchor="middle" font-family="Georgia,serif" font-size="14.5"
  fill="#E8C9A6">II</text></svg></span></div>
 <div class="tl-cargo"><b>Director, Revista de Santander</b><span>Publicación cultural y de pensamiento regional</span></div>
-</div><div class="tl-item">
+</div><div class="tl-item" data-rev style="--rev-delay:0.18s">
 <div class="tl-año">2016–2019</div>
 <div class="tl-eje"><span class="tl-punto"><svg viewBox="0 0 40 40" aria-hidden="true">
 <defs><radialGradient id="lm3" cx="42%" cy="36%" r="72%">
@@ -704,7 +786,7 @@ personal, ahora digitalizado.</p>
 <text x="20" y="25.5" text-anchor="middle" font-family="Georgia,serif" font-size="14.5"
  fill="#E8C9A6">III</text></svg></span></div>
 <div class="tl-cargo"><b>Director general</b><span>Archivo General de la Nación de Colombia</span></div>
-</div><div class="tl-item">
+</div><div class="tl-item" data-rev style="--rev-delay:0.27s">
 <div class="tl-año">Vitalicio</div>
 <div class="tl-eje"><span class="tl-punto"><svg viewBox="0 0 40 40" aria-hidden="true">
 <defs><radialGradient id="lm4" cx="42%" cy="36%" r="72%">
@@ -715,7 +797,7 @@ personal, ahora digitalizado.</p>
 <text x="20" y="25.5" text-anchor="middle" font-family="Georgia,serif" font-size="14.5"
  fill="#E8C9A6">IV</text></svg></span></div>
 <div class="tl-cargo"><b>Investigador emérito</b><span>Sistema Nacional de Ciencia, Tecnología e Innovación</span></div>
-</div><div class="tl-item">
+</div><div class="tl-item" data-rev style="--rev-delay:0.36s">
 <div class="tl-año">2022–hoy</div>
 <div class="tl-eje"><span class="tl-punto"><svg viewBox="0 0 40 40" aria-hidden="true">
 <defs><radialGradient id="lm5" cx="42%" cy="36%" r="72%">
@@ -739,7 +821,7 @@ personal, ahora digitalizado.</p>
       <h2>En la prensa</h2></div>
     <p class="sub">Titulares y entrevistas en medios colombianos — cada pieza corresponde a una
     publicación real.</p>
-    <div class="prensa-grid" data-rev><a class="recorte recorte-feature enlace" href="https://revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" target="_blank" rel="noopener"><span class="comillon" aria-hidden="true">“</span><div class="medio"><span class="masth m-hist">HiSTOReLo <small>Revista de Historia Regional y Local</small></span></div><div class="titular q">Ser historiador en Colombia es el más puro resultado de la casualidad</div><div class="nota">La entrevista más citada de su trayectoria</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r2 enlace" href="https://www.elespectador.com/colombia/mas-regiones/armando-martinez-es-el-nuevo-presidente-de-la-academia-colombiana-de-historia/" target="_blank" rel="noopener"><div class="medio"><span class="masth m-espe">El Espectador</span></div><div class="titular q">Armando Martínez es el nuevo presidente de la Academia Colombiana de Historia</div><div class="nota">Su elección al frente de la Academia, 2022</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r3 enlace" href="https://www.vanguardia.com/entretenimiento/cultura/armando-martinez-garnica-un-santandereano-que-hace-historia-YG5495607" target="_blank" rel="noopener"><div class="medio"><span class="masth m-vang"><i>&#187;</i>Vanguardia</span></div><div class="titular q">Armando Martínez Garnica: un santandereano que hace historia</div><div class="nota">Perfil que lo destaca como el historiador más reconocido de Santander</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r1 enlace" href="https://www.elespectador.com/politica/constituyente-de-villa-del-rosario-y-un-debate-a-la-historia-colombiana/" target="_blank" rel="noopener"><div class="medio"><span class="masth m-espe">El Espectador</span></div><div class="titular q">Constituyente de Villa del Rosario y un debate a la historia colombiana</div><div class="nota">Debate historiográfico en la prensa nacional</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r2 enlace" href="https://www.elnuevosiglo.com.co/columnistas/el-santander-de-martinez-garnica" target="_blank" rel="noopener"><div class="medio"><span class="masth m-nsiglo">EL NUEVO SIGLO</span></div><div class="titular q">El Santander de Martínez Garnica</div><div class="nota">Columna de opinión</div><span class="ver-nota">Leer la nota →</span></a><div class="recorte r3"><div class="medio"><span class="masth m-silla"><svg viewBox="0 0 20 24" aria-hidden="true"><path d="M4 2v9M16 2v9M4 8h12M5 11v11M15 11v11M5 15h10" stroke="currentColor" stroke-width="2.1" fill="none" stroke-linecap="round"/></svg>La Silla Vac&iacute;a</span></div><div class="titular">Entrevistado sobre la historia política de Colombia</div><div class="nota">Conversación en profundidad</div></div><a class="recorte r1 enlace" href="https://www.laopinion.co/opinion/columnistas/armando-martinez-garnica" target="_blank" rel="noopener"><div class="medio"><span class="masth m-opi">La Opini&oacute;n <small>C&uacute;cuta</small></span></div><div class="titular">Columnista y voz recurrente sobre la historia de los Santanderes</div><div class="nota">Colaboración de prensa regional</div><span class="ver-nota">Leer la nota →</span></a></div>
+    <div class="prensa-grid"><a class="recorte recorte-feature enlace" href="https://revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" data-rev style="--rev-delay:0.00s" target="_blank" rel="noopener"><span class="comillon" aria-hidden="true">“</span><div class="medio"><span class="masth m-hist">HiSTOReLo <small>Revista de Historia Regional y Local</small></span></div><div class="titular q">Ser historiador en Colombia es el más puro resultado de la casualidad</div><div class="nota">La entrevista más citada de su trayectoria</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r2 enlace" href="https://www.elespectador.com/colombia/mas-regiones/armando-martinez-es-el-nuevo-presidente-de-la-academia-colombiana-de-historia/" data-rev style="--rev-delay:0.08s" target="_blank" rel="noopener"><div class="medio"><span class="masth m-espe">El Espectador</span></div><div class="titular q">Armando Martínez es el nuevo presidente de la Academia Colombiana de Historia</div><div class="nota">Su elección al frente de la Academia, 2022</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r3 enlace" href="https://www.vanguardia.com/entretenimiento/cultura/armando-martinez-garnica-un-santandereano-que-hace-historia-YG5495607" data-rev style="--rev-delay:0.16s" target="_blank" rel="noopener"><div class="medio"><span class="masth m-vang"><i>&#187;</i>Vanguardia</span></div><div class="titular q">Armando Martínez Garnica: un santandereano que hace historia</div><div class="nota">Perfil que lo destaca como el historiador más reconocido de Santander</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r1 enlace" href="https://www.elespectador.com/politica/constituyente-de-villa-del-rosario-y-un-debate-a-la-historia-colombiana/" data-rev style="--rev-delay:0.24s" target="_blank" rel="noopener"><div class="medio"><span class="masth m-espe">El Espectador</span></div><div class="titular q">Constituyente de Villa del Rosario y un debate a la historia colombiana</div><div class="nota">Debate historiográfico en la prensa nacional</div><span class="ver-nota">Leer la nota →</span></a><a class="recorte r2 enlace" href="https://www.elnuevosiglo.com.co/columnistas/el-santander-de-martinez-garnica" data-rev style="--rev-delay:0.32s" target="_blank" rel="noopener"><div class="medio"><span class="masth m-nsiglo">EL NUEVO SIGLO</span></div><div class="titular q">El Santander de Martínez Garnica</div><div class="nota">Columna de opinión</div><span class="ver-nota">Leer la nota →</span></a><div class="recorte r3" data-rev style="--rev-delay:0.40s"><div class="medio"><span class="masth m-silla"><svg viewBox="0 0 20 24" aria-hidden="true"><path d="M4 2v9M16 2v9M4 8h12M5 11v11M15 11v11M5 15h10" stroke="currentColor" stroke-width="2.1" fill="none" stroke-linecap="round"/></svg>La Silla Vac&iacute;a</span></div><div class="titular">Entrevistado sobre la historia política de Colombia</div><div class="nota">Conversación en profundidad</div></div><a class="recorte r1 enlace" href="https://www.laopinion.co/opinion/columnistas/armando-martinez-garnica" data-rev style="--rev-delay:0.40s" target="_blank" rel="noopener"><div class="medio"><span class="masth m-opi">La Opini&oacute;n <small>C&uacute;cuta</small></span></div><div class="titular">Columnista y voz recurrente sobre la historia de los Santanderes</div><div class="nota">Colaboración de prensa regional</div><span class="ver-nota">Leer la nota →</span></a></div>
   </div>
 </section>
 
@@ -760,8 +842,8 @@ personal, ahora digitalizado.</p>
       <div class="titulo" id="clipTitulo">—</div>
       <audio id="clipAudio" preload="metadata"></audio>
       <div class="ctl">
-        <button id="btnPlay" aria-label="Reproducir o pausar">▶</button>
-        <div class="barra" id="barra" aria-hidden="true"><div class="fill" id="fill"></div></div>
+        <button id="btnPlay" aria-pressed="false" aria-label="Reproducir fragmento"><span class="ico">▶</span></button>
+        <div class="barra" id="barra" role="slider" tabindex="0" aria-label="Progreso del episodio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="fill"></div></div>
         <span class="tiempo" id="tiempo">0:00</span>
       </div>
       <button class="otro" onclick="otroClip()">⟳ Escuchar otro fragmento</button>
@@ -780,19 +862,38 @@ personal, ahora digitalizado.</p>
         BO=document.getElementById('bobina');
   function fmtT(s){if(!isFinite(s))return'0:00';const m=Math.floor(s/60),x=Math.floor(s%60);
     return m+':'+String(x).padStart(2,'0');}
+  function setEstadoBoton(reproduciendo){
+    var ico = BT.querySelector('.ico');
+    ico.style.transform = 'scale(0)';
+    setTimeout(function(){
+      ico.textContent = reproduciendo ? '❚❚' : '▶';
+      ico.style.transform = 'scale(1)';
+    }, 90);
+    BT.setAttribute('aria-pressed', reproduciendo ? 'true' : 'false');
+    BT.setAttribute('aria-label', reproduciendo ? 'Pausar fragmento' : 'Reproducir fragmento');
+  }
   function setClip(i,autoplay){actual=i;A.src=clips[i].src;TT.textContent=clips[i].t;
     FI.style.width='0%';TI.textContent='0:00';
-    if(autoplay){A.play().catch(()=>{});}else{BT.textContent='▶';}}
+    if(autoplay){A.play().catch(()=>{});}else{setEstadoBoton(false);}}
   function otroClip(){let i;do{i=Math.floor(Math.random()*clips.length)}
     while(i===actual&&clips.length>1);setClip(i,true);}
   BT.addEventListener('click',()=>{A.paused?A.play().catch(()=>{}):A.pause();});
-  A.addEventListener('play', ()=>{BT.textContent='❚❚';BO.classList.add('girando');});
-  A.addEventListener('pause',()=>{BT.textContent='▶';BO.classList.remove('girando');});
-  A.addEventListener('ended',()=>{BT.textContent='▶';FI.style.width='0%';BO.classList.remove('girando');});
+  A.addEventListener('play', ()=>{setEstadoBoton(true);BO.classList.add('girando');});
+  A.addEventListener('pause',()=>{setEstadoBoton(false);BO.classList.remove('girando');});
+  A.addEventListener('ended',()=>{setEstadoBoton(false);FI.style.width='0%';BO.classList.remove('girando');});
   A.addEventListener('timeupdate',()=>{if(A.duration){
-    FI.style.width=(100*A.currentTime/A.duration)+'%';TI.textContent=fmtT(A.currentTime);}});
+    var pct=100*A.currentTime/A.duration;
+    FI.style.width=pct+'%';TI.textContent=fmtT(A.currentTime);
+    BA.setAttribute('aria-valuenow', Math.round(pct));}});
   BA.addEventListener('click',e=>{if(!A.duration)return;
     const r=BA.getBoundingClientRect();A.currentTime=A.duration*(e.clientX-r.left)/r.width;});
+  BA.addEventListener('keydown', e=>{
+    if(!A.duration) return;
+    if(e.key==='ArrowRight'){ A.currentTime = Math.min(A.duration, A.currentTime+5); }
+    else if(e.key==='ArrowLeft'){ A.currentTime = Math.max(0, A.currentTime-5); }
+    else return;
+    e.preventDefault();
+  });
   setClip(Math.floor(Math.random()*clips.length),false);
   </script>
 </section>
@@ -870,6 +971,13 @@ autorización expresa del autor. Colección personal digitalizada · Bucaramanga
     document.querySelectorAll('[data-rev]').forEach(function(el){o.observe(el);});
   } else {
     document.querySelectorAll('[data-rev]').forEach(function(el){el.classList.add('vis');});
+  }
+  var hero = document.querySelector('.hero');
+  if(hero && 'IntersectionObserver' in window){
+    var oh = new IntersectionObserver(function(es){
+      es.forEach(function(e){ hero.classList.toggle('fuera', !e.isIntersecting); });
+    }, {threshold:0});
+    oh.observe(hero);
   }
 })();
 </script>
