@@ -15,9 +15,17 @@
    ═══════════════════════════════════════════════════════════════ */
 * { box-sizing: border-box; margin: 0 }
 html { scroll-behavior: smooth }
-html, body { max-width: 100%; overflow-x: clip }   /* clip, no hidden: hidden crea
-                                                      un scroll container y eso mata
-                                                      todos los position:sticky */
+html, body {
+  max-width: 100%; overflow-x: clip;   /* clip, no hidden: hidden crea
+                                          un scroll container y eso mata
+                                          todos los position:sticky */
+  /* overscroll-behavior-y: dentro del navegador integrado de Instagram/
+     Facebook, el gesto de swipe vertical se lo roba su propia capa de
+     "pull" en vez de dejarlo hacer scroll a la pagina, y se siente como
+     si la pagina "saltara" a otra parte. contain evita que el gesto se
+     propague fuera del documento. */
+  overscroll-behavior-y: contain;
+}
 img { max-width: 100%; height: auto }
 
 body {
