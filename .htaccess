@@ -1,0 +1,113 @@
+# ══════════════════════════════════════════════════════════════════════
+#  armandomartinezgarnica.com · configuración de seguridad
+#  Hosting: LiteSpeed (compatible con la sintaxis .htaccess de Apache 2.4)
+#
+#  ⚠ ANTES DE SUBIRLO: el servidor YA TIENE un .htaccess propio (es el que
+#    hoy envía Strict-Transport-Security, X-Frame-Options y nosniff) y ese
+#    archivo NO está en el repositorio. Descárgalo primero, compáralo con
+#    éste y FUSIONA. Si lo reemplazas a ciegas puedes borrar reglas que no
+#    ves aquí (redirecciones, páginas de error, caché, WordPress…).
+#
+#  Verificación después de subir (desde la carpeta del toolchain del taller):
+#    node herramientas/escaner-headers.js https://armandomartinezgarnica.com
+#  Deben aparecer las 6 cabeceras y "Redirige a HTTPS ✓".
+# ══════════════════════════════════════════════════════════════════════
+
+
+# ── 1 · Forzar HTTPS ──────────────────────────────────────────────────
+# Hoy http://armandomartinezgarnica.com responde 200 sin redirigir: un
+# atacante en la misma red (wifi de un café, de una universidad) puede
+# interceptar y modificar la página antes de que HSTS llegue a actuar.
+# Las tres condiciones deben cumplirse a la vez para redirigir; así no se
+# produce bucle si el servidor está detrás de un proxy que termina el TLS.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteCond %{SERVER_PORT} !=443
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+
+# ── 2 · Cabeceras de seguridad ────────────────────────────────────────
+<IfModule mod_headers.c>
+
+  # Ya activa en el servidor. Se repite idéntica (mismo max-age, sin
+  # 'preload') para que no se pierda al fusionar este archivo.
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
+
+  # Ya activas en el servidor. Se repiten idénticas por la misma razón.
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+
+  # NUEVA · qué URL se filtra al salir del sitio (los enlaces de prensa y
+  # de revistas académicas van a dominios de terceros).
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # NUEVA · apaga permisos del navegador que este sitio no usa nunca.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+
+  # NUEVA · Content-Security-Policy. Es la última red contra XSS.
+  # Cada valor corresponde a algo que el sitio usa DE VERDAD:
+  #   script-src 'unsafe-inline'  → los 6 bloques <script> inline y el
+  #                                 onclick="otroClip()" del reproductor.
+  #                                 Un nonce NO cubre el onclick inline.
+  #   style-src  'unsafe-inline'  → el <style> del <head> de cada página,
+  #                                 los <style> de los 51 libros y los
+  #                                 atributos style="--rev-delay:…".
+  #   img-src    data:            → el favicon SVG, las texturas de papel
+  #                                 y los facsímiles base64 de los libros.
+  #                                 Sin esto los 51 libros salen en blanco.
+  #   media-src  'self'           → audio/clip1..3.mp3 del podcast.
+  #   connect-src script.google.com + script.googleusercontent.com
+  #                               → el fetch del formulario de contacto
+  #                                 cuando se conecte el Apps Script
+  #                                 (googleusercontent es el destino del
+  #                                 redirect 302 que emite /exec; sin él el
+  #                                 envío falla EN SILENCIO por mode:no-cors).
+  # NO se pone 'upgrade-insecure-requests': hay enlaces de archivo a
+  # erevistas.saber.ula.ve y asamblea.gov.pa que solo existen por http://.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
+
+  # No anunciar la versión de PHP (hoy delata "PHP/8.2.32", que es un
+  # atajo para buscarle CVEs al servidor).
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+
+</IfModule>
+
+
+# ── 3 · Archivos que el hosting no debe servir jamás ──────────────────
+# El backend de Apps Script vive ahora en _backend-no-publicar/ y está en
+# el .gitignore, pero si alguien vuelve a copiar un .gs por FTP o cPanel,
+# esta regla lo deja en 403 igualmente.
+<FilesMatch "\.(gs|env|bak|sql|log|sh|ini|swp|dist|old|orig)$">
+  Require all denied
+</FilesMatch>
+
+# Nada dentro de la carpeta de backend, pase lo que pase.
+RedirectMatch 403 ^/_backend-no-publicar(/.*)?$
+
+# Metadatos de git, editores y archivos de configuración de despliegue.
+RedirectMatch 403 ^/\.git(/.*)?$
+RedirectMatch 403 ^/\.htaccess$
+RedirectMatch 403 ^/_headers$
+
+
+# ── 4 · Sin listado de directorios ────────────────────────────────────
+# Que /img/portadas/ o /audio/ no muestren el índice completo de archivos.
+#
+# ⚠ Si al subir este archivo el sitio devuelve HTTP 500, casi siempre es por
+#   esta línea: algunos hostings compartidos no permiten "Options" dentro de un
+#   .htaccess (AllowOverride limitado). Bórrala y vuelve a probar; el resto de
+#   la configuración es independiente de ella.
+Options -Indexes
+
+
+# ── 5 · Tipos MIME correctos ──────────────────────────────────────────
+# Con nosniff activo, un MIME equivocado deja de cargar el recurso.
+<IfModule mod_mime.c>
+  AddType audio/mpeg .mp3
+  AddType application/pdf .pdf
+  AddType image/svg+xml .svg
+</IfModule>

@@ -1,0 +1,214 @@
+/**
+ * tokens.css — el sistema del archivo. Un solo lugar, una sola verdad.
+ *
+ * Antes de este archivo el sitio tenía TRES copias byte-idénticas del mismo
+ * bloque <style> (538 líneas × 3 = 71.670 bytes redundantes, el 36,7 % de todo
+ * el HTML) y ningún token de espacio, escala ni forma.
+ *
+ * Regla dura: ningún valor de color, tamaño, espacio, radio, sombra o duración
+ * se escribe suelto en un componente. Si no existe aquí, o se agrega con
+ * criterio, o no se necesita.
+ *
+ * ═══ CÓMO LEER LOS RATIOS ═══
+ * Cada color de texto lleva su contraste real (WCAG 2.1, calculado, no estimado)
+ * contra los cuatro fondos que existen en el sitio:
+ *
+ *   PAPEL  #EBDFC3   el fondo general
+ *   PIE    #E9DEC4   el pie de página
+ *   BANDA  #D8CBB0   .banda-osc — EL FONDO MÁS OSCURO, el que manda
+ *   PANEL  #FAF6EA   .g — el panel pergamino, el más claro
+ *
+ * El umbral es 4.5:1 para texto normal y 3:1 para bordes y focos (SC 1.4.11).
+ * Si un token baja de ahí, no se "ve más elegante": se vuelve ilegible.
+ */
+
+:root {
+
+  /* ═══════════════════════════════════════════════════════════════
+     1 · COLOR
+     Paleta monocromática cálida sepia: todo vive en el rango de tono
+     25-40°. Los únicos dos acentos fuera de eje son el lacre y la
+     franja «par avion» del formulario, y ambos están casi ocultos.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* — Superficies — */
+  --papel: #EBDFC3;
+  --papel-fondo: #EADEC0;                 /* base del pergamino procedural */
+  --panel: rgba(252, 248, 238, .90);
+  --panel-solido: #FBF6EA;                /* respaldo sin backdrop-filter */
+  --pie: rgba(233, 222, 196, .9);
+
+  /* — Texto —                            PAPEL   PIE   BANDA  PANEL  */
+  --tinta:      #3A2D1D;               /* 10.09  9.99   8.32  12.36  AAA */
+  --marron:     #5A4530;               /*  6.82  6.75   5.62   8.35  AAA */
+  --marron-sua: #68533D;               /*  5.49  5.43   4.52   6.72  AA
+                                          era #7A6248 = 4.33:1 sobre papel y
+                                          3.57:1 sobre banda. Fallaba en el
+                                          subtítulo de CADA sección y en el pie. */
+  --oro-tinta:  #6E5128;               /*  5.53  5.47   4.56   6.77  AA
+                                          el oro LEGIBLE. Todo texto dorado usa
+                                          éste; nunca --oro ni --oro-claro.
+                                          #75562A (el valor anterior) daba 4.19:1
+                                          sobre BANDA y dejaba el rótulo de la
+                                          sección «La biblioteca» bajo AA. */
+
+  /* — Oro ornamental — NUNCA para texto pequeño. Sirve de borde y de trazo,
+       donde el umbral es 3:1, no 4.5:1. Separar los dos roles es lo que
+       arregla el botón fantasma que tenía el borde Y el texto bajo AA. */
+  --oro:       #8A6532;                /*  3.98  3.94   3.28   4.87  borde ✓ (>3) */
+  --oro-claro: #A9813E;                /*  2.69  2.66   2.22   3.30  SOLO degradados
+                                          y filetes decorativos: no delimita nada
+                                          ni indica ningún estado. */
+
+  /* — Acento único — el lacre. Manda en sellos, capitular, envío del
+       formulario y, desde ahora, en TODOS los anillos de foco: antes el foco
+       era dorado en 5 sitios, oro en 2 y lacre en 4, y el dorado daba 2.69:1,
+       por debajo del 3:1 que pide SC 1.4.11 para un indicador de foco. */
+  --lacre: #7A2E1D;                    /*  7.10  7.03   5.85   8.69  AAA */
+  --foco:  var(--lacre);
+
+  /* — Verde del podcast — #1a9e4b daba 2.63:1. El logotipo SVG conserva el
+       verde de marca (es decorativo, aria-hidden); el texto del enlace no. */
+  --verde-audio: #166534;              /*  5.39  ————   ————   ————  AA */
+
+  /* — Líneas — */
+  --linea: #CDB98D;                    /* filete decorativo: no delimita controles */
+  --linea-sutil: rgba(138, 101, 50, .28);
+  --linea-campo: var(--oro);           /* borde de input: 3.98:1, cumple SC 1.4.11.
+                                          Antes era --linea = 1.45:1. */
+
+  /* — Texto sobre fondo oscuro — */
+  --sobre-oscuro: #F7F1E3;             /* sobre --marron → 8.01:1  AAA
+                                          sobre --oro    → 4.68:1  AA (hover del CTA) */
+  --sobre-lacre:  #F3E3CE;             /* sobre --lacre  → 7.46:1  AAA */
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     2 · TIPOGRAFÍA
+     Nueve pasos fluidos. El sitio tenía 23 tamaños distintos en una
+     sola página: 23 tamaños no se eligen, se acumulan. Con nueve pasos
+     definidos de antemano, cada tamaño nuevo obliga a preguntarse si
+     el problema es la escala o la jerarquía — casi siempre es la
+     jerarquía.
+
+     La razón se ABRE en pantallas grandes (~1.20 en móvil → ~1.28 en
+     escritorio): ahí es donde hay sitio para que los títulos manden.
+     ═══════════════════════════════════════════════════════════════ */
+
+  --serif: Constantia, "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --sans: "Segoe UI", Inter, system-ui, Arial, sans-serif;
+
+  --t-2xs:  clamp(10.5px, 10.0px + 0.15vw, 11.5px);  /* versalitas, rótulos, folios */
+  --t-xs:   clamp(12.0px, 11.4px + 0.18vw, 13.0px);  /* metadatos, notas, pie */
+  --t-sm:   clamp(13.5px, 12.8px + 0.22vw, 15.0px);  /* interfaz, botones, enlaces */
+  --t-base: clamp(15.5px, 14.6px + 0.28vw, 17.0px);  /* prosa */
+  --t-md:   clamp(17.0px, 15.8px + 0.38vw, 20.0px);  /* títulos de ficha, titulares */
+  --t-lg:   clamp(19.0px, 16.9px + 0.66vw, 24.0px);  /* cargos, cabeceras de prensa */
+  --t-xl:   clamp(26.0px, 20.5px + 1.70vw, 38.0px);  /* cifras, cita destacada */
+  --t-2xl:  clamp(30.0px, 22.7px + 2.30vw, 46.0px);  /* h1 de página, h2 */
+  --t-display: clamp(46px, 8.6vw, 104px);            /* el apellido y el folio fantasma */
+
+  --lh-apretado: 1.08;    /* display grande: a 6rem, 1.5 abre un abismo */
+  --lh-corto: 1.36;
+  --lh-normal: 1.68;      /* prosa */
+
+  --track-display: .005em;
+  --track-amplio: .13em;
+  --track-marca: .22em;
+  --track-rotulo: .34em;
+  --track-nombre: .55em;
+
+  /* La medida es el token de legibilidad más importante y el más ignorado.
+     Medido antes: el subtítulo de sección daba 91 caracteres a 14px (640px de
+     ancho), y la lista de títulos pasaba de 120. El canon es 45-75. */
+  --medida: 66ch;
+  --medida-corta: 54ch;
+  --medida-ancha: 74ch;
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     3 · ESPACIO
+     Base 4px en escala casi geométrica (razón ~1.45). Los saltos son
+     bastante distintos entre sí como para que elegir «el siguiente»
+     sea una decisión y no una duda de 2px. Había 31 valores sueltos.
+     ═══════════════════════════════════════════════════════════════ */
+
+  --e-1: 4px;
+  --e-2: 8px;
+  --e-3: 12px;
+  --e-4: 18px;
+  --e-5: 26px;
+  --e-6: 38px;
+  --e-7: 56px;
+  --e-8: 84px;
+  --e-seccion: clamp(56px, 42px + 3.5vw, 84px);   /* ritmo vertical entre secciones */
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     4 · FORMA
+     Cuatro radios. Había ocho valores distintos conviviendo sin regla:
+     doce valores no son un vocabulario de forma, son ruido.
+     ═══════════════════════════════════════════════════════════════ */
+
+  --r-xs: 2px;      /* placas metálicas, badges: casi recto, como el metal */
+  --r-sm: 6px;      /* campos de formulario */
+  --r-md: 14px;     /* paneles pergamino */
+  --r-pill: 999px;  /* botones */
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     5 · SOMBRA
+     Se tiñen con el color de la escena, JAMÁS con negro: una sombra
+     negra sobre papel sepia ensucia el sitio entero.
+     ═══════════════════════════════════════════════════════════════ */
+
+  --s-2: 0 10px 34px rgba(74, 55, 30, .16), 0 2px 8px rgba(74, 55, 30, .10);
+  --s-3: 0 14px 34px rgba(74, 55, 30, .20);
+  --s-4: 0 22px 50px rgba(74, 55, 30, .28);
+
+  /* Objeto físico: tres capas — difusa, media y de contacto. */
+  --s-objeto: 0 16px 34px rgba(74, 55, 30, .30),
+              0 4px 10px rgba(74, 55, 30, .20),
+              0 3px 2px rgba(74, 55, 30, .32);
+  --s-objeto-alto: 0 26px 52px rgba(74, 55, 30, .34),
+                   0 6px 14px rgba(74, 55, 30, .22),
+                   0 2px 1px rgba(74, 55, 30, .36);
+
+  --brillo-interior: inset 0 1px 0 rgba(255, 255, 255, .8);
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     6 · MOVIMIENTO
+     Cinco duraciones y cinco curvas. No más. Había 14 duraciones
+     sueltas: un botón y un panel de pantalla completa no pueden
+     moverse igual.
+     ═══════════════════════════════════════════════════════════════ */
+
+  --d-1: .16s;   /* micro: el icono del botón de play */
+  --d-2: .25s;   /* estados de control */
+  --d-3: .4s;    /* tarjetas, objetos que se levantan */
+  --d-4: .9s;    /* entradas al hacer scroll */
+  --d-5: 2.6s;   /* la firma que se dibuja */
+
+  --ease-salida: cubic-bezier(.2, .7, .3, 1);   /* la curva de la casa */
+  --ease-entrada: cubic-bezier(.4, 0, .2, 1);
+  --ease-suave: ease-out;
+  --ease-lineal: linear;
+
+
+  /* ═══════════════════════════════════════════════════════════════
+     7 · MEDIDAS DE INTERFAZ
+     ═══════════════════════════════════════════════════════════════ */
+
+  --nav-h: 72px;         /* alto de la nav pegajosa, para el scroll-margin */
+  --tactil: 44px;        /* área táctil mínima — WCAG 2.5.5 */
+  --ancho-max: 1120px;
+}
+
+/* La nav se reajusta sola: --nav-h alimenta el scroll-margin-top de cada
+   sección, así que el ancla nunca queda debajo de la barra.
+   En móvil la nav pasa a una sola fila desplazable (antes se envolvía en tres
+   líneas y consumía 136px fijos de alto), y por eso aquí BAJA en vez de subir. */
+@media (max-width: 880px) {
+  :root { --nav-h: 64px; }
+}

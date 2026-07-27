@@ -1,0 +1,21 @@
+# Cabeceras de seguridad para hostings tipo Netlify / Cloudflare Pages.
+#
+# El hosting de hoy es LiteSpeed: quien manda es el .htaccess de la raíz, y este
+# archivo lo ignora. Se deja preparado por dos razones:
+#   1. El sitio también está publicado en GitHub Pages
+#      (ricardojosemarinespitia-netizen.github.io/armando-martinez-garnica/), que
+#      NO admite cabeceras propias — ahí la CSP viaja en el <meta http-equiv> de
+#      cada página y X-Frame-Options no se puede enviar.
+#   2. Si algún día se migra a Netlify o Cloudflare Pages, este archivo entra en
+#      vigor solo, sin tener que reconstruir la configuración.
+#
+# Debe mantenerse idéntico a las cabeceras del .htaccess. Si cambias una, cambia
+# la otra.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'

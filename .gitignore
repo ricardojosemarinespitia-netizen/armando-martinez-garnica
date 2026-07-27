@@ -1,0 +1,33 @@
+# Código de backend (copias de referencia de Apps Script) — nunca se publica ni se versiona.
+# Ver _backend-no-publicar/README.md
+_backend-no-publicar/
+# El .gitignore no desrastrea lo ya rastreado: apps_script.gs sigue en HEAD y
+# hay que quitarlo con "git rm --cached apps_script.gs" (o con un "git add -A",
+# que ya recoge su borrado) y commitear. Esta línea solo evita que vuelva a
+# entrar otro .gs por descuido.
+*.gs
+
+# ============================================================
+#  MATERIAL FUENTE — 14 GB. NUNCA se versiona.
+#  Comprobado: du -sh Armando_info -> 14G, con varios .mp3 y .zip de más
+#  de 50 MB. Un "git add -A" rutinario intentaba meterlos todos en el repo:
+#  el push habría fallado (GitHub rechaza ficheros de más de 100 MB) y de
+#  paso se publicaría el material en bruto.
+#  El sitio NO los usa: index.html reproduce audio/clip1..3.mp3 (3,5 MB en
+#  total), que sí están versionados y no se tocan.
+# ============================================================
+Armando_info/
+*.zip
+
+# Secretos y credenciales
+.env
+.env.*
+*.key
+*.pem
+credenciales*.json
+service-account*.json
+
+# Basura del sistema
+Thumbs.db
+.DS_Store
+desktop.ini
