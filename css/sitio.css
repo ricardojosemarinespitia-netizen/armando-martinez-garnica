@@ -180,11 +180,11 @@ section[id] { scroll-margin-top: var(--nav-h) }
    sección al pasar. Deliberadamente sutil: la banda oscura del podcast sigue
    siendo el único contraste fuerte del sitio (ver comentario debajo); esto es
    variación de temperatura del papel, no una segunda banda que le compita. */
-#biografia   { background-color: rgba(197, 165, 114, .07) }
-#prensa      { background-color: rgba(138, 146, 110, .06) }
-#biblioteca  { background-color: rgba(179, 140, 98, .08) }
-#trayectoria { background-color: rgba(163, 120, 120, .06) }
-#contacto    { background-color: rgba(150, 140, 100, .07) }
+#biografia   { background-color: rgba(197, 165, 114, .20) }
+#prensa      { background-color: rgba(120, 132, 96,  .16) }
+#biblioteca  { background-color: rgba(179, 128, 82,  .22) }
+#trayectoria { background-color: rgba(163, 108, 108, .18) }
+#contacto    { background-color: rgba(140, 128, 84,  .20) }
 
 /* ── la banda oscura: SÓLO el podcast ──
    Es el único contraste de superficie que queda en el sitio, y por eso vale.
@@ -1081,6 +1081,14 @@ h1.nombre-mayor .apellido {
    significan algo para el autor, así que el color va tal cual. */
 .exlibris { margin: var(--e-6) auto var(--e-5); text-align: center; max-width: 320px }
 .exlibris img { width: min(190px, 52%); height: auto }
+/* En la biblioteca va junto a la cifra, no centrado sobre toda la sección:
+   centrado en un contenedor ancho quedaba descolgado a la derecha, sin
+   relación con el texto —angosto— que tiene encima. En la misma fila, los
+   dos leen como un solo dato: cuántas obras y el sello que las marca. */
+.guarismo-fila { display: flex; align-items: center; flex-wrap: wrap; gap: var(--e-5) }
+.guarismo-fila .guarismo { margin-top: 0 }
+.guarismo-fila .exlibris { margin: 0 0 0 auto; max-width: none }
+.guarismo-fila .exlibris img { width: 58px }
 /* El mismo sello cerrando cada artículo, como el colofón de un impreso: algo
    más pequeño que en la biblioteca y separado por un filete del texto. */
 .exlibris-pie {
