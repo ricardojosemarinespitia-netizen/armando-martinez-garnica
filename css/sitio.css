@@ -198,17 +198,13 @@ section[id] { scroll-margin-top: var(--nav-h) }
   --foco: var(--oro-luz);        /* el lacre da 1.58:1 aquí dentro */
   color: var(--sobre-oscuro);
   background-color: var(--noche);
+  /* Sin renglones propios: los únicos renglones del sitio son los de .fondo
+     (el pergamino de toda la página). Esta banda tiene fondo opaco y los
+     tapa, así que cualquier línea que se le dibuje aquí es una línea nueva,
+     no una continuación de las de fuera. */
   background-image:
     radial-gradient(70rem 40rem at 82% 0%, rgba(232, 198, 142, .10), transparent 62%),
-    repeating-linear-gradient(0deg, rgba(240, 224, 190, .085) 0 1px, transparent 1px 34px),
     linear-gradient(180deg, var(--noche-alta), var(--noche-baja) 62%, var(--noche));
-  /* El renglón del pergamino no se interrumpe al entrar en la banda oscura: sólo
-     cambia de tinta. CSS fixed no se compone con el scroll en navegadores
-     móviles —ahí es donde se quedaban clavadas—, así que el anclaje al
-     viewport lo hace el script de index.html corriendo --lineas-y en cada
-     frame: exactamente el mismo efecto que en escritorio, en cualquier sitio. */
-  background-attachment: scroll;
-  background-position: 0 0, 0 var(--lineas-y, 0px), 0 0;
   border-top: 1px solid var(--linea-noche);
   border-bottom: 1px solid var(--linea-noche);
   box-shadow: inset 0 18px 34px -26px rgba(0, 0, 0, .8);
@@ -1048,12 +1044,6 @@ h1.nombre-mayor .apellido {
   .cartela .ver-nota { opacity: 1; transform: none }
   .tomo .placa .leer { text-decoration: underline; text-underline-offset: 2px }
 }
-
-/* Aquí hubo dos intentos de arreglar las líneas «quietas» del podcast en
-   móvil desactivando background-attachment:fixed por media query. Ninguno
-   servía: el problema no era detectar el dispositivo, era que esa propiedad
-   no se compone con el scroll en móvil y punto. El anclaje se hace ahora por
-   script (ver --lineas-y en .banda-noche y en index.html). */
 
 /* ═══════════════════════════════════════════════════════════════
    TÍTULOS Y RECONOCIMIENTOS                          [titulos.html]
