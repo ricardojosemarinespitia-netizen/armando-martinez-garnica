@@ -1223,47 +1223,80 @@ h1.nombre-mayor .apellido {
 .pub .pm::after { content: " · leer →"; color: var(--oro-tinta); font-weight: 600 }
 
 /* ── pie editorial ──                                   [COMPARTIDO] */
+/* ── EL PIE ──
+   Antes era un solo bloque centrado: firma, derechos y nueve enlaces sueltos
+   en fila, todo con el mismo peso. Ahora es tres columnas —la marca, y los
+   mismos nueve enlaces agrupados en Secciones / El archivo— con la letra
+   pequeña de los derechos bajada a una franja aparte, como el colofón real
+   de un impreso: lo legal va al final, en cuerpo menor, no compitiendo con
+   la navegación. */
 footer {
   margin-top: var(--e-7); border-top: 1px solid var(--linea);
   background: var(--pie);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  padding: var(--e-7) var(--e-5) var(--e-6); text-align: center;
+  padding: var(--e-7) var(--e-5) 0;
   font-family: var(--sans); color: var(--marron-sua);
 }
+.pie-grid {
+  max-width: var(--medida-ancha, 1100px); margin: 0 auto;
+  display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: var(--e-6) var(--e-7);
+  padding-bottom: var(--e-6);
+}
+.pie-marca { text-align: left }
 /* En lugar de los tres ❦ de imprenta va el logo del propio historiador. El
    marcado sigue trayendo los signos —son el respaldo si la máscara no carga—,
    así que hay que esconderlos: de ahí el text-indent fuera de pantalla. */
 footer .orn {
-  width: min(230px, 62%); height: 62px; margin: 0 auto var(--e-4);
+  width: 116px; height: 46px; margin: 0 0 var(--e-4);
   overflow: hidden; text-indent: -200vw; white-space: nowrap;
   background-color: currentColor; color: var(--oro-claro);
-  -webkit-mask: url("../img/marca/rubrica-amg.svg") center / contain no-repeat;
-  mask: url("../img/marca/rubrica-amg.svg") center / contain no-repeat;
+  -webkit-mask: url("../img/marca/rubrica-amg.svg") left center / contain no-repeat;
+  mask: url("../img/marca/rubrica-amg.svg") left center / contain no-repeat;
 }
-footer .sello-pie {
+.pie-nombre {
   font-family: var(--serif); font-size: var(--t-base); color: var(--marron);
-  letter-spacing: .04em; margin-bottom: var(--e-3);
+  letter-spacing: .02em;
+}
+.pie-gremio {
+  font-family: var(--sans); font-size: var(--t-xs); color: var(--marron-sua);
+  letter-spacing: var(--track-amplio); text-transform: uppercase; margin-top: var(--e-1);
+}
+.pie-titulo {
+  font-family: var(--sans); font-size: var(--t-2xs); letter-spacing: var(--track-amplio);
+  text-transform: uppercase; color: var(--oro-tinta); margin-bottom: var(--e-3);
+}
+.pie-col ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--e-2) }
+.pie-legal {
+  border-top: 1px solid var(--linea-sutil); text-align: center;
+  padding: var(--e-5) 0 var(--e-6);
 }
 footer .derechos {
-  font-size: var(--t-xs); line-height: 1.8;
-  max-width: var(--medida-corta); margin: 0 auto var(--e-2);
+  font-size: var(--t-2xs); line-height: 1.8; color: var(--marron-sua);
+  max-width: var(--medida-corta); margin: 0 auto var(--e-2); opacity: .85;
 }
 footer .colofon {
   font-family: var(--serif); font-style: italic; font-size: var(--t-xs);
-  color: var(--marron-sua); margin-bottom: var(--e-4);
-  /* Sin opacity:.85 — componía a #8b755b y bajaba el contraste a 3.27:1 */
-}
-/* ocho enlaces: seis folios + las dos páginas interiores. flex-wrap es
-   obligatorio o se salen de pantalla en móvil. */
-footer nav.pie {
-  display: flex; flex-wrap: wrap; gap: 0 var(--e-4);
-  justify-content: center; padding: 0; font-size: var(--t-xs);
+  color: var(--marron-sua);
+  /* Sin opacity:.85 aquí — componía a #8b755b y bajaba el contraste a 3.27:1 */
 }
 footer a {
   display: inline-flex; align-items: center; min-height: var(--tactil);
-  color: var(--oro-tinta); text-decoration: none;   /* --oro daba 3.93:1 sobre el pie */
+  color: var(--oro-tinta); text-decoration: none; font-size: var(--t-xs);
 }
 footer a:hover, footer a:focus-visible { text-decoration: underline }
+
+@media (max-width: 700px) {
+  .pie-grid { grid-template-columns: 1fr; text-align: center; gap: var(--e-5) }
+  .pie-marca { text-align: center }
+  footer .orn { margin: 0 auto var(--e-4) }
+  /* Apilados en una sola columna, once enlaces con área táctil de 44px cada
+     uno se iban muy largo. En dos columnas por grupo el bloque se acorta a
+     la mitad sin perder el tamaño del toque. */
+  .pie-col ul {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 var(--e-4); justify-items: center;
+  }
+  footer a { min-height: 38px }
+}
 
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE — CUATRO cortes: 1024 · 900 · 700 · 560.
