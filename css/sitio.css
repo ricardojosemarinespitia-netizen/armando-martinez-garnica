@@ -179,12 +179,16 @@ section[id] { scroll-margin-top: var(--nav-h) }
 /* Un tinte muy leve y distinto por folio, para que se note el cambio de
    sección al pasar. Deliberadamente sutil: la banda oscura del podcast sigue
    siendo el único contraste fuerte del sitio (ver comentario debajo); esto es
-   variación de temperatura del papel, no una segunda banda que le compita. */
-#biografia   { background-color: rgba(197, 165, 114, .20) }
-#prensa      { background-color: rgba(120, 132, 96,  .16) }
-#biblioteca  { background-color: rgba(179, 128, 82,  .22) }
-#trayectoria { background-color: rgba(163, 108, 108, .18) }
-#contacto    { background-color: rgba(140, 128, 84,  .20) }
+   variación de temperatura del papel, no una segunda banda que le compita.
+   Va en degradado, no en color plano: a color plano, el padding vacío antes
+   del pie —o entre dos secciones— se veía como un recuadro suelto sin nada
+   dentro. Con el tinte apagándose hacia los dos bordes, el relleno vacío
+   vuelve a fundirse con el papel de alrededor. */
+#biografia   { background: linear-gradient(rgba(197, 165, 114, 0), rgba(197, 165, 114, .20) 18%, rgba(197, 165, 114, .20) 82%, rgba(197, 165, 114, 0)) }
+#prensa      { background: linear-gradient(rgba(120, 132, 96,  0), rgba(120, 132, 96,  .16) 18%, rgba(120, 132, 96,  .16) 82%, rgba(120, 132, 96,  0)) }
+#biblioteca  { background: linear-gradient(rgba(179, 128, 82,  0), rgba(179, 128, 82,  .22) 18%, rgba(179, 128, 82,  .22) 82%, rgba(179, 128, 82,  0)) }
+#trayectoria { background: linear-gradient(rgba(163, 108, 108, 0), rgba(163, 108, 108, .18) 18%, rgba(163, 108, 108, .18) 82%, rgba(163, 108, 108, 0)) }
+#contacto    { background: linear-gradient(rgba(140, 128, 84,  0), rgba(140, 128, 84,  .20) 18%, rgba(140, 128, 84,  .20) 82%, rgba(140, 128, 84,  0)) }
 
 /* ── la banda oscura: SÓLO el podcast ──
    Es el único contraste de superficie que queda en el sitio, y por eso vale.
