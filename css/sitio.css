@@ -203,9 +203,12 @@ section[id] { scroll-margin-top: var(--nav-h) }
     repeating-linear-gradient(0deg, rgba(240, 224, 190, .085) 0 1px, transparent 1px 34px),
     linear-gradient(180deg, var(--noche-alta), var(--noche-baja) 62%, var(--noche));
   /* El renglón del pergamino no se interrumpe al entrar en la banda oscura: sólo
-     cambia de tinta. Va anclado al viewport —igual que .fondo— para que las
-     líneas de dentro y las de fuera caigan en el mismo sitio al hacer scroll. */
-  background-attachment: scroll, fixed, scroll;
+     cambia de tinta. Antes iba anclado con background-attachment:fixed, que los
+     navegadores móviles no componen con el scroll —las líneas se quedaban
+     clavadas—. Ahora el anclaje lo hace el script de index.html corriendo
+     --lineas-y cada frame: mismo efecto, y funciona en todas partes. */
+  background-attachment: scroll;
+  background-position: 0 0, 0 var(--lineas-y, 0px), 0 0;
   border-top: 1px solid var(--linea-noche);
   border-bottom: 1px solid var(--linea-noche);
   box-shadow: inset 0 18px 34px -26px rgba(0, 0, 0, .8);
@@ -1046,18 +1049,11 @@ h1.nombre-mayor .apellido {
   .tomo .placa .leer { text-decoration: underline; text-underline-offset: 2px }
 }
 
-/* background-attachment:fixed es el causante de las líneas «quietas» del
-   podcast en móvil: casi ningún navegador táctil compone ese fondo con el
-   scroll (lo repinta a destiempo o lo deja clavado), aunque en escritorio
-   se vea perfecto. Ahí es donde vivía la continuidad con las líneas de
-   .fondo; en móvil se sacrifica esa continuidad exacta —imperceptible,
-   mismos 34px de paso— a cambio de que las líneas SÍ se muevan.
-   (hover:none) solo no bastó: hay navegadores táctiles que igual reportan
-   hover:hover o pointer:fine, así que se suman pointer:coarse y el ancho
-   como red de respaldo — basta con que UNA de las tres se cumpla. */
-@media (hover: none), (pointer: coarse), (max-width: 900px) {
-  .banda-noche { background-attachment: scroll, scroll, scroll }
-}
+/* Aquí hubo dos intentos de arreglar las líneas «quietas» del podcast en
+   móvil desactivando background-attachment:fixed por media query. Ninguno
+   servía: el problema no era detectar el dispositivo, era que esa propiedad
+   no se compone con el scroll en móvil y punto. El anclaje se hace ahora por
+   script (ver --lineas-y en .banda-noche y en index.html). */
 
 /* ═══════════════════════════════════════════════════════════════
    TÍTULOS Y RECONOCIMIENTOS                          [titulos.html]

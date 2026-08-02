@@ -527,10 +527,33 @@ autorización expresa del autor. Colección personal digitalizada · Bucaramanga
      sticky y el de cada panel, ese recalculo por evento era el tiron que se
      sentia al deslizar. Ahora el tope se cachea y se repinta una vez por frame. */
   function medirTope(){var h=document.documentElement;tope=h.scrollHeight-h.clientHeight;}
+
+  /* ── LOS RENGLONES DE LA BANDA OSCURA ──
+     Las lineas del resto de la pagina las pinta .fondo, que es un ELEMENTO
+     position:fixed: por eso se comportan bien en movil. La banda del podcast
+     no puede usar ese elemento -su fondo oscuro y opaco lo tapa-, asi que
+     pintaba sus propias lineas con background-attachment:fixed. Y ahi estaba
+     el fallo: los navegadores moviles no componen ese valor con el scroll,
+     lo dejan clavado. Ninguna media query lo arregla porque no es cuestion
+     de detectar el dispositivo, es que la propiedad no funciona.
+     Se replica a mano: cada frame se corre el background-position de la capa
+     de renglones para cancelar el desplazamiento de la seccion, que es
+     justo lo que haria "fixed". Se suma clientTop -el borde de 1px- porque
+     background-position se mide desde el padding-box y getBoundingClientRect
+     desde el border-box. Resultado: mismos renglones, mismo sitio, dentro y
+     fuera de la banda, en cualquier navegador. */
+  var banda=document.querySelector('.banda-noche');
+  function correrRenglones(){
+    if(!banda) return;
+    banda.style.setProperty('--lineas-y',
+      (banda.getBoundingClientRect().top + banda.clientTop) + 'px');
+  }
+
   function pintar(){
     raf=0;
     var s=window.scrollY||document.documentElement.scrollTop||0;
     if(p)p.style.width=(tope>0?100*Math.min(s/tope,1):0)+'%';
+    correrRenglones();
   }
   function alDeslizar(){if(!raf)raf=requestAnimationFrame(pintar);}
   medirTope();pintar();
