@@ -203,10 +203,10 @@ section[id] { scroll-margin-top: var(--nav-h) }
     repeating-linear-gradient(0deg, rgba(240, 224, 190, .085) 0 1px, transparent 1px 34px),
     linear-gradient(180deg, var(--noche-alta), var(--noche-baja) 62%, var(--noche));
   /* El renglón del pergamino no se interrumpe al entrar en la banda oscura: sólo
-     cambia de tinta. Antes iba anclado con background-attachment:fixed, que los
-     navegadores móviles no componen con el scroll —las líneas se quedaban
-     clavadas—. Ahora el anclaje lo hace el script de index.html corriendo
-     --lineas-y cada frame: mismo efecto, y funciona en todas partes. */
+     cambia de tinta. CSS fixed no se compone con el scroll en navegadores
+     móviles —ahí es donde se quedaban clavadas—, así que el anclaje al
+     viewport lo hace el script de index.html corriendo --lineas-y en cada
+     frame: exactamente el mismo efecto que en escritorio, en cualquier sitio. */
   background-attachment: scroll;
   background-position: 0 0, 0 var(--lineas-y, 0px), 0 0;
   border-top: 1px solid var(--linea-noche);
