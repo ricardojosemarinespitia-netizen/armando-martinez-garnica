@@ -23,13 +23,21 @@
 </head><body>
 <div class="fondo" aria-hidden="true"></div>
 <div id="progreso" aria-hidden="true"></div>
-<header class="nav"><a class="skip-link" href="#contenido">Saltar al contenido</a><nav class="principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#biblioteca">Biblioteca</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#prensa">En la prensa</a><a href="index.html#podcast">Podcast</a><a href="index.html#contacto">Contacto</a></nav></header>
+<header class="nav"><a class="skip-link" href="#contenido">Saltar al contenido</a><nav class="principal" aria-label="Principal"><a class="brand" href="index.html">A&middot;M&middot;G</a><a href="index.html#biografia">Biograf&iacute;a</a><a href="index.html#podcast">Podcast</a><a href="index.html#prensa">En la prensa</a><a href="index.html#biblioteca">Biblioteca</a><a href="articulos.html">Art&iacute;culos</a><a href="index.html#trayectoria">Trayectoria</a><a href="index.html#contacto">Contacto</a></nav></header>
+<main id="contenido" tabindex="-1">
 <div class="wrap">
-<div class="page-hero" id="contenido">
+<div class="page-hero">
   <div class="kicker">Colección personal digitalizada</div>
   <h1>La biblioteca</h1>
 </div>
 <a class="volver" href="index.html">← Volver al inicio</a>
+<form class="buscador" action="libros.html" method="get" role="search">
+  <label class="vh" for="q">Buscar en la biblioteca</label>
+  <input class="q" id="q" name="q" type="search" autocomplete="off"
+         placeholder="Independencia, Santander, Bolívar, 1819…">
+  <button type="submit">Buscar</button>
+</form>
+<p class="msg" id="qAviso" aria-live="polite" hidden></p>
 <section><h2>Obra propia y ediciones a su cargo</h2>
 <p class="sub">Ediciones digitales de la colección personal, transcritas y verificadas
 contra el ejemplar impreso.</p>
@@ -44,6 +52,7 @@ verificado en revistas y repositorios académicos. Su producción completa super
 doscientos artículos; aquí se enlazan los disponibles en abierto.</p>
 <div class="panel g"><div class="pub-grupo"><div class="decada">Artículos en revistas académicas</div><a class="pub" href="https://publicaciones.banrepcultural.org/index.php/boletin_cultural/article/view/22008/22114" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">Los colegios electorales de la década revolucionaria</div><div class="pm">Boletín Cultural y Bibliográfico · Banco de la República, 2022</div></a><a class="pub" href="https://revistas.utp.edu.co/index.php/historia/article/view/23211/14771" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">El Ejecutivo frente al Congreso en las primeras décadas de la experiencia republicana, 1821-1840</div><div class="pm">Ciencia Nueva · Universidad Tecnológica de Pereira, 2019</div></a><a class="pub" href="https://ediciones.uis.edu.co/index.php/publicacionesuis/catalog/view/499/924/411-1" target="_blank" rel="noopener" data-rev style="--rev-delay:0.10s"><div class="pt">El problema de la selección temática en una historia local: el caso de Bucaramanga</div><div class="pm">Boletín de Historia y Antigüedades, 2019</div></a><a class="pub" href="https://revistas.utp.edu.co/index.php/historia/article/view/14461/9001" target="_blank" rel="noopener" data-rev style="--rev-delay:0.15s"><div class="pt">La historia regional y la generación de las identidades</div><div class="pm">Ciencia Nueva · Universidad Tecnológica de Pereira, 2017</div></a><a class="pub" href="https://doi.org/10.26564/16926250.673" target="_blank" rel="noopener" data-rev style="--rev-delay:0.20s"><div class="pt">El sentido de la enseñanza de las humanidades: una experiencia universitaria</div><div class="pm">Revista Grafía · Universidad Autónoma de Colombia, 2016 · con Álvaro Acevedo</div></a><a class="pub" href="http://erevistas.saber.ula.ve/index.php/actualinvestigacion/article/view/3157/3070" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">¿Puede seguir existiendo la historia regional?</div><div class="pm">Actual Investigación · Universidad de los Andes (Mérida), 2003</div></a><a class="pub" href="http://www.asamblea.gov.pa/legispan/pdf_lnb/2000_LNB/2002_LNB/2002_443_LNB.pdf" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">La agenda de la Administración Obaldía en la transición al régimen federal (1855)</div><div class="pm">Revista cultural Lotería · Panamá, 2002</div></a></div><div class="pub-grupo"><div class="decada">Ediciones digitales de libros</div><a class="pub" href="https://doi.org/10.12804/th9789587842203" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">Historia de la Primera República de Colombia, 1819-1831</div><div class="pm">Editorial Universidad del Rosario, 2019 · DOI</div></a><a class="pub" href="https://heyzine.com/flip-book/5d9383485e.html" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">Historia de las políticas de la Armada Colombiana</div><div class="pm">Universidad del Rosario · Armada de Colombia, 2025</div></a><a class="pub" href="https://www.ellibrototal.com/ltotal/?t=1&amp;d=22088" target="_blank" rel="noopener" data-rev style="--rev-delay:0.10s"><div class="pt">Club del Comercio de Bucaramanga. 150 años</div><div class="pm">Ministerio de las Culturas · El Libro Total, 2024</div></a><a class="pub" href="https://ediciones.uis.edu.co/index.php/publicacionesuis/catalog/view/485/882/395-1" target="_blank" rel="noopener" data-rev style="--rev-delay:0.15s"><div class="pt">Historia básica de Bucaramanga. Cuatro siglos de un poblamiento</div><div class="pm">Ediciones UIS, 2022</div></a></div><div class="pub-grupo"><div class="decada">Entrevistas académicas</div><a class="pub" href="http://www.revistas.unal.edu.co/index.php/historelo/article/view/37248/41922" target="_blank" rel="noopener" data-rev style="--rev-delay:0.00s"><div class="pt">«Ser historiador en Colombia es el más puro resultado de la casualidad»</div><div class="pm">HiSTOReLo · Universidad Nacional, 2013</div></a><a class="pub" href="http://historiaabierta.org/historia2.0/index.php/revista/article/view/H20810/107" target="_blank" rel="noopener" data-rev style="--rev-delay:0.05s"><div class="pt">Entrevista con Diana González y Jairo Melo</div><div class="pm">Historia 2.0, 2014</div></a></div></div></section>
 </div>
+</main>
 
 <footer>
 <div class="orn" aria-hidden="true">❦ ❦ ❦</div>
@@ -52,32 +61,155 @@ doscientos artículos; aquí se enlazan los disponibles en abierto.</p>
 La reproducción total o parcial de los contenidos de este archivo digital requiere
 autorización expresa del autor. Colección personal digitalizada · Bucaramanga, Colombia.</div>
 <div class="colofon">Compuesto digitalmente al modo de los impresos antiguos.</div>
-<nav class="pie"><a href="libros.html">Biblioteca</a>
-<a href="titulos.html">Títulos y reconocimientos</a>
-<a href="index.html#contacto">Contacto</a></nav>
+<nav class="pie" aria-label="Pie de p&aacute;gina"><a href="index.html#biografia">Biograf&iacute;a</a>
+<a href="index.html#podcast">Podcast</a>
+<a href="index.html#prensa">En la prensa</a>
+<a href="index.html#biblioteca">La biblioteca</a>
+<a href="index.html#trayectoria">Trayectoria</a>
+<a href="index.html#contacto">Contacto</a>
+<a href="articulos.html">Los 103 art&iacute;culos</a>
+<a href="libros.html">Las 51 obras</a>
+<a href="titulos.html">T&iacute;tulos y reconocimientos</a></nav>
 </footer>
 <noscript><style>[data-rev]{opacity:1!important;transform:none!important}</style></noscript>
 <script>
 (function(){
   var p=document.getElementById('progreso');
-  function medir(){var h=document.documentElement;
-    var s=h.scrollTop||document.body.scrollTop, m=h.scrollHeight-h.clientHeight;
-    p.style.width=(m>0?100*s/m:0)+'%';}
-  addEventListener('scroll',medir,{passive:true});medir();
+  var raf=0, tope=0;
+  /* Antes esto leia scrollHeight en CADA evento de scroll, y leer scrollHeight
+     obliga al navegador a recalcular el layout ahi mismo. Con el blur del nav
+     sticky y el de cada panel, ese recalculo por evento era el tiron que se
+     sentia al deslizar. Ahora el tope se cachea y se repinta una vez por frame. */
+  function medirTope(){var h=document.documentElement;tope=h.scrollHeight-h.clientHeight;}
+  function pintar(){
+    raf=0;
+    var s=window.scrollY||document.documentElement.scrollTop||0;
+    if(p)p.style.width=(tope>0?100*Math.min(s/tope,1):0)+'%';
+  }
+  function alDeslizar(){if(!raf)raf=requestAnimationFrame(pintar);}
+  medirTope();pintar();
+  addEventListener('scroll',alDeslizar,{passive:true});
+  addEventListener('resize',function(){medirTope();alDeslizar();},{passive:true});
+  addEventListener('load',function(){medirTope();alDeslizar();});
+
+  /* threshold .12 exigia ver el 12% del elemento antes de revelarlo. En los
+     paneles mas altos que la pantalla eso llegaba tarde, y si un bloque llegaba
+     a ser ~8 veces mas alto que el viewport no se cumplia nunca y el contenido
+     se quedaba invisible para siempre. threshold 0 dispara con el primer pixel;
+     el rootMargin negativo mantiene la entrada suave. */
+  var revs=document.querySelectorAll('[data-rev]');
   if('IntersectionObserver' in window){
     var o=new IntersectionObserver(function(es){es.forEach(function(e){
       if(e.isIntersecting){e.target.classList.add('vis');o.unobserve(e.target);}});},
-      {threshold:.12});
-    document.querySelectorAll('[data-rev]').forEach(function(el){o.observe(el);});
+      {threshold:0,rootMargin:'0px 0px -10% 0px'});
+    revs.forEach(function(el){o.observe(el);});
   } else {
-    document.querySelectorAll('[data-rev]').forEach(function(el){el.classList.add('vis');});
+    revs.forEach(function(el){el.classList.add('vis');});
   }
-  var hero = document.querySelector('.hero');
-  if(hero && 'IntersectionObserver' in window){
-    var oh = new IntersectionObserver(function(es){
-      es.forEach(function(e){ hero.classList.toggle('fuera', !e.isIntersecting); });
-    }, {threshold:0});
+
+  var hero=document.querySelector('.hero');
+  if(hero&&'IntersectionObserver' in window){
+    var oh=new IntersectionObserver(function(es){
+      es.forEach(function(e){hero.classList.toggle('fuera',!e.isIntersecting);});
+    },{threshold:0});
     oh.observe(hero);
+  }
+
+  /* --ancho-tapa = el ancho DIBUJADO de la portada. Solo alimenta la sombra de
+     suelo de .tapa::after, que debe medir lo que mide el libro y no la celda.
+     Ya NO gobierna el ancho de la placa: eso encogia la ficha entera al ancho
+     de la portada y era lo que hacia saltar la pagina al cargar cada imagen.
+     La caja de la portada la resuelve el CSS con aspect-ratio + max-*-size.
+     Respaldo por atributos: los width/height del marcado dan la proporcion
+     antes de que la imagen exista, asi la sombra sale bien desde el primer
+     pintado en vez de esperar al load de una imagen lazy. */
+  var tomos=document.querySelectorAll('.tomo:not(.insigne)');
+  if(tomos.length){
+    var rafP=0;
+    var ajustar=function(){
+      tomos.forEach(function(t){
+        var tapa=t.querySelector('.tapa'),img=tapa&&tapa.querySelector('img');
+        if(!img){t.style.removeProperty('--ancho-tapa');return;}
+        var rw=img.naturalWidth ||parseFloat(img.getAttribute('width')) ||0;
+        var rh=img.naturalHeight||parseFloat(img.getAttribute('height'))||0;
+        if(!rw||!rh){t.style.removeProperty('--ancho-tapa');return;}
+        var cs=getComputedStyle(tapa);
+        var cw=tapa.clientWidth -parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+        var ch=tapa.clientHeight-parseFloat(cs.paddingTop) -parseFloat(cs.paddingBottom);
+        if(cw<=0||ch<=0)return;
+        t.style.setProperty('--ancho-tapa', Math.round(Math.min(cw,ch*(rw/rh)))+'px');
+      });
+    };
+    tomos.forEach(function(t){
+      var img=t.querySelector('.tapa img');
+      if(img&&!img.complete)img.addEventListener('load',ajustar,{once:true});
+    });
+    ajustar();
+    addEventListener('load',ajustar);
+    addEventListener('resize',function(){
+      if(!rafP)rafP=requestAnimationFrame(function(){rafP=0;ajustar();});
+    },{passive:true});
+  }
+
+  /* ── EL FILTRO DEL BUSCADOR ──
+     El buscador de la portada (index.html) manda aquí con ?q=…; el de esta
+     página filtra además mientras se escribe. Compara contra el texto entero
+     de la ficha —título, autores, año, editorial— sin tildes y sin mayúsculas,
+     para que «Boyaca», «boyacá» y «BOYACÁ» sean la misma consulta.
+     Sin JavaScript el formulario sigue siendo un GET a esta misma página: se
+     ve la lista completa, que es exactamente lo que había antes. */
+  var campo=document.getElementById('q'), aviso=document.getElementById('qAviso');
+  if(campo&&aviso){
+    var llano=function(s){
+      s=String(s).toLowerCase();
+      return s.normalize?s.normalize('NFD').replace(/[\u0300-\u036f]/g,''):s;
+    };
+    var obras=[], pubs=[];
+    document.querySelectorAll('.grid > .tomo, .grid > .card').forEach(function(el){
+      obras.push({el:el,txt:llano(el.textContent)});
+    });
+    document.querySelectorAll('.pub').forEach(function(el){
+      pubs.push({el:el,txt:llano(el.textContent)});
+    });
+    var grupos=document.querySelectorAll('.pub-grupo');
+    var secciones=document.querySelectorAll('.wrap > section');
+
+    var vacio=function(caja,sel){
+      return !caja.querySelector(sel+':not([hidden])');
+    };
+    var filtrar=function(consulta){
+      var q=llano(consulta).trim();
+      var n=0;
+      obras.forEach(function(o){
+        var ok=!q||o.txt.indexOf(q)>=0;
+        o.el.hidden=!ok; if(ok)n++;
+      });
+      pubs.forEach(function(p){
+        var ok=!q||p.txt.indexOf(q)>=0;
+        p.el.hidden=!ok; if(ok)n++;
+      });
+      grupos.forEach(function(g){ g.hidden=vacio(g,'.pub'); });
+      secciones.forEach(function(s){
+        s.hidden=!!q&&vacio(s,'.tomo')&&vacio(s,'.card')&&vacio(s,'.pub');
+      });
+      if(!q){ aviso.hidden=true; aviso.textContent=''; return; }
+      aviso.hidden=false;
+      aviso.textContent=(n===0
+        ? 'Ninguna obra coincide con “'+consulta.trim()+'”. '
+        : n+(n===1?' resultado':' resultados')+' para “'+consulta.trim()+'”. ');
+      var todas=document.createElement('a');
+      todas.href='libros.html';
+      todas.textContent='Ver la biblioteca completa';
+      aviso.appendChild(todas);
+      /* Las columnas no cambian de ancho al ocultar fichas, pero el resize
+         recalcula --ancho-tapa de las que quedan sin coste apreciable. */
+      if(typeof Event==='function')dispatchEvent(new Event('resize'));
+    };
+
+    var inicial=(location.search.match(/[?&]q=([^&]*)/)||[,''])[1];
+    inicial=decodeURIComponent(inicial.replace(/\+/g,' '));
+    if(inicial){ campo.value=inicial; filtrar(inicial); }
+    campo.addEventListener('input',function(){ filtrar(campo.value); });
   }
 })();
 </script>

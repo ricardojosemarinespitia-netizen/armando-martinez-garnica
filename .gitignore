@@ -31,3 +31,8 @@ service-account*.json
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# Originales de los artículos (.doc/.docx/.rtf/.pdf) y los extraídos del logo:
+# 64 MB de material fuente del que salen articulos/ e img/marca/. Se conserva en
+# local, no se publica: al sitio solo va el HTML ya transcrito.
+_fuentes/

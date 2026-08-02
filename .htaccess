@@ -67,7 +67,7 @@
   #                                 envío falla EN SILENCIO por mode:no-cors).
   # NO se pone 'upgrade-insecure-requests': hay enlaces de archivo a
   # erevistas.saber.ula.ve y asamblea.gov.pa que solo existen por http://.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'self'; frame-src 'self' https://open.spotify.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
 
   # No anunciar la versión de PHP (hoy delata "PHP/8.2.32", que es un
   # atajo para buscarle CVEs al servidor).
