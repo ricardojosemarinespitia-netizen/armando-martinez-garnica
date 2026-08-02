@@ -1044,13 +1044,18 @@ h1.nombre-mayor .apellido {
 @media (hover: none) {
   .cartela .ver-nota { opacity: 1; transform: none }
   .tomo .placa .leer { text-decoration: underline; text-underline-offset: 2px }
+}
 
-  /* background-attachment:fixed es el causante de las líneas «quietas» del
-     podcast en móvil: casi ningún navegador táctil compone ese fondo con el
-     scroll (lo repinta a destiempo o lo deja clavado), aunque en escritorio
-     se vea perfecto. Ahí es donde vivía la continuidad con las líneas de
-     .fondo; en móvil se sacrifica esa continuidad exacta —imperceptible,
-     mismos 34px de paso— a cambio de que las líneas SÍ se muevan. */
+/* background-attachment:fixed es el causante de las líneas «quietas» del
+   podcast en móvil: casi ningún navegador táctil compone ese fondo con el
+   scroll (lo repinta a destiempo o lo deja clavado), aunque en escritorio
+   se vea perfecto. Ahí es donde vivía la continuidad con las líneas de
+   .fondo; en móvil se sacrifica esa continuidad exacta —imperceptible,
+   mismos 34px de paso— a cambio de que las líneas SÍ se muevan.
+   (hover:none) solo no bastó: hay navegadores táctiles que igual reportan
+   hover:hover o pointer:fine, así que se suman pointer:coarse y el ancho
+   como red de respaldo — basta con que UNA de las tres se cumpla. */
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
   .banda-noche { background-attachment: scroll, scroll, scroll }
 }
 
