@@ -198,17 +198,40 @@ section[id] { scroll-margin-top: var(--nav-h) }
   --foco: var(--oro-luz);        /* el lacre da 1.58:1 aquí dentro */
   color: var(--sobre-oscuro);
   background-color: var(--noche);
-  /* Sin renglones propios: los únicos renglones del sitio son los de .fondo
-     (el pergamino de toda la página). Esta banda tiene fondo opaco y los
-     tapa, así que cualquier línea que se le dibuje aquí es una línea nueva,
-     no una continuación de las de fuera. */
   background-image:
     radial-gradient(70rem 40rem at 82% 0%, rgba(232, 198, 142, .10), transparent 62%),
     linear-gradient(180deg, var(--noche-alta), var(--noche-baja) 62%, var(--noche));
+  position: relative;
+  /* clip-path, NO overflow:hidden. Es lo que recorta el ::before de aquí abajo
+     a los límites de esta banda. Comprobado en el navegador: con overflow el
+     ::before NO se recorta —se derrama sobre toda la pantalla— porque su
+     posición se resuelve contra el viewport, no contra esta caja; con
+     clip-path sí se recorta, y sigue anclado al viewport. */
+  clip-path: inset(0);
   border-top: 1px solid var(--linea-noche);
   border-bottom: 1px solid var(--linea-noche);
   box-shadow: inset 0 18px 34px -26px rgba(0, 0, 0, .8);
 }
+/* EL MISMO RENGLÓN DEL PERGAMINO, SOLO QUE CLARO.
+   Mismos parámetros exactos que la capa de renglones de .fondo —mismo origen,
+   mismo paso de 34px, misma position:fixed— así que es literalmente el mismo
+   dibujo, en el mismo sitio, igual de quieto. Lo único distinto es la tinta:
+   blanca en vez de sepia, para que se perciba sobre el color oscuro que esta
+   sección pone encima.
+   Va con position:fixed real, igual que .fondo, y no con
+   background-attachment:fixed (que los navegadores móviles no componen) ni
+   con una posición recalculada por JavaScript en cada cuadro (que en el
+   scroll con inercia de un teléfono llega tarde y se ve como si las líneas
+   se movieran solas). Al ser composición nativa, en el móvil se comporta
+   igual que en el escritorio. */
+.banda-noche::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, .085) 0 1px, transparent 1px 34px);
+}
+/* El texto se pinta ENCIMA del renglón: sin este position:relative, el
+   contenido —sin posicionar— pinta antes que cualquier descendiente
+   posicionado, y el renglón le pasaría por encima a la letra. */
+.banda-noche > .wrap { position: relative; z-index: 1 }
 
 /* ── encabezado de sección: el folio ──                 [COMPARTIDO: h2, .sub]
    El numeral romano es una MARCA DE AGUA: va detrás del contenido del
