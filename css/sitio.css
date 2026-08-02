@@ -1331,7 +1331,11 @@ footer a:hover, footer a:focus-visible { text-decoration: underline }
 
   .bio-panel { padding: var(--e-6) var(--e-5) }
   .tl { padding: var(--e-6) var(--e-4) }
+  /* «1987–2013» a t-md no cabe en 84px: se salía de su columna y se leía
+     superpuesto con el cargo de al lado. Baja a t-sm y deja de partirse
+     en dos renglones sin previo aviso. */
   .tl-item { grid-template-columns: 84px 24px minmax(0, 1fr); gap: 0 var(--e-3) }
+  .tl-año { font-size: var(--t-sm); white-space: nowrap }
   .panel { padding: var(--e-5) var(--e-4) }
   .form { padding: var(--e-6) var(--e-5) var(--e-5) }
   .cartela.destacada { padding: var(--e-6) var(--e-5) }
@@ -1352,6 +1356,7 @@ footer a:hover, footer a:focus-visible { text-decoration: underline }
   .estante { grid-template-columns: minmax(0, 1fr) }
   .bio-panel { padding: var(--e-5) var(--e-4) }
   .tl-item { grid-template-columns: 64px 18px minmax(0, 1fr); gap: 0 var(--e-2) }
+  .tl-año { font-size: var(--t-xs); white-space: nowrap }
   .cartela { padding: var(--e-5) var(--e-4) }
   .cinta { padding: var(--e-3) }
   .form { padding: var(--e-6) var(--e-4) var(--e-5) }
