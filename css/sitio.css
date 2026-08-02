@@ -315,9 +315,6 @@ h2::after {
 }
 .hero-texto { min-width: 0 }
 .hero-texto .kicker { margin-bottom: var(--e-4) }
-.hero-texto .kicker::after {
-  content: "❦"; margin-left: var(--e-3); color: var(--oro-claro);
-}
 h1.nombre-mayor { font-weight: 400; line-height: .98; color: var(--marron) }
 h1.nombre-mayor .nombre {
   display: block; font-size: var(--t-lg);
