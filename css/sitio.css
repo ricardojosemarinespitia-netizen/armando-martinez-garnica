@@ -176,6 +176,16 @@ nav.principal a:hover, nav.principal a:focus-visible { color: var(--oro-tinta) }
 section { padding: var(--e-seccion) 0; position: relative }
 section[id] { scroll-margin-top: var(--nav-h) }
 
+/* Un tinte muy leve y distinto por folio, para que se note el cambio de
+   sección al pasar. Deliberadamente sutil: la banda oscura del podcast sigue
+   siendo el único contraste fuerte del sitio (ver comentario debajo); esto es
+   variación de temperatura del papel, no una segunda banda que le compita. */
+#biografia   { background-color: rgba(197, 165, 114, .07) }
+#prensa      { background-color: rgba(138, 146, 110, .06) }
+#biblioteca  { background-color: rgba(179, 140, 98, .08) }
+#trayectoria { background-color: rgba(163, 120, 120, .06) }
+#contacto    { background-color: rgba(150, 140, 100, .07) }
+
 /* ── la banda oscura: SÓLO el podcast ──
    Es el único contraste de superficie que queda en el sitio, y por eso vale.
    Con dos bandas alternas (la clara y la oscura de antes) ninguna significaba
@@ -390,9 +400,11 @@ h1.nombre-mayor .apellido {
   background: var(--oro-tinta); color: var(--panel-solido); transform: translateY(-2px);   /* 6.79:1 */
 }
 
-/* ── credenciales: las dos instituciones, con su logotipo real ── */
+/* ── credenciales: las tres instituciones, con su logotipo real ──
+   Van antes de los botones —quedaban perdidas al fondo del hero—, así que el
+   filete que las separaba de las CTA ahora las separa del párrafo. */
 .credenciales {
-  list-style: none; padding: 0; margin-top: var(--e-7);
+  list-style: none; padding: 0; margin-top: var(--e-6);
   display: flex; flex-wrap: wrap; gap: var(--e-6);
   border-top: 1px solid var(--linea-sutil); padding-top: var(--e-5);
 }
@@ -402,6 +414,15 @@ h1.nombre-mayor .apellido {
    caja blanca que borrar: multiply sólo ensuciaba el amarillo del escudo y volvía
    beige el wordmark BLANCO de la UIS. Requisito del cliente: color de marca real. */
 .cred-logo { flex: none }
+/* No hay archivo del escudo real del AGN todavía: en vez de un logo inventado
+   que aparente serlo, un sello tipográfico neutro, en la misma paleta que el
+   resto de la identidad. Se sustituye por el logo real en cuanto se consiga. */
+.cred-monograma {
+  width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--oro); border-radius: 50%;
+  font-family: var(--serif); font-size: var(--t-xs); letter-spacing: .06em;
+  color: var(--oro-tinta);
+}
 .cred-texto { display: flex; flex-direction: column; font-family: var(--sans) }
 .cred-texto b {
   font-size: var(--t-sm); font-weight: 600; color: var(--marron); letter-spacing: .01em;
