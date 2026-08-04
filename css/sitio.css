@@ -1441,3 +1441,231 @@ footer a:hover, footer a:focus-visible { text-decoration: underline }
   [data-rev] { opacity: 1 !important; transform: none !important }
   .rubrica .trazo { stroke-dashoffset: 0 }
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COLOMBIA EN BIOGRAFÍA — el programa de UIS Stereo
+   Los guiones no son artículos: tienen una arquitectura fija de cuatro
+   movimientos (pregunta · documento · personaje · conclusión) y esa
+   arquitectura es lo que se diagrama. El documento histórico se lee sobre
+   el papel de recorte que ya usa la prensa; el personaje va en ficha con
+   filete de lacre; la conclusión, centrada y con sello.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── El índice: parrilla de emisiones ─────────────────────────────────────── */
+.radio-hero h1 { text-wrap: balance }
+.radio-lema {
+  font-family: var(--serif); font-size: var(--t-lg); font-style: italic;
+  color: var(--marron); line-height: var(--lh-corto);
+  max-width: var(--medida); margin-top: var(--e-3);
+}
+
+/* La ficha técnica del programa: cuatro datos duros, como la cabecera de una
+   pauta radial. Se lee de un golpe, antes que cualquier prosa. */
+.radio-ficha-tecnica {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--e-1); margin: var(--e-6) 0 var(--e-5);
+  border: 1px solid var(--linea); border-radius: var(--r-xs);
+  background: var(--panel-solido); box-shadow: var(--s-2);
+  overflow: hidden;
+}
+.rft-dato {
+  padding: var(--e-4) var(--e-3); text-align: center;
+  border-right: 1px solid var(--linea-sutil);
+}
+.rft-dato:last-child { border-right: none }
+.rft-dato b {
+  display: block; font-family: var(--serif); font-size: var(--t-xl);
+  line-height: 1; color: var(--oro-tinta); font-weight: 400;
+}
+.rft-dato span {
+  display: block; margin-top: var(--e-2); font-family: var(--sans);
+  font-size: var(--t-2xs); text-transform: uppercase;
+  letter-spacing: var(--track-amplio); color: var(--marron-sua);
+}
+.radio-creditos {
+  display: flex; flex-wrap: wrap; gap: var(--e-3) var(--e-6);
+  margin: var(--e-5) 0 var(--e-6);
+  padding-top: var(--e-4); border-top: 1px solid var(--linea-sutil);
+  font-family: var(--sans); font-size: var(--t-xs); color: var(--marron-sua);
+}
+.radio-creditos b {
+  display: block; font-size: var(--t-2xs); text-transform: uppercase;
+  letter-spacing: var(--track-amplio); color: var(--oro-tinta); font-weight: 600;
+}
+
+.parrilla { display: grid; gap: var(--e-3); margin-bottom: var(--e-8) }
+
+/* Cada emisión es una franja horizontal con el número al filo izquierdo:
+   la lectura vertical de los guarismos es la que da la sensación de serie. */
+.emision {
+  display: grid; grid-template-columns: auto 1fr; gap: var(--e-5);
+  align-items: start; padding: var(--e-5); text-decoration: none;
+  color: var(--tinta); background: var(--panel-solido);
+  border: 1px solid var(--linea-sutil);
+  border-left: 3px solid var(--oro); border-radius: var(--r-xs);
+  box-shadow: var(--s-2);
+  transition: opacity var(--d-4) var(--ease-salida) var(--rev-delay, 0s),
+              transform var(--d-3) var(--ease-salida),
+              box-shadow var(--d-3) var(--ease-salida),
+              border-left-color var(--d-3) var(--ease-salida);
+}
+.emision:hover, .emision:focus-visible {
+  transform: translateX(4px); border-left-color: var(--lacre);
+  box-shadow: var(--s-3);
+}
+.emision:active { transform: translateX(1px) scale(.997) }
+.em-num {
+  font-family: var(--serif); font-size: var(--t-xl); line-height: .9;
+  color: var(--oro-claro); font-variant-numeric: tabular-nums;
+  padding-top: var(--e-1);
+}
+.emision:hover .em-num, .emision:focus-visible .em-num { color: var(--lacre) }
+.em-cuerpo { min-width: 0; display: flex; flex-direction: column; gap: var(--e-2) }
+.em-titulo {
+  font-family: var(--serif); font-size: var(--t-md); line-height: var(--lh-corto);
+  color: var(--tinta); text-wrap: balance;
+}
+.em-extracto {
+  font-family: var(--serif); font-size: var(--t-sm); color: var(--marron-sua);
+  line-height: 1.55; max-width: var(--medida-ancha);
+}
+.em-pie {
+  display: flex; flex-wrap: wrap; gap: var(--e-2) var(--e-4);
+  font-family: var(--sans); font-size: var(--t-2xs);
+  text-transform: uppercase; letter-spacing: var(--track-amplio);
+  color: var(--marron-sua);
+}
+.em-min { color: var(--oro-tinta) }
+/* Los movimientos que trae esa emisión, como marcas de pauta. */
+.em-partes {
+  list-style: none; padding: 0; margin: var(--e-1) 0 0;
+  display: flex; flex-wrap: wrap; gap: var(--e-1);
+}
+.em-partes li {
+  font-family: var(--sans); font-size: var(--t-2xs);
+  padding: 2px var(--e-2); border: 1px solid var(--linea);
+  border-radius: var(--r-pill); color: var(--marron-sua);
+}
+
+/* ── La página del guion ──────────────────────────────────────────────────── */
+.guion { max-width: var(--medida-ancha); margin: 0 auto; padding-bottom: var(--e-7) }
+.gr-cabeza { margin: var(--e-5) 0 var(--e-7) }
+.gr-cabeza h1 {
+  margin-top: var(--e-4); text-wrap: balance;
+  overflow-wrap: break-word; hyphens: auto;
+}
+/* El dial: número de emisión y nombre de la serie, como el lomo de un legajo. */
+.gr-dial {
+  display: flex; align-items: center; gap: var(--e-3);
+  margin-top: var(--e-5); padding-bottom: var(--e-3);
+  border-bottom: 1px solid var(--linea);
+}
+.gr-num {
+  font-family: var(--serif); font-size: var(--t-xl); line-height: 1;
+  color: var(--lacre); font-variant-numeric: tabular-nums;
+}
+.gr-serie {
+  font-family: var(--sans); font-size: var(--t-2xs); line-height: 1.5;
+  text-transform: uppercase; letter-spacing: var(--track-amplio);
+  color: var(--marron-sua);
+}
+.gr-serie b { color: var(--oro-tinta); letter-spacing: var(--track-marca) }
+.gr-meta {
+  display: flex; flex-wrap: wrap; gap: var(--e-2) var(--e-4);
+  margin-top: var(--e-3); font-family: var(--sans); font-size: var(--t-xs);
+  color: var(--marron-sua);
+}
+.gr-fecha { color: var(--oro-tinta); font-weight: 600 }
+
+.gr-bloque { padding: 0; margin-bottom: var(--e-7) }
+/* El rótulo del movimiento: versalitas con filete que corre hasta el margen. */
+.gr-rotulo {
+  display: flex; align-items: center; gap: var(--e-3);
+  margin-bottom: var(--e-4);
+  font-family: var(--sans); font-size: var(--t-2xs); font-weight: 600;
+  text-transform: uppercase; letter-spacing: var(--track-rotulo);
+  color: var(--oro-tinta);
+}
+.gr-rotulo::after {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--linea), transparent);
+}
+.gr-ico {
+  display: grid; place-items: center; flex: none;
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1px solid var(--oro); color: var(--lacre);
+  font-family: var(--serif); font-size: var(--t-xs); letter-spacing: 0;
+}
+.gr-texto p {
+  font-family: var(--serif); font-size: var(--t-lectura);
+  line-height: var(--lh-normal); color: var(--tinta);
+  margin-bottom: var(--e-3);
+}
+.gr-texto p + p { text-indent: 1.5em }
+.gr-texto em { font-style: italic }
+.gr-texto strong { font-weight: 600; color: var(--marron) }
+.gr-texto ol, .gr-texto ul {
+  margin: 0 0 var(--e-4) 1.4em; display: grid; gap: var(--e-2);
+  font-family: var(--serif); font-size: var(--t-base);
+  line-height: var(--lh-normal); color: var(--tinta);
+}
+.gr-texto table {
+  width: 100%; border-collapse: collapse; margin: var(--e-4) 0;
+  font-family: var(--sans); font-size: var(--t-xs);
+}
+.gr-texto td {
+  padding: var(--e-2) var(--e-3);
+  border: 1px solid var(--linea-sutil); vertical-align: top;
+}
+.gr-texto sup { font-size: .7em; color: var(--lacre) }
+
+/* La pregunta abre el guion: es la voz del historiador, va en cursiva grande. */
+.gr-pregunta .gr-texto > p:first-child {
+  font-size: var(--t-lg); font-style: italic; color: var(--marron);
+  line-height: var(--lh-corto); text-indent: 0;
+}
+
+/* El documento es una fuente de archivo: se lee sobre el papel de recorte. */
+.gr-documento .gr-texto {
+  padding: var(--e-5) var(--e-6);
+  background-color: var(--cartela-bajo);
+  background-image:
+    var(--ruido),
+    repeating-linear-gradient(1deg, rgba(90, 69, 48, .045) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, var(--cartela-alto), var(--cartela-bajo));
+  background-blend-mode: multiply, normal, normal;
+  border: 1px solid rgba(138, 101, 50, .32); border-radius: var(--r-xs);
+  box-shadow: var(--s-2), inset 0 1px 0 rgba(255, 255, 255, .55);
+}
+.gr-documento .gr-texto p { font-size: var(--t-base) }
+
+/* El personaje: ficha biográfica, sangrada y con filete de lacre a la izquierda. */
+.gr-personaje .gr-texto {
+  padding-left: var(--e-5); border-left: 2px solid var(--lacre);
+}
+.gr-personaje .gr-texto > p:first-child {
+  font-family: var(--serif); font-size: var(--t-md);
+  color: var(--lacre); text-indent: 0;
+}
+
+/* La conclusión cierra: centrada, angosta, con el ornamento del sello. */
+.gr-cierre .gr-texto {
+  max-width: var(--medida-corta); margin: 0 auto; text-align: center;
+}
+.gr-cierre .gr-texto p { text-indent: 0; font-style: italic; color: var(--marron) }
+.gr-cierre .gr-rotulo { justify-content: center }
+.gr-cierre .gr-rotulo::after { display: none }
+.gr-cierre .gr-rotulo::before {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--linea));
+}
+
+@media (max-width: 640px) {
+  .emision { grid-template-columns: 1fr; gap: var(--e-2); padding: var(--e-4) }
+  .em-num { font-size: var(--t-lg) }
+  .rft-dato { border-right: none; border-bottom: 1px solid var(--linea-sutil) }
+  .rft-dato:last-child { border-bottom: none }
+  .gr-documento .gr-texto { padding: var(--e-4) }
+  .gr-rotulo { letter-spacing: var(--track-amplio) }
+}
